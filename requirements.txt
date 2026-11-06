@@ -1,0 +1,8 @@
+streamlit
+pandas
+pillow
+numpy
+plotly
+folium
+certifi
+reportlab
