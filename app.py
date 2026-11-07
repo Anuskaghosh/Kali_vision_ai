@@ -3483,11 +3483,34 @@ window.__kaliMetroArm = function (show) {
     var el = d.getElementById("kali-metro-enter-cover");
     if (el) el.remove();
   }
+  function hideMetro() {
+    uncover();
+    d.querySelectorAll("iframe[data-metro-map-frame]").forEach(function (frame) {
+      frame.style.setProperty("opacity", "0", "important");
+      frame.style.setProperty("visibility", "hidden", "important");
+      frame.style.setProperty("pointer-events", "none", "important");
+    });
+    d.querySelectorAll(".metro-dock-panel, [data-metro-dock]").forEach(function (el) {
+      if (el.querySelector && el.querySelector("[data-testid='stRadio']")) return;
+      el.style.setProperty("opacity", "0", "important");
+      el.style.setProperty("visibility", "hidden", "important");
+      el.style.setProperty("pointer-events", "none", "important");
+    });
+    var chip = d.getElementById("metro-find-route");
+    if (chip) chip.style.setProperty("display", "none", "important");
+    [d.documentElement, d.body].concat([].slice.call(d.querySelectorAll(
+      ".stApp, .block-container, [data-testid='stAppViewContainer'], [data-testid='stMain'], [data-testid='stMainBlockContainer']"
+    ))).forEach(function (el) {
+      if (!el || !el.style) return;
+      el.style.setProperty("background", "#070408", "important");
+      el.style.setProperty("background-image", "none", "important");
+    });
+  }
   if (window.__kaliMetroCoverTimer) {
     clearInterval(window.__kaliMetroCoverTimer);
     window.__kaliMetroCoverTimer = null;
   }
-  if (!show) { uncover(); return; }
+  if (!show) { hideMetro(); return; }
   cover();
   var tries = 0;
   window.__kaliMetroCoverTimer = setInterval(function () {
@@ -3516,8 +3539,8 @@ components.html(
 <script>
 (function () {{
   var doc = window.parent.document;
-  if (doc.__kaliMetroCoverHook === 3) return;
-  doc.__kaliMetroCoverHook = 3;
+  if (doc.__kaliMetroCoverHook === 4) return;
+  doc.__kaliMetroCoverHook = 4;
   var script = doc.createElement("script");
   script.textContent = {json.dumps(_METRO_COVER_JS)};
   doc.documentElement.appendChild(script);
@@ -3809,18 +3832,29 @@ else:
   }
   function scrub() {
     try {
+      var mapStillHere = !!doc.querySelector("iframe[data-metro-map-frame]");
       ["stApp", "stAppViewContainer", "stMain", "stMainBlockContainer"].forEach(function (id) {
         var el = doc.querySelector('[data-testid="' + id + '"]') || doc.querySelector("." + id);
         if (!el || !el.style) return;
-        el.style.removeProperty("background");
-        el.style.removeProperty("background-image");
-        el.style.removeProperty("background-color");
+        if (mapStillHere) {
+          el.style.setProperty("background", "#070408", "important");
+          el.style.setProperty("background-image", "none", "important");
+        } else {
+          el.style.removeProperty("background");
+          el.style.removeProperty("background-image");
+          el.style.removeProperty("background-color");
+        }
       });
       [doc.documentElement, doc.body].forEach(function (el) {
         if (!el || !el.style) return;
-        el.style.removeProperty("background");
-        el.style.removeProperty("background-image");
-        el.style.removeProperty("background-color");
+        if (mapStillHere) {
+          el.style.setProperty("background", "#070408", "important");
+          el.style.setProperty("background-image", "none", "important");
+        } else {
+          el.style.removeProperty("background");
+          el.style.removeProperty("background-image");
+          el.style.removeProperty("background-color");
+        }
         el.style.removeProperty("overflow");
       });
       doc.querySelectorAll(
@@ -3832,8 +3866,9 @@ else:
         clearProps(el);
       });
       doc.querySelectorAll("iframe[data-metro-map-frame]").forEach(function (frame) {
-        frame.removeAttribute("data-metro-map-frame");
-        frame.style.cssText = "";
+        frame.style.setProperty("opacity", "0", "important");
+        frame.style.setProperty("visibility", "hidden", "important");
+        frame.style.setProperty("pointer-events", "none", "important");
         var parent = frame.parentElement;
         if (parent && parent.style && (parent.style.pointerEvents === "none" || (parent.style.background || "").indexOf("dcd6cf") >= 0)) {
           clearProps(parent);
