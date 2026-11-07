@@ -3457,6 +3457,78 @@ page = st.radio(
     key="navigation",
 )
 
+# Cover the previous page the instant Metro is chosen. Streamlit keeps the
+# old charts on screen until the map script finishes, and they show through
+# on the map-paper background for a couple of seconds.
+_METRO_COVER_JS = r"""
+window.__kaliMetroArm = function (show) {
+  var d = document;
+  function hideCharts() {
+    d.querySelectorAll('[data-testid="stPlotlyChart"], .js-plotly-plot').forEach(function (node) {
+      node.style.setProperty("visibility", "hidden", "important");
+    });
+  }
+  function cover() {
+    var el = d.getElementById("kali-metro-enter-cover");
+    if (!el) {
+      el = d.createElement("div");
+      el.id = "kali-metro-enter-cover";
+      el.setAttribute("aria-hidden", "true");
+      el.style.cssText = "position:fixed;inset:0;background:#dcd6cf;z-index:40;pointer-events:none;";
+      d.body.appendChild(el);
+    }
+    hideCharts();
+  }
+  function uncover() {
+    var el = d.getElementById("kali-metro-enter-cover");
+    if (el) el.remove();
+  }
+  if (window.__kaliMetroCoverTimer) {
+    clearInterval(window.__kaliMetroCoverTimer);
+    window.__kaliMetroCoverTimer = null;
+  }
+  if (!show) { uncover(); return; }
+  cover();
+  var tries = 0;
+  window.__kaliMetroCoverTimer = setInterval(function () {
+    tries += 1;
+    hideCharts();
+    var ready = !!d.querySelector("iframe[data-metro-map-frame='1']");
+    if (ready || tries > 80) {
+      clearInterval(window.__kaliMetroCoverTimer);
+      window.__kaliMetroCoverTimer = null;
+      uncover();
+    }
+  }, 100);
+};
+if (!window.__kaliMetroCoverClick) {
+  window.__kaliMetroCoverClick = true;
+  document.addEventListener("click", function (e) {
+    var label = e.target && e.target.closest && e.target.closest('[data-testid="stRadio"] label');
+    if (!label) return;
+    var name = (label.textContent || "").replace(/\s+/g, " ").trim();
+    window.__kaliMetroArm(name === "Kolkata Metro");
+  }, true);
+}
+"""
+components.html(
+    f"""
+<script>
+(function () {{
+  var doc = window.parent.document;
+  if (doc.__kaliMetroCoverHook === 3) return;
+  doc.__kaliMetroCoverHook = 3;
+  var script = doc.createElement("script");
+  script.textContent = {json.dumps(_METRO_COVER_JS)};
+  doc.documentElement.appendChild(script);
+  script.remove();
+}})();
+</script>
+    """,
+    height=0,
+    width=0,
+)
+
 # The Find route chip is appended to document.body from Metro, so it
 # survives navigation unless we remove it on every other page.
 if page != "Kolkata Metro":
