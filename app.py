@@ -1400,7 +1400,6 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.assistant-label) [data-test
     border-radius:16px;
     padding:14px 18px;
     margin-bottom:10px;
-    animation:fadeUp .45s ease both;
     color:#F3E6D8 !important;
 }
 [data-testid="stChatMessage"]:hover {border-color:rgba(229,188,112,.5);}
@@ -4949,20 +4948,8 @@ elif page == "AI Assistant":
         }]
         st.session_state.last_suggestion = None
 
-    with st.container(border=True):
-        st.markdown('<div class="assistant-stage-mark"></div>', unsafe_allow_html=True)
-    for m in st.session_state.chat:
-        with st.chat_message(m["role"]):
-            st.markdown(m["content"])
-
-    st.html("""
-<div class="assistant-footnote">
-  <b>Knowledge base</b> — curated Kali Puja lore for Bengal.
-  Full LLM + RAG conversational guidance is on the roadmap.
-</div>
-""")
-
-    # Sticky bottom chat bar — always visible without scrolling
+    # The bar stays pinned to the bottom even though it is read first.
+    # Answer in this same run — a second rerun was redrawing the whole site.
     prompt = st.chat_input("Ask of the Mother…")
     if picked and picked != st.session_state.last_suggestion:
         prompt = picked
@@ -4976,7 +4963,12 @@ elif page == "AI Assistant":
             "role": "assistant",
             "content": compose(divine_answer(prompt), lang)
         })
-        st.rerun()
+
+    with st.container(border=True):
+        st.markdown('<div class="assistant-stage-mark"></div>', unsafe_allow_html=True)
+    for m in st.session_state.chat:
+        with st.chat_message(m["role"]):
+            st.markdown(m["content"])
 
 
 # =====================================================
