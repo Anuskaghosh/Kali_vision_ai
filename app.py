@@ -3504,19 +3504,36 @@ window.__kaliMetroArm = function (show) {
     });
   }
   function cover() {
+    var style = d.getElementById("kali-metro-enter-style");
+    if (!style) {
+      style = d.createElement("style");
+      style.id = "kali-metro-enter-style";
+      style.textContent = "body.kali-metro-entering [data-testid='stMain'] canvas,body.kali-metro-entering .js-plotly-plot,body.kali-metro-entering [data-testid='stPlotlyChart'],body.kali-metro-entering .gallery-grid,body.kali-metro-entering .experience,body.kali-metro-entering .hero-shell,body.kali-metro-entering .gcard{visibility:hidden !important;}";
+      d.head.appendChild(style);
+    }
+    d.body.classList.add("kali-metro-entering");
     var el = d.getElementById("kali-metro-enter-cover");
     if (!el) {
       el = d.createElement("div");
       el.id = "kali-metro-enter-cover";
       el.setAttribute("aria-hidden", "true");
-      el.style.cssText = "position:fixed;inset:0;background:#dcd6cf;z-index:40;pointer-events:none;";
       d.body.appendChild(el);
     }
+    el.style.cssText = "position:fixed;inset:0;background:#dcd6cf;z-index:999990;pointer-events:none;transform:translateZ(0);";
     hideCharts();
   }
   function uncover() {
+    d.body.classList.remove("kali-metro-entering");
     var el = d.getElementById("kali-metro-enter-cover");
     if (el) el.remove();
+  }
+  function mapCovers() {
+    var frame = d.querySelector("iframe[data-metro-map-frame='1']");
+    if (!frame) return false;
+    var r = frame.getBoundingClientRect();
+    var w = d.documentElement.clientWidth || window.innerWidth;
+    var h = d.documentElement.clientHeight || window.innerHeight;
+    return r.width > w * 0.8 && r.height > h * 0.8;
   }
   function hideMetro() {
     uncover();
@@ -3551,8 +3568,7 @@ window.__kaliMetroArm = function (show) {
   window.__kaliMetroCoverTimer = setInterval(function () {
     tries += 1;
     hideCharts();
-    var ready = !!d.querySelector("iframe[data-metro-map-frame='1']");
-    if (ready || tries > 80) {
+    if (mapCovers() || tries > 120) {
       clearInterval(window.__kaliMetroCoverTimer);
       window.__kaliMetroCoverTimer = null;
       uncover();
@@ -3574,8 +3590,8 @@ components.html(
 <script>
 (function () {{
   var doc = window.parent.document;
-  if (doc.__kaliMetroCoverHook === 4) return;
-  doc.__kaliMetroCoverHook = 4;
+  if (doc.__kaliMetroCoverHook === 5) return;
+  doc.__kaliMetroCoverHook = 5;
   var script = doc.createElement("script");
   script.textContent = {json.dumps(_METRO_COVER_JS)};
   doc.documentElement.appendChild(script);

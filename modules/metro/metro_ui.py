@@ -523,51 +523,6 @@ def _consume_query_bridge(service: MetroService) -> None:
             pass
 
 
-def _popup_html(station: Dict[str, Any], *, distance_km: Optional[float] = None) -> str:
-    lines = _station_lines(station)
-    line_bits = []
-    for ln in lines:
-        color = LINE_COLORS.get(ln.get("line"), "#E5BC70")
-        status = STATUS_LABELS.get(ln.get("status"), ln.get("status"))
-        line_bits.append(
-            f"<span style='display:inline-block;margin:2px 4px 2px 0;padding:2px 8px;"
-            f"border-radius:999px;background:{color}22;border:1px solid {color};"
-            f"color:#1a0a10;font-size:11px;'>"
-            f"<b style='color:{color}'>{_esc(ln.get('line'))}</b> · {_esc(status)}</span>"
-        )
-    dist = (
-        f"<div style='margin-top:8px;color:#6a4a3a;font-size:12px;'>"
-        f"≈ {_esc(f'{distance_km:.2f}')} km straight-line</div>"
-        if distance_km is not None
-        else ""
-    )
-    sid_raw = _sid(station) or ""
-    sid = _esc(sid_raw)
-    code = station.get("station_code") or "—"
-    # Inside the map iframe — navigate the parent app via JS (relative ?urls resolve wrong here)
-    js_sid = json.dumps(sid_raw)
-    return (
-        f"<div style='font-family:Georgia,serif;min-width:200px;max-width:280px;color:#2a1518;'>"
-        f"<div style='font-size:16px;font-weight:700;color:#761F35;'>{_esc(station.get('name'))}</div>"
-        f"<div style='font-size:11px;letter-spacing:1px;color:#8a6a5a;margin:4px 0 8px;'>"
-        f"CODE {_esc(code)} · {_esc(STATUS_LABELS.get(station.get('primary_status'), station.get('primary_status')))}"
-        f"</div>"
-        f"<div>{''.join(line_bits)}</div>{dist}"
-        f"<div style='margin-top:10px;'>"
-        f"<a href='#' class='metro-pick-dest' data-metro-dest='{sid}' "
-        f"data-lat='{station.get('lat')}' data-lon='{station.get('lon')}' "
-        f"onclick='event.preventDefault();event.stopPropagation();"
-        f"try{{var p=window.parent;if(p&&p.__metroPickStation){{p.__metroPickStation({js_sid},"
-        f"{station.get('lat')},{station.get('lon')},{json.dumps(str(station.get('name') or ''))});}}"
-        f"else{{var u=new URL(p.location.href);u.searchParams.set(\"metro_dest\",{js_sid});"
-        f"p.location.href=u.toString();}}}}catch(e){{}}return false;' "
-        f"style='display:inline-block;padding:6px 10px;border-radius:8px;"
-        f"background:#761F35;color:#F8ECDD;text-decoration:none;font-size:12px;"
-        f"font-family:Inter,sans-serif;'>Go to destination</a>"
-        f"</div></div>"
-    )
-
-
 def _inject_metro_page_css() -> None:
     st.markdown(
         """
@@ -1768,30 +1723,24 @@ def _inject_metro_station_pick_hook() -> None:
             item.win.__metroRouteLine = null;
           }
         } catch (eLine) {}
-        if (item.map.flyTo) {
-          item.map.flyTo([la, lo], 15, {
-            animate: true,
-            duration: 1.25,
-            easeLinearity: 0.22
-          });
-          log("called flyTo on", item.key, "pinned=", item.pinned);
-        } else if (item.map.setView) {
-          item.map.setView([la, lo], 15, { animate: false });
-          log("called setView on", item.key);
+        // setView goes straight to zoom 15. flyTo arcs past the target,
+        // so a station picked after a wide route looked zoomed in too far
+        // until the arc settled.
+        if (item.map.setView) {
+          item.map.setView([la, lo], 15, { animate: true });
+          log("called setView on", item.key, "pinned=", item.pinned);
         }
-        // Hold the zoom after the animation — remounts / invalidateSize
-        // used to snap back to the city overview.
         win.setTimeout(function () {
           if (win.__metroRouteView) return;
           try {
-            if (item.map.stop) item.map.stop();
-            if (item.map.setView) {
+            var z = item.map.getZoom ? item.map.getZoom() : 15;
+            if (Math.abs(z - 15) > 0.4 && item.map.setView) {
               item.map.setView([la, lo], 15, { animate: false });
             }
             item.win.__metroLockedView = { lat: la, lon: lo, zoom: 15 };
             log("lock zoom held on", item.key);
           } catch (eHold) {}
-        }, 1300);
+        }, 700);
         try { item.map.closePopup(); } catch (e1) {}
         try {
           var L = item.win.L;
@@ -2467,7 +2416,6 @@ def _build_folium_map(
     line_filter = _normalize_line_filter(line_filter)
     nearest = list(nearest or [])
     nearest_ids = {_sid(n) for n in nearest}
-    nearest_dist = {_sid(n): n.get("approximate_distance_km") for n in nearest}
     dest_id = _sid(destination) if destination else None
     visible = [s for s in stations if _station_has_line(s, line_filter)]
 
@@ -2533,7 +2481,7 @@ def _build_folium_map(
         tiles="OpenStreetMap",
         attr='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
         control_scale=True,
-        prefer_canvas=True,
+        prefer_canvas=False,
         zoom_control=True,
     )
     fmap.get_root().header.add_child(
@@ -2581,10 +2529,6 @@ def _build_folium_map(
             fill_color=color,
             fill_opacity=0.95,
             tooltip=stn.get("name"),
-            popup=folium.Popup(
-                _popup_html(stn, distance_km=nearest_dist.get(sid)),
-                max_width=300,
-            ),
         ).add_to(fmap)
         pt = [float(lat), float(lon)]
         all_bounds.append(pt)
@@ -2689,7 +2633,7 @@ def _build_folium_map(
                 tooltip="Walk to station",
             ).add_to(fmap)
             if st.session_state.get("metro_show_route"):
-                fmap.fit_bounds(latlngs, padding=(80, 80))
+                fmap.fit_bounds(latlngs, padding=(80, 80), max_zoom=15)
 
     if lock_on_destination and focus_latlon is not None:
         # Remount lands on the station. soft_land=True means the user already
@@ -2718,14 +2662,8 @@ def _build_folium_map(
         if (k.indexOf("map_") !== 0) return;
         var m = window[k];
         if (!m) return;
-        if (animated && !SOFT && m.flyTo) {{
-          m.flyTo(TARGET, ZOOM, {{
-            animate: true,
-            duration: 1.2,
-            easeLinearity: 0.22
-          }});
-        }} else if (m.setView) {{
-          m.setView(TARGET, ZOOM, {{ animate: false }});
+        if (m.setView) {{
+          m.setView(TARGET, ZOOM, {{ animate: !!(animated && !SOFT) }});
         }}
       }});
     }} catch (e) {{}}
@@ -2897,7 +2835,7 @@ def _render_map_fullscreen(fmap: folium.Map) -> None:
 (function () {
   function metroStillActive() {
     try {
-      return !!window.parent.document.querySelector(".metro-dock-anchor");
+      return !!window.parent.document.querySelector(".metro-page-active");
     } catch (e) {
       return false;
     }
