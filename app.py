@@ -2250,7 +2250,7 @@ def sync_static_assets(files, dest_dir):
 def web_image(src: Path, max_edge: int = 1200, quality: int = 72):
     """Small JPEG used on screen. The file in assets/ stays the original."""
     WEB_IMG_DIR.mkdir(parents=True, exist_ok=True)
-    dest = WEB_IMG_DIR / f"{src.stem}.jpg"
+    dest = WEB_IMG_DIR / f"{src.stem}-{max_edge}.jpg"
     meta_path = dest.with_suffix(".meta")
     fresh = (
         dest.exists()
@@ -4499,7 +4499,7 @@ elif page == "Gallery":
     st.markdown('<div class="section-label">VISUAL HERITAGE OF BENGAL</div>',unsafe_allow_html=True)
     st.markdown('<div class="section-title">✦ Divine Bengal Gallery</div>',unsafe_allow_html=True)
 
-    st.write("A curated collection of Kali Puja murtis, pandals and Bengal's sacred heritage — tap any frame to view it in full.")
+    st.write("A curated collection of Kali Puja murtis, pandals and Bengal's sacred heritage — tap any frame to open it.")
 
     category_options = ["All"] + sorted(set(image_category(p.name) for p in images))
     category = st.pills(
@@ -4521,13 +4521,13 @@ elif page == "Gallery":
     else:
         cards = []
         for i,p in enumerate(filtered):
-            src, meta = web_image(p, max_edge=1100, quality=70)
+            src, meta = web_image(p, max_edge=640, quality=52)
             title = image_title(p)
             cat = image_category(p.name)
             cards.append(f"""
             <figure class="gcard" style="animation-delay:{min(i*0.05,0.6)}s">
                 <a href="{src}" target="_blank" rel="noopener">
-                    <img src="{src}" alt="{title}" loading="lazy">
+                    <img src="{src}" alt="{title}" loading="lazy" decoding="async">
                 </a>
                 <figcaption class="gcard-overlay">
                     <div class="gcard-name">{title}</div>
