@@ -13,7 +13,7 @@ from datetime import datetime
 from html import escape as html_escape
 from io import BytesIO
 from pathlib import Path
-from PIL import Image, ImageStat
+from PIL import Image
 from urllib.parse import quote
 import plotly.express as px
 import folium
@@ -131,6 +131,45 @@ header[data-testid="stHeader"] {background:transparent;}
     animation:fadeUp .75s ease both;
 }
 
+/* Zero-size components.html / hook hosts — Streamlit still leaves flex-gap
+   space for height="0px" element containers. Pull them out of flow.
+   Do NOT target height="1" — Metro's live map mounts at 1px then pins fullscreen. */
+[data-testid="stElementContainer"][height="0px"],
+[data-testid="stElementContainer"][width="0px"][height="0px"],
+[data-testid="stElementContainer"]:has(iframe[height="0"]),
+[data-testid="stLayoutWrapper"]:has(> [data-testid="stElementContainer"][height="0px"]:only-child) {
+    position:fixed !important;
+    left:-10000px !important;
+    top:0 !important;
+    width:0 !important;
+    height:0 !important;
+    min-width:0 !important;
+    min-height:0 !important;
+    max-width:0 !important;
+    max-height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    border:none !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+    flex:0 0 0 !important;
+}
+/* Style-only markdown blocks (CSS/JS injectors) leave empty layout slots */
+[data-testid="stElementContainer"]:has([data-testid="stMarkdownContainer"] > style:only-child),
+[data-testid="stElementContainer"]:has([data-testid="stMarkdownContainer"] > script:only-child) {
+    position:fixed !important;
+    left:-10000px !important;
+    top:0 !important;
+    width:0 !important;
+    height:0 !important;
+    margin:0 !important;
+    padding:0 !important;
+    overflow:hidden !important;
+    opacity:0 !important;
+    pointer-events:none !important;
+}
+
 h1,h2,h3,p {color:var(--cream);}
 
 [data-testid="stMarkdownContainer"] p {
@@ -202,6 +241,21 @@ h1,h2,h3,p {color:var(--cream);}
     color:#D5BDA7;
     font-size:10px;
     letter-spacing:2px;
+}
+.nav-clock {
+    position:fixed;
+    top:14px;
+    right:18px;
+    z-index:1000003;
+    color:var(--gold);
+    font-family:'Cinzel',serif;
+    font-size:28px;
+    font-weight:600;
+    letter-spacing:1.6px;
+    line-height:1;
+    white-space:nowrap;
+    pointer-events:none;
+    text-shadow:0 2px 14px rgba(0,0,0,.55);
 }
 
 /* ---------- HERO ---------- */
@@ -401,7 +455,7 @@ h1,h2,h3,p {color:var(--cream);}
     position:relative;
     z-index:1;
     display:grid;
-    grid-template-columns:1.4fr 1fr 1fr 1fr;
+    grid-template-columns:1.4fr 1fr 1fr;
     grid-template-rows:minmax(160px,1fr) minmax(160px,1fr);
     gap:14px;
     align-items:stretch;
@@ -426,14 +480,14 @@ h1,h2,h3,p {color:var(--cream);}
     inset:0;
     background-size:cover;
     background-position:center;
-    opacity:.42;
-    filter:sepia(.28) saturate(.8) brightness(.62);
+    opacity:.72;
+    filter:sepia(.18) saturate(1.05) brightness(.88);
 }
 .exp-card-bg::after {
     content:"";
     position:absolute;
     inset:0;
-    background:linear-gradient(165deg,rgba(12,6,10,.82) 0%,rgba(18,8,12,.78) 48%,rgba(12,6,10,.9) 100%);
+    background:linear-gradient(165deg,rgba(12,6,10,.55) 0%,rgba(18,8,12,.48) 48%,rgba(12,6,10,.68) 100%);
 }
 .exp-card-01 {
     grid-column:1;
@@ -444,14 +498,14 @@ h1,h2,h3,p {color:var(--cream);}
     justify-content:flex-end;
 }
 .exp-card-01 .exp-card-bg {
-    opacity:.48;
+    opacity:.78;
     background-position:center 40%;
-    filter:sepia(.35) saturate(.85) brightness(.68);
+    filter:sepia(.2) saturate(1.08) brightness(.92);
 }
 .exp-card-01 .exp-card-bg::after {
     background:
-        linear-gradient(90deg,rgba(12,6,10,.94) 0%,rgba(12,6,10,.72) 46%,rgba(12,6,10,.28) 100%),
-        linear-gradient(180deg,rgba(12,6,10,.2) 0%,rgba(12,6,10,.55) 100%);
+        linear-gradient(90deg,rgba(12,6,10,.82) 0%,rgba(12,6,10,.45) 46%,rgba(12,6,10,.18) 100%),
+        linear-gradient(180deg,rgba(12,6,10,.08) 0%,rgba(12,6,10,.42) 100%);
 }
 .exp-card-01-content {
     position:relative;
@@ -564,27 +618,19 @@ h1,h2,h3,p {color:var(--cream);}
 }
 .exp-mini .exp-pill {box-shadow:0 6px 16px rgba(229,188,112,.28);}
 .exp-card-02 {grid-column:2;grid-row:1;}
-.exp-card-03 {grid-column:3 / 5;grid-row:1;}
+.exp-card-03 {grid-column:3;grid-row:1;}
 .exp-card-04 {grid-column:2;grid-row:2;}
 .exp-card-05 {grid-column:3;grid-row:2;}
-.exp-card-06 {grid-column:4;grid-row:2;}
 @media (max-width:1100px) {
     .experience-bento {
         grid-template-columns:1.2fr 1fr 1fr;
-        grid-template-rows:auto auto auto;
+        grid-template-rows:auto auto;
     }
     .exp-card-01 {grid-column:1;grid-row:1 / 3;min-height:280px;}
     .exp-card-02 {grid-column:2;grid-row:1;}
     .exp-card-03 {grid-column:3;grid-row:1;}
     .exp-card-04 {grid-column:2;grid-row:2;}
     .exp-card-05 {grid-column:3;grid-row:2;}
-    .exp-card-06 {grid-column:1 / -1;grid-row:3;min-height:120px;}
-    .exp-card-06.exp-mini {
-        flex-direction:row;
-        align-items:center;
-        justify-content:space-between;
-    }
-    .exp-card-06 .exp-mini-body {margin-top:0;flex-direction:row;align-items:center;gap:16px;}
 }
 @media (max-width:980px) {
     .experience-header {grid-template-columns:1fr;gap:18px;}
@@ -599,15 +645,10 @@ h1,h2,h3,p {color:var(--cream);}
         grid-row:auto;
         min-height:240px;
     }
-    .exp-card-02,.exp-card-03,.exp-card-04,.exp-card-05,.exp-card-06 {
+    .exp-card-02,.exp-card-03,.exp-card-04,.exp-card-05 {
         grid-column:auto;grid-row:auto;
         min-height:150px;
     }
-    .exp-card-06.exp-mini {
-        flex-direction:column;
-        align-items:stretch;
-    }
-    .exp-card-06 .exp-mini-body {flex-direction:column;align-items:flex-start;}
     .exp-card-01-content {max-width:78%;}
 }
 @media (max-width:620px) {
@@ -1392,37 +1433,37 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.assistant-label) [data-test
 [data-testid="stChatMessageContent"] {
     color:#F3E6D8 !important;
 }
-/* Sticky bottom chat bar — transparent dock, input keeps its own surface */
+/* Sticky bottom chat bar — dock and the input surface stay clear */
+[data-testid="stBottomBlockContainer"],
+[data-testid="stBottom"],
+[data-testid="stBottom"] > div,
+[data-testid="stChatInput"],
+[data-testid="stChatInput"] > div,
+[data-testid="stChatInput"] form,
+[data-testid="stChatInput"] [data-baseweb],
+[data-testid="stChatInputTextArea"],
+[data-testid="stChatInput"] textarea,
+[data-testid="stChatInput"] input {
+    background:transparent !important;
+    background-color:transparent !important;
+    background-image:none !important;
+    box-shadow:none !important;
+}
 [data-testid="stBottomBlockContainer"],
 [data-testid="stBottom"],
 [data-testid="stBottom"] > div {
-    background:transparent !important;
-    background-color:transparent !important;
     border-top:none !important;
-    box-shadow:none !important;
     padding-bottom:10px !important;
-}
-[data-testid="stChatInput"],
-[data-testid="stChatInput"] > div,
-[data-testid="stChatInput"] [class*="st-emotion-cache"],
-[data-testid="stChatInput"] .st-bz,
-.st-emotion-cache-1353z0o,
-.st-bz {
-    background:transparent !important;
-    background-color:transparent !important;
 }
 [data-testid="stChatInput"] {
     border:1px solid rgba(229,188,112,.42) !important;
     border-radius:999px !important;
-    box-shadow:none !important;
     max-width:100%;
 }
 [data-testid="stChatInput"] textarea,
 [data-testid="stChatInput"] input {
     color:#F8ECDD !important;
     caret-color:var(--gold);
-    background:transparent !important;
-    background-color:transparent !important;
 }
 [data-testid="stChatInput"] textarea::placeholder,
 [data-testid="stChatInput"] input::placeholder {
@@ -1509,7 +1550,7 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.assistant-label) [data-test
     position:fixed;
     bottom:18px;
     right:18px;
-    z-index:1000;
+    z-index:2147483000; /* above Streamlit chrome so controls stay clickable */
     width:min(380px,calc(100vw - 36px));
     padding:14px 16px 12px;
     border:1px solid rgba(229,188,112,.38);
@@ -1519,6 +1560,14 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.assistant-label) [data-test
     box-shadow:0 10px 36px rgba(0,0,0,.6),0 0 24px rgba(229,188,112,.12);
     animation:fadeUp .9s .3s ease both;
     font-family:'Inter',sans-serif;
+    pointer-events:auto;
+    isolation:isolate;
+    touch-action:manipulation;
+}
+.music-player button,
+.music-player input {
+    pointer-events:auto;
+    touch-action:manipulation;
 }
 /* Lift music player when sticky chat bar is on screen (AI Assistant) */
 body:has([data-testid="stChatInput"]) .music-player {
@@ -1657,6 +1706,67 @@ body:has([data-testid="stChatInput"]) .music-player {
     text-align:right;
     flex:0 0 auto;
 }
+.mp-track-btn {
+    appearance:none;
+    border:none;
+    background:transparent;
+    padding:0;
+    margin:0;
+    width:100%;
+    text-align:left;
+    cursor:pointer;
+    color:inherit;
+    font:inherit;
+}
+.mp-track-btn:hover .mp-track {color:#FFE9BE;}
+.mp-list-panel {
+    display:none;
+    margin-top:10px;
+    padding:6px;
+    border:1px solid rgba(229,188,112,.28);
+    border-radius:12px;
+    background:rgba(12,6,10,.92);
+    max-height:168px;
+    overflow:auto;
+}
+.music-player.mp-list-open .mp-list-panel {display:block;}
+.mp-list-item {
+    appearance:none;
+    width:100%;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    text-align:left;
+    border:none;
+    background:transparent;
+    color:#E8D8C8;
+    font-family:'Inter',sans-serif;
+    font-size:12px;
+    padding:8px 10px;
+    border-radius:8px;
+    cursor:pointer;
+}
+.mp-list-item:hover {background:rgba(229,188,112,.12);color:#F8ECDD;}
+.mp-list-item.is-active {
+    background:rgba(229,188,112,.18);
+    color:#F0CD85;
+    font-weight:600;
+}
+.mp-list-idx {
+    color:rgba(229,188,112,.7);
+    font-size:10px;
+    letter-spacing:1px;
+    flex:0 0 18px;
+}
+.mp-list-title {
+    flex:1;
+    min-width:0;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    font-family:'Cormorant Garamond',serif;
+    font-size:14px;
+}
 @media (max-width:520px) {
     .music-player {bottom:12px;right:12px;left:12px;width:auto;}
     body:has([data-testid="stChatInput"]) .music-player {bottom:96px;left:12px;right:12px;width:auto;}
@@ -1683,13 +1793,120 @@ body:has([data-testid="stChatInput"]) .music-player {
 .footer-diyas span:nth-child(2) {animation-delay:.6s;}
 .footer-diyas span:nth-child(3) {animation-delay:1.2s;}
 
-/* ---------- HOME / GLOBAL RESPONSIVE ---------- */
-div[data-testid="stRadio"] > div {
-    flex-wrap:wrap !important;
-    gap:6px 4px !important;
+/* ---------- GLOBAL PILL NAVBAR (centred in document flow) ---------- */
+/* In-flow so it never covers the brand header / alpana / hero.
+   Streamlit's host is stElementContainer and shrinks to the pill, which
+   pins the bar to the left of the page. Stretch that host, then centre. */
+div[data-testid="element-container"]:has(div[data-testid="stRadio"]),
+div[data-testid="stElementContainer"]:has(div[data-testid="stRadio"]) {
+    display:flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    align-self:stretch !important;
+    width:100% !important;
+    max-width:100% !important;
+    margin:0 !important;
+    padding:0 !important;
+    height:auto !important;
+    min-height:0 !important;
+    position:relative !important;
+    z-index:5 !important;
 }
+div[data-testid="stRadio"] {
+    position:relative !important;
+    top:auto !important;
+    left:auto !important;
+    right:auto !important;
+    transform:none !important;
+    width:max-content !important;
+    max-width:calc(100vw - 24px) !important;
+    margin:0 auto !important;
+    z-index:5 !important;
+    display:flex !important;
+    justify-content:center !important;
+    pointer-events:auto !important;
+}
+div[data-testid="stRadio"] > div[role="radiogroup"],
+div[data-testid="stRadio"] > div {
+    display:inline-flex !important;
+    justify-content:center !important;
+    align-items:center !important;
+    flex-wrap:wrap !important;
+    gap:2px !important;
+    margin:0 !important;
+    padding:5px 7px !important;
+    background:linear-gradient(180deg,rgba(52,16,26,.96),rgba(18,7,12,.94)) !important;
+    border:1px solid rgba(229,188,112,.4) !important;
+    border-radius:999px !important;
+    box-shadow:0 14px 40px rgba(0,0,0,.5), inset 0 1px 0 rgba(255,255,255,.05) !important;
+    backdrop-filter:blur(14px);
+    -webkit-backdrop-filter:blur(14px);
+    pointer-events:auto !important;
+}
+/* Visually hide radio circles WITHOUT display:none (keeps Streamlit click wiring) */
 div[data-testid="stRadio"] label {
-    margin-bottom:2px !important;
+    position:relative !important;
+    margin:0 !important;
+    padding:6px 10px !important;
+    border-radius:999px !important;
+    background:transparent !important;
+    border:1px solid transparent !important;
+    transition:background .18s ease, border-color .18s ease, color .18s ease !important;
+    cursor:pointer !important;
+    pointer-events:auto !important;
+    flex:0 0 auto !important;
+}
+div[data-testid="stRadio"] label > div:first-child {
+    position:absolute !important;
+    width:1px !important;
+    height:1px !important;
+    padding:0 !important;
+    margin:-1px !important;
+    overflow:hidden !important;
+    clip:rect(0,0,0,0) !important;
+    white-space:nowrap !important;
+    border:0 !important;
+    opacity:0 !important;
+}
+div[data-testid="stRadio"] label input[type="radio"] {
+    position:absolute !important;
+    opacity:0 !important;
+    width:1px !important;
+    height:1px !important;
+    pointer-events:auto !important;
+}
+div[data-testid="stRadio"] label p {
+    font-family:'Inter',sans-serif !important;
+    font-size:11.5px !important;
+    font-weight:500 !important;
+    letter-spacing:.25px !important;
+    color:#E8D5C8 !important;
+    margin:0 !important;
+    white-space:nowrap !important;
+    pointer-events:none !important; /* clicks fall through to label */
+}
+@media (min-width:1100px) {
+    div[data-testid="stRadio"] > div[role="radiogroup"],
+    div[data-testid="stRadio"] > div {
+        flex-wrap:nowrap !important;
+    }
+}
+div[data-testid="stRadio"] label:hover {
+    background:rgba(118,31,53,.42) !important;
+    border-color:rgba(229,188,112,.22) !important;
+}
+div[data-testid="stRadio"] label:hover p { color:#F8ECDD !important; }
+/* Active item */
+div[data-testid="stRadio"] label:has(input:checked),
+div[data-testid="stRadio"] label[data-checked="true"] {
+    background:rgba(118,31,53,.85) !important;
+    border-color:rgba(229,188,112,.55) !important;
+    box-shadow:0 0 0 1px rgba(229,188,112,.18), 0 6px 18px rgba(118,31,53,.35) !important;
+}
+div[data-testid="stRadio"] label:has(input:checked) p,
+div[data-testid="stRadio"] label[data-checked="true"] p {
+    color:#F0CD85 !important;
+    font-weight:600 !important;
 }
 
 @media (max-width:900px) {
@@ -1712,6 +1929,7 @@ div[data-testid="stRadio"] label {
 @media (max-width:700px) {
     .brand {font-size:clamp(14px,4.2vw,17px);letter-spacing:2px;}
     .nav-sub {font-size:8px;letter-spacing:1.5px;width:100%;}
+    .nav-clock {font-size:20px; top:10px; right:12px;}
     .navbar {padding:12px 14px;}
     .hero-title {font-size:clamp(28px,8vw,40px) !important;}
     .hero-shell {padding:18px 0 8px;max-width:100%;}
@@ -1743,7 +1961,22 @@ div[data-testid="stRadio"] label {
     .hero-metrics .metric-box {padding:16px 14px;}
     .eyebrow {letter-spacing:2.5px;font-size:9px;}
     .embers {opacity:.55;}
-    div[data-testid="stRadio"] label p {font-size:13px !important;}
+    div[data-testid="stRadio"] {
+        max-width:calc(100vw - 12px) !important;
+    }
+    div[data-testid="stRadio"] > div[role="radiogroup"],
+    div[data-testid="stRadio"] > div {
+        border-radius:22px !important;
+        padding:4px 5px !important;
+        gap:1px !important;
+        max-width:calc(100vw - 12px);
+        overflow-x:auto;
+        flex-wrap:nowrap !important;
+        justify-content:flex-start !important;
+        -webkit-overflow-scrolling:touch;
+    }
+    div[data-testid="stRadio"] label { padding:6px 10px !important; flex:0 0 auto; }
+    div[data-testid="stRadio"] label p {font-size:11px !important;}
 }
 </style>
 
@@ -1784,8 +2017,17 @@ def image_title(path):
     name = path.stem
     return name.replace("_", " ").replace("-", " ").replace(".", " ").title()
 
+def music_display_title(path):
+    """Human-facing track titles (overrides awkward filenames)."""
+    stem = Path(path).stem.lower()
+    if "osama" in stem:
+        return "Oshyama Oshyama"
+    return image_title(path)
+
 def image_category(filename):
     name = str(filename).lower()
+    if "kishori" in name:
+        return "Kishori Kali"
     if "dakshineswar" in name:
         return "Temples"
     if "kalighat" in name:
@@ -1797,23 +2039,6 @@ def image_category(filename):
     if "maa" in name or "kali" in name:
         return "Maa Kali"
     return "Cultural Collection"
-
-def get_image_stats(file):
-    with Image.open(file) as img:
-        rgb = img.convert("RGB")
-        pixels = np.array(rgb.resize((100, 100)))
-        stat = ImageStat.Stat(rgb)
-        return {
-            "width": img.width,
-            "height": img.height,
-            "format": img.format,
-            "brightness": round(sum(stat.mean)/3, 2),
-            "red": round(stat.mean[0], 2),
-            "green": round(stat.mean[1], 2),
-            "blue": round(stat.mean[2], 2),
-            "aspect_ratio": round(img.width/img.height, 2),
-            "pixels": pixels
-        }
 
 def build_analytics_pdf(df, counts, weight, total_mb, largest_row):
     """Build a themed PDF dataset report (bytes)."""
@@ -2023,16 +2248,1467 @@ def sync_static_assets(files, dest_dir):
 
 
 # =====================================================
-# NAVIGATION
+# BENGALI WELCOME GATE — full-screen first paint
 # =====================================================
 
-st.markdown("""
+def _metro_deep_link_active() -> bool:
+    qp = st.query_params
+    return bool(
+        qp.get("metro_dest")
+        or qp.get("metro_olat")
+        or qp.get("metro_geo_err")
+        or qp.get("metro_reset")
+        or qp.get("metro_near_me")
+    )
+
+
+def _render_bengali_welcome() -> None:
+    """Full-viewport Bengali welcome; Continue dismisses into the site.
+
+    Rendered as a pinned components iframe so Streamlit layout cannot clip it.
+    """
+    st.markdown(
+        """
+<style>
+[data-testid="stHeader"],
+[data-testid="stToolbar"],
+[data-testid="stDecoration"],
+[data-testid="stStatusWidget"],
+#MainMenu, footer, header { display:none !important; }
+.block-container {
+  padding:0 !important;
+  max-width:100% !important;
+  margin:0 !important;
+}
+section.main > div { padding-top:0 !important; }
+/* Welcome gate: collapse hook wrappers; keep the pinned scroll iframe */
+[data-testid="stVerticalBlock"] { gap:0 !important; }
+[data-testid="stElementContainer"][height="0px"],
+[data-testid="stElementContainer"][width="0px"][height="0px"],
+[data-testid="stElementContainer"]:has(iframe[height="0"]),
+[data-testid="stElementContainer"]:has([data-testid="stMarkdownContainer"] > style:only-child),
+[data-testid="stForm"]:has(.kali-welcome-restore) {
+  position:fixed !important;
+  left:-10000px !important;
+  top:0 !important;
+  width:0 !important;
+  height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+/* Prefer the marked welcome frame once pinFrame runs */
+iframe[data-kali-welcome-frame="1"] {
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100vh !important;
+  z-index:2147483000 !important;
+  border:0 !important;
+}
+</style>
+        """,
+        unsafe_allow_html=True,
+    )
+    components.html(
+        """
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cormorant+Garamond:wght@500;600&family=Inter:wght@400;600&family=Tiro+Bangla&display=swap" rel="stylesheet" />
+<style>
+  html, body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    background: #070408;
+  }
+  @keyframes flicker {
+    0%, 100% { opacity: 1; filter: drop-shadow(0 0 6px rgba(255,170,60,.9)); transform: scale(1); }
+    18% { opacity: .78; filter: drop-shadow(0 0 14px rgba(255,120,40,1)); transform: scale(1.04); }
+    42% { opacity: .95; filter: drop-shadow(0 0 8px rgba(255,190,90,.85)); transform: scale(.98); }
+    67% { opacity: .7; filter: drop-shadow(0 0 18px rgba(255,100,30,1)); transform: scale(1.06); }
+  }
+  @keyframes floatDiya {
+    0%, 100% { transform: translateY(0) translateX(0) rotate(-2deg); }
+    50% { transform: translateY(-14px) translateX(6px) rotate(2deg); }
+  }
+  @keyframes scrollUnfurl {
+    from { opacity: 0; transform: translateY(28px) scale(.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  @keyframes glowPulse {
+    0%, 100% { box-shadow: 0 18px 50px rgba(0,0,0,.45), 0 0 0 1px rgba(180,120,50,.25); }
+    50% { box-shadow: 0 22px 60px rgba(0,0,0,.5), 0 0 40px rgba(229,188,112,.18); }
+  }
+  .wrap {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: clamp(20px, 4vh, 40px) clamp(14px, 4vw, 40px);
+    text-align: center;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(118,31,53,.55) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(214,51,108,.18) 0%, transparent 45%),
+      linear-gradient(165deg, #070408 0%, #12070e 40%, #1a0a12 75%, #080509 100%);
+    color: #3a2418;
+    overflow: hidden;
+  }
+  .wrap::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(circle at 20% 30%, rgba(229,188,112,.06), transparent 40%),
+      radial-gradient(circle at 80% 70%, rgba(255,140,60,.05), transparent 35%);
+    pointer-events: none;
+  }
+
+  /* Floating diyas */
+  .diyas { position: absolute; inset: 0; pointer-events: none; z-index: 2; }
+  .diya {
+    position: absolute;
+    width: 28px;
+    height: 42px;
+    animation: floatDiya var(--float, 4.5s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+  .diya .bowl {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 22px;
+    height: 10px;
+    transform: translateX(-50%);
+    border-radius: 0 0 12px 12px;
+    background: linear-gradient(180deg, #C9A24A 0%, #8B6914 55%, #5C3D0E 100%);
+    box-shadow: 0 2px 6px rgba(0,0,0,.45);
+  }
+  .diya .bowl::before {
+    content: "";
+    position: absolute;
+    left: 2px; right: 2px; top: -3px;
+    height: 5px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, #E8C86A, #A67C1A);
+  }
+  .diya .flame {
+    position: absolute;
+    left: 50%;
+    bottom: 10px;
+    width: 10px;
+    height: 18px;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+    background: radial-gradient(circle at 50% 70%, #FFF4C2 0%, #FFB347 35%, #FF6A1A 70%, transparent 100%);
+    animation: flicker var(--flick, 2.4s) ease-in-out infinite;
+    animation-delay: var(--delay, 0s);
+  }
+  .diya .flame::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 2px;
+    width: 4px;
+    height: 8px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: #FFF8E0;
+    opacity: .9;
+  }
+  .d1 { top: 8%; left: 8%; --float: 5.2s; --flick: 2.1s; --delay: 0s; }
+  .d2 { top: 14%; right: 10%; --float: 4.6s; --flick: 2.8s; --delay: .4s; }
+  .d3 { top: 42%; left: 4%; --float: 5.8s; --flick: 2.3s; --delay: .9s; }
+  .d4 { top: 48%; right: 5%; --float: 4.9s; --flick: 2.6s; --delay: .2s; }
+  .d5 { bottom: 16%; left: 11%; --float: 5.4s; --flick: 2.0s; --delay: 1.1s; }
+  .d6 { bottom: 12%; right: 12%; --float: 4.3s; --flick: 2.7s; --delay: .6s; }
+  .d7 { top: 22%; left: 22%; --float: 6s; --flick: 2.4s; --delay: 1.4s; width: 24px; height: 36px; }
+  .d8 { top: 28%; right: 20%; --float: 5.1s; --flick: 2.2s; --delay: .8s; width: 24px; height: 36px; }
+  .d9 { bottom: 28%; left: 18%; --float: 4.7s; --flick: 2.9s; --delay: .3s; width: 20px; height: 32px; }
+  .d10 { bottom: 32%; right: 16%; --float: 5.6s; --flick: 2.15s; --delay: 1.2s; width: 20px; height: 32px; }
+
+  /* Royal scroll */
+  .scroll {
+    position: relative;
+    z-index: 3;
+    width: min(680px, 94vw);
+    max-height: calc(100vh - 28px);
+    display: flex;
+    flex-direction: column;
+    overflow: visible;
+    animation: scrollUnfurl .95s ease both, glowPulse 4.5s ease-in-out infinite;
+  }
+  .scroll-bloom {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .hibiscus {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 64px;
+    height: 64px;
+    opacity: 0;
+    filter: drop-shadow(0 2px 2px rgba(70, 12, 24, .38));
+    will-change: transform, opacity;
+  }
+  .hibiscus svg { display: block; width: 100%; height: 100%; }
+  .garland-cord {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .idol-slot {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    z-index: 2;
+    width: min(460px, 78vw);
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    filter: drop-shadow(0 18px 36px rgba(0,0,0,.55));
+  }
+  .idol {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    background: transparent;
+  }
+  .garland-fall {
+    position: absolute;
+    inset: 0;
+    z-index: 8;
+    pointer-events: none;
+    overflow: visible;
+  }
+  .wrap.is-leaving .scroll {
+    animation: none !important;
+  }
+  .scroll-roll {
+    height: 22px;
+    border-radius: 999px;
+    background:
+      repeating-linear-gradient(90deg,
+        #6B4423 0 8px, #8B5A2B 8px 14px, #A67C52 14px 18px, #5C3A1E 18px 22px);
+    box-shadow:
+      inset 0 2px 0 rgba(255,220,150,.25),
+      inset 0 -3px 6px rgba(0,0,0,.35),
+      0 4px 12px rgba(0,0,0,.4);
+    position: relative;
+    z-index: 2;
+  }
+  .scroll-roll::before,
+  .scroll-roll::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #E8C86A, #8B6914 60%, #4A3008);
+    box-shadow: 0 0 0 2px rgba(90,55,20,.5);
+    transform: translateY(-50%);
+  }
+  .scroll-roll::before { left: -6px; }
+  .scroll-roll::after { right: -6px; }
+  .scroll-body {
+    position: relative;
+    margin: -6px 10px;
+    padding: clamp(18px, 3vh, 28px) clamp(22px, 4vw, 36px) clamp(16px, 2.4vh, 22px);
+    overflow-y: auto;
+    min-height: 0;
+    background:
+      linear-gradient(180deg, rgba(255,248,230,.2), transparent 18%),
+      radial-gradient(ellipse at 50% 0%, rgba(180,120,50,.12), transparent 55%),
+      linear-gradient(165deg, #F3E2C0 0%, #E8D0A4 38%, #DFC28E 72%, #D4B57A 100%);
+    border-left: 1px solid rgba(140,95,40,.35);
+    border-right: 1px solid rgba(140,95,40,.35);
+    box-shadow:
+      inset 0 0 40px rgba(120,70,20,.12),
+      inset 18px 0 28px rgba(90,50,15,.08),
+      inset -18px 0 28px rgba(90,50,15,.08);
+  }
+  .scroll-body::before {
+    content: "";
+    position: absolute;
+    inset: 10px;
+    border: 1px solid rgba(150,100,40,.28);
+    border-radius: 4px;
+    pointer-events: none;
+  }
+  .ornament {
+    font-size: 18px;
+    letter-spacing: .35em;
+    color: #8B5A2B;
+    margin: 0 0 10px;
+    opacity: .85;
+  }
+  .kicker {
+    font-family: Inter, sans-serif;
+    font-size: 10px;
+    letter-spacing: .28em;
+    text-transform: uppercase;
+    color: #7A4E1E;
+    margin: 0 0 14px;
+  }
+  .title {
+    font-family: "Cinzel Decorative", serif;
+    font-size: clamp(22px, 3.6vw, 32px);
+    font-weight: 400;
+    line-height: 1.25;
+    margin: 0 0 8px;
+    color: #4A1A24;
+    text-shadow: 0 1px 0 rgba(255,245,220,.5);
+  }
+  .brand {
+    font-family: "Tiro Bangla", "Cinzel", serif;
+    font-size: clamp(16px, 2.4vw, 20px);
+    letter-spacing: .04em;
+    color: #6B1F32;
+    margin: 0 0 12px;
+    font-weight: 600;
+  }
+  .divider {
+    width: min(220px, 60%);
+    height: 1px;
+    margin: 0 auto 18px;
+    background: linear-gradient(90deg, transparent, #A67C2A, transparent);
+  }
+  .body {
+    font-family: "Tiro Bangla", "Cormorant Garamond", serif;
+    font-size: clamp(14px, 1.9vw, 16.5px);
+    line-height: 1.65;
+    color: #3F2A1C;
+    margin: 0 0 12px;
+  }
+  .body strong {
+    font-weight: 600;
+    color: #4A1A24;
+  }
+  .signoff {
+    margin: 4px 0 14px;
+    font-family: "Tiro Bangla", "Cormorant Garamond", serif;
+    font-size: clamp(13px, 1.8vw, 15px);
+    line-height: 1.55;
+    color: #5C3A1E;
+  }
+  .signoff strong {
+    display: block;
+    margin-top: 2px;
+    font-family: "Cinzel", serif;
+    font-size: clamp(13px, 1.8vw, 15px);
+    letter-spacing: .08em;
+    color: #6B1F32;
+  }
+  .go {
+    appearance: none;
+    border: 1px solid rgba(120,70,20,.45);
+    border-radius: 999px;
+    min-width: min(300px, 80%);
+    min-height: 50px;
+    padding: 12px 24px;
+    cursor: pointer;
+    font-family: "Tiro Bangla", Inter, sans-serif;
+    font-size: clamp(15px, 2.2vw, 18px);
+    font-weight: 600;
+    letter-spacing: .03em;
+    color: #F8ECDD;
+    background: linear-gradient(135deg, #6B1F32 0%, #8B2A3E 45%, #A33A4E 100%);
+    box-shadow: 0 10px 28px rgba(80,20,30,.35), inset 0 1px 0 rgba(255,220,180,.2);
+  }
+  .go:hover {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+  }
+  .mark {
+    margin-top: 18px;
+    font-family: Inter, sans-serif;
+    font-size: 11px;
+    letter-spacing: .18em;
+    color: #7A4E1E;
+  }
+  @media (max-width: 520px) {
+    .d7, .d8, .d9, .d10 { display: none; }
+    .scroll-body { padding: 24px 18px 22px; }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="diyas" aria-hidden="true">
+      <div class="diya d1"><span class="flame"></span><span class="bowl"></span></div>
+      <div class="diya d2"><span class="flame"></span><span class="bowl"></span></div>
+      <div class="diya d3"><span class="flame"></span><span class="bowl"></span></div>
+      <div class="diya d4"><span class="flame"></span><span class="bowl"></span></div>
+      <div class="diya d5"><span class="flame"></span><span class="bowl"></span></div>
+      <div class="diya d6"><span class="flame"></span><span class="bowl"></span></div>
+      <div class="diya d7"><span class="flame"></span><span class="bowl"></span></div>
+      <div class="diya d8"><span class="flame"></span><span class="bowl"></span></div>
+      <div class="diya d9"><span class="flame"></span><span class="bowl"></span></div>
+      <div class="diya d10"><span class="flame"></span><span class="bowl"></span></div>
+    </div>
+
+    <div class="scroll" role="dialog" aria-label="Bengali welcome scroll">
+      <div class="scroll-roll" aria-hidden="true"></div>
+      <div class="scroll-body">
+        <div class="ornament">❖ ✦ ❖</div>
+        <h1 class="title">Welcome to KALI VISION AI</h1>
+        <p class="brand">জয় মা কালী! Jai Maa Kali!</p>
+        <div class="divider" aria-hidden="true"></div>
+        <p class="body">নমস্কার সবাইকে! ❤️</p>
+        <p class="body">
+          Welcome to KALI VISION AI! A small initiative to bring you closer to Maa Kali,
+          her divine forms, Bengal's rich culture, sacred temples, and beautiful traditions.
+        </p>
+        <p class="body">
+          চলুন, একসঙ্গে Maa Kali-র ইতিহাস, মহিমা ও আমাদের ঐতিহ্যকে জানি, আবিষ্কার করি এবং উদযাপন করি।
+        </p>
+        <p class="body">
+          This is a humble effort, and I sincerely apologize if I have unintentionally made any mistakes.
+          Your suggestions and corrections are always welcome.
+        </p>
+        <p class="body"><strong>Explore, learn and celebrate our heritage.</strong></p>
+        <p class="body">May Maa Kali bless you all with strength and happiness.</p>
+        <p class="body"><strong>জয় মা কালী!</strong> ❤️</p>
+        <p class="signoff">Made with love and devotion by <strong>Anuska Ghosh</strong></p>
+        <p class="signoff">নমস্কারান্তে, <strong>Anuska Ghosh</strong></p>
+        <button class="go" id="kali-welcome-go" type="button">ওয়েবসাইটে প্রবেশ করুন</button>
+      </div>
+      <div class="scroll-roll" aria-hidden="true"></div>
+      <div class="scroll-bloom" id="kali-scroll-bloom" aria-hidden="true"></div>
+    </div>
+    <div class="idol-slot" id="kali-idol-slot">
+      <img class="idol" id="kali-idol" alt="মা কালি" />
+    </div>
+  </div>
+  <script>
+  (function () {
+    function hibiscusPetal(deg, color) {
+      return '<path d="M0,1 C9,-1 16,-12 8,-23 C4,-27 0,-25 -3,-20 C-13,-12 -9,-1 0,1Z" fill="'
+        + color + '" stroke="#9A2E40" stroke-width="0.6" transform="rotate(' + deg + ')"/>';
+    }
+    var FLOWER = '<svg viewBox="0 0 64 64" aria-hidden="true">'
+      + '<g transform="translate(32,36)">'
+      + '<ellipse rx="5.2" ry="3.4" cy="9" fill="#4E7840" transform="rotate(16)"/>'
+      + '<ellipse rx="5.2" ry="3.4" cy="9" fill="#3C6230" transform="rotate(78)"/>'
+      + hibiscusPetal(0, "#C33848")
+      + hibiscusPetal(72, "#B43244")
+      + hibiscusPetal(144, "#C73E52")
+      + hibiscusPetal(216, "#B43244")
+      + hibiscusPetal(288, "#C33848")
+      + '<circle r="5.8" fill="#8A1E34"/>'
+      + '<circle r="2.9" fill="#5A1224"/>'
+      + '<path d="M0,0 C1,-10 0,-20 1,-32" stroke="#E7C56B" stroke-width="2" fill="none" stroke-linecap="round"/>'
+      + '<circle cx="-2.8" cy="-16" r="1.55" fill="#F4D78A"/>'
+      + '<circle cx="3.1" cy="-21" r="1.45" fill="#E9C15C"/>'
+      + '<circle cx="-1.3" cy="-26" r="1.4" fill="#F0CC72"/>'
+      + '<circle cx="1" cy="-33" r="2.2" fill="#F8E3A4"/>'
+      + '</g></svg>';
+    var bloom = document.getElementById("kali-scroll-bloom");
+    var scrollEl = bloom && bloom.parentElement;
+    var falling = false;
+    var wave = 0;
+    var leaving = false;
+    var settleGarland = function () {};
+    var SIZE = 64;
+    var GAP = 56;
+    function paint(node, x, y, rot, opacity) {
+      node.style.opacity = String(opacity);
+      node.style.transform = "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) rotate(" + rot.toFixed(2) + "deg)";
+    }
+    function smoothstep(p) {
+      return p * p * p * (p * (p * 6 - 15) + 10);
+    }
+    function curvePoint(p0, p1, p2, p3, t) {
+      var t2 = t * t;
+      var t3 = t2 * t;
+      return 0.5 * ((2 * p1) + (-p0 + p2) * t + (2 * p0 - 5 * p1 + 4 * p2 - p3) * t2 + (-p0 + 3 * p1 - 3 * p2 + p3) * t3);
+    }
+    function buildPath(side, W, H) {
+      var xSide = side === "left" ? -14 : (W - SIZE + 14);
+      var yTop = 0;
+      var yBot = H - SIZE + 4;
+      var dir = side === "left" ? 1 : -1;
+      var tilt = side === "left" ? -7 : 7;
+      var pts = [];
+      var y = yTop;
+      var guard = 0;
+      while (guard < 48) {
+        pts.push({ x: xSide, y: y, rot: tilt });
+        if (y >= yBot - 0.5) break;
+        y = Math.min(yBot, y + GAP);
+        guard += 1;
+      }
+      var x = xSide;
+      var center = (W - SIZE) / 2;
+      var limit = side === "left" ? center : center + GAP;
+      guard = 0;
+      while (guard < 40) {
+        var next = x + dir * GAP;
+        if (side === "left" && next > limit + 0.5) break;
+        if (side === "right" && next < limit - 0.5) break;
+        x = next;
+        var along = Math.abs(x - xSide) / Math.max(1, Math.abs(limit - xSide));
+        pts.push({ x: x, y: yBot, rot: tilt * (1 - along) });
+        guard += 1;
+      }
+      return pts;
+    }
+    function arcLengths(pts) {
+      var lens = [0];
+      var prev = { x: pts[0].x, y: pts[0].y - GAP };
+      for (var i = 0; i < pts.length; i++) {
+        var dx = pts[i].x - prev.x;
+        var dy = pts[i].y - prev.y;
+        lens.push(lens[lens.length - 1] + Math.sqrt(dx * dx + dy * dy));
+        prev = pts[i];
+      }
+      return lens;
+    }
+    function cordD(centers) {
+      if (centers.length < 2) return "";
+      var d = "M" + centers[0].cx.toFixed(1) + " " + centers[0].cy.toFixed(1);
+      for (var i = 1; i < centers.length; i++) {
+        var a = centers[i - 1];
+        var b = centers[i];
+        var mx = (a.cx + b.cx) / 2;
+        var my = (a.cy + b.cy) / 2;
+        d += " Q" + a.cx.toFixed(1) + " " + a.cy.toFixed(1) + " " + mx.toFixed(1) + " " + my.toFixed(1);
+      }
+      var end = centers[centers.length - 1];
+      d += " L" + end.cx.toFixed(1) + " " + end.cy.toFixed(1);
+      return d;
+    }
+    function runCascade() {
+      if (!bloom || !scrollEl || falling) return;
+      var W = scrollEl.clientWidth;
+      var H = scrollEl.clientHeight;
+      if (W < 40 || H < 40) {
+        setTimeout(runCascade, 80);
+        return;
+      }
+      falling = true;
+      var runId = ++wave;
+      bloom.innerHTML = "";
+      bloom.style.transition = "";
+      bloom.style.opacity = "1";
+      var leftPts = buildPath("left", W, H);
+      var rightPts = buildPath("right", W, H);
+      var leftLens = arcLengths(leftPts);
+      var rightLens = arcLengths(rightPts);
+      var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      svg.setAttribute("class", "garland-cord");
+      svg.setAttribute("viewBox", "0 0 " + W + " " + H);
+      function makeCord() {
+        var path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        path.setAttribute("fill", "none");
+        path.setAttribute("stroke", "#5C7A40");
+        path.setAttribute("stroke-width", "2.4");
+        path.setAttribute("stroke-linecap", "round");
+        path.setAttribute("stroke-linejoin", "round");
+        svg.appendChild(path);
+        return path;
+      }
+      var cordL = makeCord();
+      var cordR = makeCord();
+      bloom.appendChild(svg);
+      function makeNodes(pts) {
+        var nodes = [];
+        for (var i = 0; i < pts.length; i++) {
+          var node = document.createElement("div");
+          node.className = "hibiscus";
+          node.innerHTML = FLOWER;
+          bloom.appendChild(node);
+          nodes.push(node);
+        }
+        return nodes;
+      }
+      var leftNodes = makeNodes(leftPts);
+      var rightNodes = makeNodes(rightPts);
+      var started = performance.now();
+      var DURATION = 8600;
+      function placeStrand(pts, nodes, lens, dist) {
+        var centers = [];
+        for (var i = 0; i < pts.length; i++) {
+          var a = lens[i];
+          var b = lens[i + 1];
+          var node = nodes[i];
+          if (dist <= a + 0.2) {
+            node.style.opacity = "0";
+            continue;
+          }
+          var from = i === 0
+            ? { x: pts[0].x, y: pts[0].y - GAP * 0.65, rot: pts[0].rot }
+            : pts[i - 1];
+          var span = Math.max(1, b - a);
+          var p = dist >= b ? 1 : (dist - a) / span;
+          var prev = i <= 1 ? from : pts[i - 2];
+          var next = i + 1 < pts.length ? pts[i + 1] : pts[i];
+          var x = p >= 1 ? pts[i].x : curvePoint(prev.x, from.x, pts[i].x, next.x, p);
+          var y = p >= 1 ? pts[i].y : curvePoint(prev.y, from.y, pts[i].y, next.y, p);
+          var rot = from.rot + (pts[i].rot - from.rot) * p;
+          var fade = p >= 1 ? 1 : Math.min(1, p / 0.4);
+          paint(node, x, y, rot, fade);
+          centers.push({ cx: x + SIZE / 2, cy: y + SIZE / 2 });
+        }
+        return centers;
+      }
+      settleGarland = function () {
+        if (runId !== wave) return;
+        cordL.setAttribute("d", cordD(placeStrand(leftPts, leftNodes, leftLens, leftLens[leftLens.length - 1])));
+        cordR.setAttribute("d", cordD(placeStrand(rightPts, rightNodes, rightLens, rightLens[rightLens.length - 1])));
+      };
+      function tick(now) {
+        if (runId !== wave || !bloom.isConnected) return;
+        var t = Math.min(1, (now - started) / DURATION);
+        var eased = smoothstep(t);
+        cordL.setAttribute("d", cordD(placeStrand(leftPts, leftNodes, leftLens, eased * leftLens[leftLens.length - 1])));
+        cordR.setAttribute("d", cordD(placeStrand(rightPts, rightNodes, rightLens, eased * rightLens[rightLens.length - 1])));
+        if (t < 1) {
+          requestAnimationFrame(tick);
+          return;
+        }
+        setTimeout(function () {
+          if (runId !== wave || !bloom.isConnected) return;
+          bloom.style.transition = "opacity .7s ease";
+          bloom.style.opacity = "0";
+          setTimeout(function () {
+            if (runId !== wave) return;
+            bloom.innerHTML = "";
+            bloom.style.transition = "";
+            falling = false;
+            runCascade();
+          }, 760);
+        }, 2800);
+      }
+      requestAnimationFrame(tick);
+    }
+    setTimeout(runCascade, 320);
+
+    function pinFrame() {
+      try {
+        var frame = window.frameElement;
+        if (!frame) return;
+        frame.setAttribute("data-kali-welcome-frame", "1");
+        frame.style.cssText = [
+          "position:fixed",
+          "inset:0",
+          "top:0",
+          "left:0",
+          "right:0",
+          "bottom:0",
+          "width:100vw",
+          "height:100vh",
+          "max-width:100vw",
+          "max-height:100vh",
+          "z-index:2147483000",
+          "border:0",
+          "margin:0",
+          "padding:0",
+          "background:#070408",
+          "display:block"
+        ].join(";");
+        if (frame.parentElement) {
+          frame.parentElement.style.cssText =
+            "margin:0;padding:0;height:0;overflow:visible;";
+        }
+      } catch (e) {}
+    }
+    pinFrame();
+    setTimeout(pinFrame, 50);
+    setTimeout(pinFrame, 250);
+
+    var wrap = document.querySelector(".wrap");
+    var idolSlot = document.getElementById("kali-idol-slot");
+    var idol = document.getElementById("kali-idol");
+    if (idol) {
+      var origin = "";
+      try { origin = window.parent.location.origin || ""; } catch (e) {}
+      idol.src = origin + "/app/static/assets/kali_garland_idol.png?v=2";
+    }
+
+    function enterSite() {
+      try { window.parent.localStorage.setItem("kali_welcome_v1", "1"); } catch (e) {}
+      try {
+        var u = new URL(window.parent.location.href);
+        u.searchParams.set("kali_welcome", "done");
+        window.parent.location.assign(u.toString());
+      } catch (e2) {
+        try { window.parent.location.reload(); } catch (e3) {}
+      }
+    }
+
+    var btn = document.getElementById("kali-welcome-go");
+    if (!btn) return;
+    btn.addEventListener("click", function () {
+      if (leaving) return;
+      leaving = true;
+      btn.disabled = true;
+      try { settleGarland(); } catch (e) {}
+      wave += 1;
+
+      var wRect = wrap.getBoundingClientRect();
+      var sRect = scrollEl.getBoundingClientRect();
+      var cx = sRect.left + sRect.width / 2;
+      var bottomY = sRect.bottom - 90;
+
+      var aspect = 820 / 1273;
+      var maxH = window.innerHeight * 0.9;
+      var maxW = Math.min(520, window.innerWidth * 0.84);
+      var idolH = maxH;
+      var idolW = idolH * aspect;
+      if (idolW > maxW) {
+        idolW = maxW;
+        idolH = idolW / aspect;
+      }
+      idolSlot.style.width = Math.round(idolW) + "px";
+      idolSlot.style.height = Math.round(idolH) + "px";
+      idolSlot.style.left = "50%";
+      idolSlot.style.top = "50%";
+      idolSlot.style.visibility = "visible";
+      idolSlot.style.opacity = "0";
+      idolSlot.style.transform = "translate(-50%, -50%)";
+      var iRect = idolSlot.getBoundingClientRect();
+      idolSlot.style.transform = "translate(-50%, -42%)";
+
+      var fall = document.createElement("div");
+      fall.className = "garland-fall";
+      wrap.appendChild(fall);
+      var flowers = Array.prototype.slice.call(bloom.querySelectorAll(".hibiscus"));
+      var kept = [];
+      for (var i = 0; i < flowers.length; i++) {
+        var node = flowers[i];
+        if (parseFloat(node.style.opacity || "0") < 0.25) continue;
+        var r = node.getBoundingClientRect();
+        fall.appendChild(node);
+        node.style.left = (r.left - wRect.left) + "px";
+        node.style.top = (r.top - wRect.top) + "px";
+        node.style.transform = "none";
+        node.style.opacity = "1";
+        kept.push(node);
+      }
+      kept.sort(function (a, b) {
+        function key(el) {
+          var box = el.getBoundingClientRect();
+          var x = box.left + box.width / 2;
+          var y = box.top + box.height / 2;
+          if (y > bottomY) return 10000 + x;
+          if (x < cx) return y;
+          return 20000 + (sRect.bottom - y);
+        }
+        return key(a) - key(b);
+      });
+      var cord = bloom.querySelector(".garland-cord");
+      if (cord) cord.style.opacity = "0";
+
+      wrap.classList.add("is-leaving");
+      scrollEl.style.animation = "none";
+      var scrollUp = -(sRect.top + sRect.height + 28);
+      var futureTop = iRect.top - wRect.top;
+      var futureLeft = iRect.left - wRect.left;
+      var futureW = iRect.width;
+      var futureH = iRect.height || idolH;
+
+      requestAnimationFrame(function () {
+        scrollEl.style.transition = "transform 1.25s cubic-bezier(.55,.04,.28,1)";
+        scrollEl.style.transform = "translateY(" + scrollUp + "px)";
+        idolSlot.style.transition = "opacity 2.6s ease, transform 2.8s cubic-bezier(.16,.8,.24,1)";
+        idolSlot.style.opacity = "1";
+        idolSlot.style.transform = "translate(-50%, -50%)";
+      });
+
+      setTimeout(function () {
+        function malaPoint(t) {
+          var droop = Math.sin(t * Math.PI);
+          return {
+            x: futureLeft + futureW * (0.30 + 0.40 * t),
+            y: futureTop + futureH * (0.25 + 0.20 * droop)
+          };
+        }
+        var steps = 28;
+        var curve = [];
+        var lens = [0];
+        for (var i = 0; i <= steps; i++) {
+          curve.push(malaPoint(i / steps));
+          if (i) {
+            var dx = curve[i].x - curve[i - 1].x;
+            var dy = curve[i].y - curve[i - 1].y;
+            lens.push(lens[i - 1] + Math.sqrt(dx * dx + dy * dy));
+          }
+        }
+        var length = lens[lens.length - 1];
+        var spacing = SIZE * 0.86;
+        var want = Math.max(5, Math.min(7, Math.round(length / spacing) + 1));
+        function pointAlong(dist) {
+          var d = Math.max(0, Math.min(length, dist));
+          var i = 1;
+          while (i < lens.length && lens[i] < d) i += 1;
+          var a = curve[i - 1];
+          var b = curve[Math.min(i, curve.length - 1)];
+          var span = Math.max(1, lens[i] - lens[i - 1]);
+          var p = (d - lens[i - 1]) / span;
+          return { x: a.x + (b.x - a.x) * p, y: a.y + (b.y - a.y) * p };
+        }
+        var spots = [];
+        for (var s = 0; s < want; s++) {
+          spots.push(pointAlong(want === 1 ? length / 2 : (s / (want - 1)) * length));
+        }
+        var chosen = [];
+        if (kept.length <= want) chosen = kept.slice();
+        else {
+          for (var c = 0; c < want; c++) {
+            chosen.push(kept[Math.round(c * (kept.length - 1) / (want - 1))]);
+          }
+        }
+        for (var j = 0; j < kept.length; j++) {
+          if (chosen.indexOf(kept[j]) === -1) {
+            kept[j].style.transition = "opacity .4s ease";
+            kept[j].style.opacity = "0";
+          }
+        }
+        var half = SIZE / 2;
+        var motions = [];
+        for (var k = 0; k < chosen.length; k++) {
+          var spot = spots[Math.min(k, spots.length - 1)];
+          var t = chosen.length === 1 ? 0.5 : k / (chosen.length - 1);
+          var flower = chosen[k];
+          flower.style.transition = "none";
+          flower.style.zIndex = String(10 + k);
+          motions.push({
+            node: flower,
+            sx: parseFloat(flower.style.left) || 0,
+            sy: parseFloat(flower.style.top) || 0,
+            ex: spot.x - half,
+            ey: spot.y - half,
+            rot: (t - 0.5) * 14,
+            delay: k * 46
+          });
+        }
+        var glideStart = performance.now();
+        var GLIDE = 2800;
+        function glide(now) {
+          var pending = false;
+          for (var m = 0; m < motions.length; m++) {
+            var item = motions[m];
+            var local = now - glideStart - item.delay;
+            var p = local <= 0 ? 0 : Math.min(1, local / GLIDE);
+            if (p < 1) pending = true;
+            var e = smoothstep(p);
+            var u = 1 - e;
+            var mx = (item.sx + item.ex) / 2;
+            var my = (item.sy + item.ey) / 2 + Math.min(48, Math.abs(item.ex - item.sx) * 0.08);
+            var x = u * u * item.sx + 2 * u * e * mx + e * e * item.ex;
+            var y = u * u * item.sy + 2 * u * e * my + e * e * item.ey;
+            item.node.style.transform = "translate(" + (x - item.sx).toFixed(2) + "px," + (y - item.sy).toFixed(2) + "px) rotate(" + (item.rot * e).toFixed(2) + "deg)";
+          }
+          if (pending) requestAnimationFrame(glide);
+        }
+        requestAnimationFrame(glide);
+      }, 520);
+
+      setTimeout(enterSite, 5600);
+    });
+  })();
+  </script>
+</body>
+</html>
+        """,
+        height=720,
+        scrolling=False,
+    )
+    st.stop()
+
+
+if "kali_welcome_dismissed" not in st.session_state:
+    st.session_state.kali_welcome_dismissed = False
+
+# Continue button on the welcome iframe lands here
+if st.query_params.get("kali_welcome") == "done":
+    st.session_state.kali_welcome_dismissed = True
+    print("[kali-welcome] dismissed via ?kali_welcome=done")
+    try:
+        del st.query_params["kali_welcome"]
+    except Exception:
+        pass
+
+# Restore "already continued" from localStorage via a hidden soft form
+st.markdown(
+    """
+<style>
+[data-testid="stForm"]:has(.kali-welcome-restore) {
+  position:fixed !important;
+  left:-9999px !important;
+  top:0 !important;
+  width:1px !important;
+  height:1px !important;
+  opacity:0 !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+  z-index:-1 !important;
+}
+</style>
+    """,
+    unsafe_allow_html=True,
+)
+with st.form("kali_welcome_restore", border=False, clear_on_submit=True):
+    st.markdown(
+        '<div class="kali-welcome-restore" style="display:none" aria-hidden="true"></div>',
+        unsafe_allow_html=True,
+    )
+    _welcome_restore_val = st.text_input(
+        "kali_welcome_restore_val",
+        key="kali_welcome_restore_payload",
+        label_visibility="collapsed",
+    )
+    _welcome_restore_go = st.form_submit_button("restore welcome")
+if _welcome_restore_go and str(_welcome_restore_val or "").strip() == "1":
+    st.session_state.kali_welcome_dismissed = True
+    print("[kali-welcome] dismissed via localStorage restore form")
+
+_nav_for_welcome = st.query_params.get("nav")
+_metro_bridge_hit = _metro_deep_link_active()
+_nav_skip_welcome = _nav_for_welcome in {
+    "Home",
+    "AI Assistant",
+    "Gallery",
+    "Kolkata Explorer",
+    "Kolkata Metro",
+    "Analytics",
+    "About",
+}
+
+# Deep links / nav CTAs skip the welcome — and must STAMP dismissed,
+# otherwise consuming metro_* query params on the next rerun re-opens the scroll.
+if (_metro_bridge_hit or _nav_skip_welcome) and not st.session_state.kali_welcome_dismissed:
+    st.session_state.kali_welcome_dismissed = True
+    print(
+        "[kali-welcome] auto-dismissed via bridge/nav "
+        f"metro={_metro_bridge_hit} nav={_nav_for_welcome!r}"
+    )
+
+if not st.session_state.kali_welcome_dismissed:
+    components.html(
+        """
+<script>
+(function () {
+  var LOG = "[kali-welcome]";
+  function log() {
+    try {
+      var args = Array.prototype.slice.call(arguments);
+      args.unshift(LOG);
+      console.log.apply(console, args);
+    } catch (e) {}
+  }
+  try {
+    var win = window.parent;
+    try { if (win.top && win.top.document) win = win.top; } catch (e0) {}
+    var doc = win.document;
+    var ls = null;
+    try { ls = win.localStorage.getItem("kali_welcome_v1"); } catch (e) {
+      log("localStorage read failed", String(e));
+    }
+    log("restore probe", {
+      href: String(win.location.href || ""),
+      search: String(win.location.search || ""),
+      localStorage: ls,
+      sessionHint: "python dismissed=false on this run"
+    });
+    if (ls !== "1") {
+      log("no localStorage flag — welcome will render");
+      return;
+    }
+    var form = doc.querySelector('[data-testid="stForm"]:has(.kali-welcome-restore)');
+    if (!form) {
+      log("restore form NOT found — welcome will still render this run");
+      return;
+    }
+    var input = form.querySelector("input");
+    var btn = form.querySelector("button");
+    if (!input || !btn) {
+      log("restore form missing input/button", !!input, !!btn);
+      return;
+    }
+    var proto = win.HTMLInputElement.prototype;
+    var desc = Object.getOwnPropertyDescriptor(proto, "value");
+    if (desc && desc.set) desc.set.call(input, "1");
+    else input.value = "1";
+    input.dispatchEvent(new Event("input", { bubbles: true }));
+    input.dispatchEvent(new Event("change", { bubbles: true }));
+    log("clicking restore form submit");
+    btn.click();
+  } catch (e) {
+    log("restore failed", String(e));
+  }
+})();
+</script>
+        """,
+        height=0,
+        width=0,
+    )
+
+_skip_welcome = (
+    st.session_state.kali_welcome_dismissed
+    or _metro_bridge_hit
+    or _nav_skip_welcome
+)
+print(
+    "[kali-welcome] gate",
+    {
+        "dismissed": bool(st.session_state.kali_welcome_dismissed),
+        "metro_bridge": bool(_metro_bridge_hit),
+        "nav": _nav_for_welcome,
+        "skip": bool(_skip_welcome),
+        "qp": dict(st.query_params),
+    },
+)
+if not _skip_welcome:
+    print("[kali-welcome] RENDERING scroll (gate open)")
+    components.html(
+        """
+<script>
+(function () {
+  try {
+    var win = window.parent;
+    try { if (win.top && win.top.document) win = win.top; } catch (e0) {}
+    var ls = null;
+    try { ls = win.localStorage.getItem("kali_welcome_v1"); } catch (e) {}
+    console.warn("[kali-welcome] SHOWING scroll", {
+      href: String(win.location.href || ""),
+      search: String(win.location.search || ""),
+      localStorage: ls,
+      stack: "welcome gate open — see [kali-welcome] gate in terminal"
+    });
+  } catch (e) {
+    try { console.warn("[kali-welcome] SHOWING scroll (log failed)", String(e)); } catch (e2) {}
+  }
+})();
+</script>
+        """,
+        height=0,
+        width=0,
+    )
+    _render_bengali_welcome()
+
+
+# =====================================================
+# NAVIGATION (Streamlit radio — reliable page switching)
+# Brand header stays in document flow above the pill nav.
+# =====================================================
+
+PAGES = [
+    "Home", "AI Assistant", "Gallery",
+    "Kolkata Explorer", "Kolkata Metro", "Analytics", "About"
+]
+
+if "page" not in st.session_state:
+    st.session_state.page = "Home"
+
+# Drop removed pages from stale session / bookmarks
+if st.session_state.get("navigation") == "Vision Lab":
+    st.session_state.navigation = "Home"
+if st.session_state.get("navigation") not in (None, *PAGES):
+    st.session_state.navigation = "Home"
+
+# Deep-link CTAs from HTML (e.g. Experience "Explore Now").
+# Never wipe metro_* bridges when clearing nav — GPS / pick handoff needs them.
+_METRO_BRIDGE_KEYS = (
+    "metro_dest",
+    "metro_plat",
+    "metro_plon",
+    "metro_olat",
+    "metro_olon",
+    "metro_oacc",
+    "metro_geo_err",
+    "metro_near_me",
+    "metro_reset",
+)
+
+
+def _clear_nav_query_keep_metro() -> None:
+    kept = {k: st.query_params.get(k) for k in _METRO_BRIDGE_KEYS if st.query_params.get(k) is not None}
+    try:
+        del st.query_params["nav"]
+    except Exception:
+        pass
+    for k, v in kept.items():
+        if v is not None:
+            st.query_params[k] = v
+
+
+_nav_q = st.query_params.get("nav")
+if _nav_q == "Vision Lab":
+    _clear_nav_query_keep_metro()
+elif _nav_q in PAGES:
+    st.session_state.navigation = _nav_q
+    _clear_nav_query_keep_metro()
+
+# Metro bridges (destination pick / GPS / reset) must open the Metro page and
+# leave their query params intact for modules.metro.metro_ui to consume.
+if (
+    st.query_params.get("metro_dest")
+    or st.query_params.get("metro_olat")
+    or st.query_params.get("metro_geo_err")
+    or st.query_params.get("metro_reset")
+    or st.query_params.get("metro_near_me")
+):
+    st.session_state.navigation = "Kolkata Metro"
+    print("[kali-welcome] forced navigation=Kolkata Metro from metro bridge qp")
+
+# Brand + alpana for every page except Metro (map-first fullscreen)
+_nav_preview = st.session_state.get("navigation", "Home")
+if _nav_preview != "Kolkata Metro":
+    st.markdown("""
+<div class="nav-clock" id="kali-nav-clock"></div>
 <div class="navbar">
     <div class="brand">✦ KALI VISION AI</div>
     <div class="nav-sub">BENGAL · CULTURE · INTELLIGENCE</div>
 </div>
 <div class="alpana"></div>
 """, unsafe_allow_html=True)
+    components.html(
+        """
+<script>
+(function () {
+  var win = window.parent;
+  try { if (win.top && win.top.document) win = win.top; } catch (e) {}
+  var doc = win.document;
+  function tick() {
+    var el = doc.getElementById("kali-nav-clock");
+    if (!el) return;
+    var text = new Date().toLocaleTimeString([], {
+      hour: "numeric",
+      minute: "2-digit"
+    });
+    if (el.textContent !== text) el.textContent = text;
+  }
+  tick();
+  if (win.__kaliNavClock) clearInterval(win.__kaliNavClock);
+  win.__kaliNavClock = setInterval(tick, 1000);
+})();
+</script>
+        """,
+        height=0,
+        width=0,
+    )
+
+page = st.radio(
+    "Navigation",
+    PAGES,
+    horizontal=True,
+    label_visibility="collapsed",
+    key="navigation",
+)
+
+# The Find route chip is appended to document.body from Metro, so it
+# survives navigation unless we remove it on every other page.
+if page != "Kolkata Metro":
+    components.html(
+        """
+<script>
+(function () {
+  try {
+    var doc = window.parent.document;
+    var box = doc.getElementById("metro-find-route");
+    if (box) box.remove();
+  } catch (e) {}
+})();
+</script>
+        """,
+        height=0,
+        width=0,
+    )
+
+# =====================================================
+# SITE-WIDE LOCATION — ask the browser as soon as they enter
+# (Browsers always show their own permission prompt; we cannot
+# silently read GPS. Once allowed, coords are saved for Metro.)
+# =====================================================
+from modules.metro.metro_ui import apply_geo_payload  # noqa: E402
+
+_has_saved_geo = bool(
+    (st.session_state.get("metro_origin") or {}).get("lat") is not None
+)
+st.markdown(
+    """
+<style>
+[data-testid="stForm"]:has(.site-geo-bridge) {
+  position:fixed !important;
+  left:-9999px !important;
+  top:0 !important;
+  width:1px !important;
+  height:1px !important;
+  opacity:0 !important;
+  overflow:hidden !important;
+  margin:0 !important;
+  padding:0 !important;
+  z-index:-1 !important;
+}
+/* The form is fixed, but its layout wrapper is still a flex item and
+   leaves a blank band under the navbar. */
+[data-testid="stLayoutWrapper"]:has(.site-geo-bridge) {
+  position:absolute !important;
+  width:0 !important;
+  height:0 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+</style>
+    """,
+    unsafe_allow_html=True,
+)
+with st.form("site_geo_bridge", border=False, clear_on_submit=True):
+    st.markdown(
+        '<div class="site-geo-bridge metro-geo-bridge" style="display:none" aria-hidden="true"></div>',
+        unsafe_allow_html=True,
+    )
+    _site_geo_payload = st.text_input(
+        "site_geo_payload",
+        key="site_form_geo_payload",
+        label_visibility="collapsed",
+    )
+    _site_geo_submitted = st.form_submit_button("Apply site geo")
+if _site_geo_submitted:
+    apply_geo_payload(_site_geo_payload or "", arm_near_me=True)
+
+components.html(
+    f"""
+<script>
+(function () {{
+  var win = window.parent;
+  try {{ if (win.top && win.top.document) win = win.top; }} catch (e) {{}}
+  var doc = win.document;
+  if (doc.__kaliSiteGeoBoot === 2) return;
+  doc.__kaliSiteGeoBoot = 2;
+
+  var HAS_ORIGIN = {json.dumps(_has_saved_geo)};
+
+  function setNativeInput(input, value) {{
+    var proto = win.HTMLInputElement.prototype;
+    var desc = Object.getOwnPropertyDescriptor(proto, "value");
+    if (desc && desc.set) desc.set.call(input, value);
+    else input.value = value;
+    if (input._valueTracker && input._valueTracker.setValue) {{
+      try {{ input._valueTracker.setValue(value); }} catch (e) {{}}
+    }}
+    input.dispatchEvent(new Event("input", {{ bubbles: true }}));
+    input.dispatchEvent(new Event("change", {{ bubbles: true }}));
+  }}
+
+  function submitGeo(payload) {{
+    var form = doc.querySelector('[data-testid="stForm"]:has(.site-geo-bridge)')
+      || doc.querySelector('[data-testid="stForm"]:has(.metro-geo-bridge)');
+    if (!form) return false;
+    var input = form.querySelector("input");
+    var btn = form.querySelector("button");
+    if (!input || !btn) return false;
+    setNativeInput(input, String(payload || ""));
+    btn.click();
+    return true;
+  }}
+
+  function saveLocal(lat, lon, acc) {{
+    try {{
+      win.localStorage.setItem("kali_user_geo", JSON.stringify({{
+        lat: lat, lon: lon, acc: acc || null, ts: Date.now()
+      }}));
+    }} catch (e) {{}}
+  }}
+
+  function requestLocation() {{
+    if (win.__kaliGeoRequesting) return;
+    win.__kaliGeoRequesting = true;
+    if (!win.isSecureContext) {{
+      win.__kaliGeoRequesting = false;
+      return;
+    }}
+    if (!win.navigator || !win.navigator.geolocation) {{
+      win.__kaliGeoRequesting = false;
+      return;
+    }}
+    win.navigator.geolocation.getCurrentPosition(
+      function (pos) {{
+        win.__kaliGeoRequesting = false;
+        win.__kaliGeoGot = true;
+        var lat = pos.coords.latitude;
+        var lon = pos.coords.longitude;
+        var acc = (pos.coords.accuracy != null) ? String(pos.coords.accuracy) : "";
+        saveLocal(lat, lon, acc);
+        if (HAS_ORIGIN) return;
+        submitGeo("ok|" + lat + "|" + lon + "|" + acc);
+      }},
+      function () {{
+        win.__kaliGeoRequesting = false;
+      }},
+      {{ enableHighAccuracy: true, timeout: 20000, maximumAge: 300000 }}
+    );
+  }}
+
+  // 1) Immediate request the moment they enter
+  requestLocation();
+
+  // 2) If the browser blocked load-time geo, retry on first interaction
+  function interactionRetry() {{
+    if (win.__kaliGeoGot || HAS_ORIGIN) return;
+    requestLocation();
+  }}
+  ["click", "touchstart", "keydown"].forEach(function (ev) {{
+    doc.addEventListener(ev, interactionRetry, {{ once: true, capture: true }});
+  }});
+
+  // 3) Restore from localStorage when Streamlit session is empty
+  if (!HAS_ORIGIN) {{
+    try {{
+      var raw = win.localStorage.getItem("kali_user_geo");
+      if (raw) {{
+        var o = JSON.parse(raw);
+        if (o && o.lat != null && o.lon != null) {{
+          win.setTimeout(function () {{
+            if (win.__kaliGeoGot) return;
+            submitGeo("ok|" + o.lat + "|" + o.lon + "|" + (o.acc || ""));
+          }}, 400);
+        }}
+      }}
+    }} catch (e) {{}}
+  }}
+}})();
+</script>
+    """,
+    height=0,
+    width=0,
+)
+
+# Metro map is full-bleed — float the SAME Streamlit radio in a reserved top band.
+# Critical: Streamlit's stHeader uses z-index ~999990 and was intercepting nav clicks.
+# Other pages keep the pill in normal document flow under the brand header.
+if page == "Kolkata Metro":
+    st.markdown(
+        """
+<style>
+/* Map-paper fill — never flash the dark divinity chrome while Leaflet mounts */
+html, body, .stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+[data-testid="stMainBlockContainer"],
+.block-container {
+    background: #dcd6cf !important;
+    background-image: none !important;
+}
+.footer { display: none !important; }
+/* Hide Streamlit chrome on Metro — it sat above the pill (z~999990) and stole clicks */
+header[data-testid="stHeader"] {
+    display: none !important;
+}
+div[data-testid="stToolbar"],
+div[data-testid="stDecoration"],
+div[data-testid="stStatusWidget"] {
+    background: transparent !important;
+    pointer-events: none !important;
+}
+/* Identity transforms still create a fixed containing block — clear them on Metro
+   so position:fixed for nav/dock/map is viewport-relative again. */
+[data-testid="stMainBlockContainer"],
+[data-testid="stMain"],
+.main .block-container {
+    transform: none !important;
+    filter: none !important;
+    perspective: none !important;
+    will-change: auto !important;
+}
+div[data-testid="element-container"]:has(div[data-testid="stRadio"]) {
+    height:0 !important;
+    min-height:0 !important;
+    margin:0 !important;
+    overflow:visible !important;
+    pointer-events:none !important; /* host is zero-height; only the fixed pill receives events */
+}
+div[data-testid="stRadio"] {
+    position:fixed !important;
+    top:10px !important;
+    left:50% !important;
+    transform:translateX(-50%) !important;
+    /* Above map (1), dock (~100), and Streamlit header (~999990) */
+    z-index:1000001 !important;
+    margin:0 !important;
+    pointer-events:auto !important;
+}
+div[data-testid="stRadio"] label,
+div[data-testid="stRadio"] > div {
+    pointer-events:auto !important;
+}
+@media (max-width:480px) {
+    div[data-testid="stRadio"] { top:8px !important; }
+}
+</style>
+        """,
+        unsafe_allow_html=True,
+    )
+else:
+    # Metro's map iframe used to paint transparent backgrounds onto the parent
+    # document with inline !important styles. Those survive Streamlit reruns and
+    # make every other page look broken until a hard refresh. Strip them here.
+    components.html(
+        """
+<script>
+(function () {
+  try {
+    var doc = window.parent.document;
+    var ids = ["stApp", "stAppViewContainer", "stMain", "stMainBlockContainer"];
+    ids.forEach(function (id) {
+      var el = doc.querySelector('[data-testid="' + id + '"]') || doc.querySelector("." + id);
+      if (!el || !el.style) return;
+      el.style.removeProperty("background");
+      el.style.removeProperty("background-image");
+      el.style.removeProperty("background-color");
+    });
+    if (doc.documentElement && doc.documentElement.style) {
+      doc.documentElement.style.removeProperty("background");
+      doc.documentElement.style.removeProperty("background-image");
+      doc.documentElement.style.removeProperty("background-color");
+    }
+    if (doc.body && doc.body.style) {
+      doc.body.style.removeProperty("background");
+      doc.body.style.removeProperty("background-image");
+      doc.body.style.removeProperty("background-color");
+    }
+    doc.querySelectorAll(".metro-dock-panel").forEach(function (el) {
+      el.classList.remove("metro-dock-panel");
+      [
+        "position", "left", "right", "top", "bottom", "transform", "width",
+        "min-height", "max-height", "height", "overflow-y", "z-index",
+        "pointer-events", "background", "backdrop-filter", "-webkit-backdrop-filter"
+      ].forEach(function (prop) { el.style.removeProperty(prop); });
+    });
+  } catch (e) {}
+})();
+</script>
+        """,
+        height=0,
+        width=0,
+    )
 
 def diya_divider():
     st.markdown("""
@@ -2055,210 +3731,429 @@ DEFAULT_MUSIC_VOLUME = 0.05
 def get_music_tracks():
     if not MUSIC_DIR.exists():
         return []
-    return sorted([
+    return [
         p for p in MUSIC_DIR.iterdir()
         if p.is_file() and p.suffix.lower() in AUDIO_EXTENSIONS
         and p.stat().st_size > 0
-    ])
+    ]
 
-def pick_shyama_sangeet(tracks):
+def order_music_playlist(tracks):
+    """Prefer classic Shyama Sangeet first, then remaining tracks A–Z."""
+    preferred, rest = [], []
     for p in tracks:
         n = p.name.lower()
-        if "tumi" in n or "giri" in n or "shyama" in n or "sangeet" in n:
-            return p
-    return tracks[0] if tracks else None
+        if "tumi" in n or "giri" in n or "shyama" in n:
+            preferred.append(p)
+        else:
+            rest.append(p)
+    preferred.sort(key=lambda p: p.name.lower())
+    rest.sort(key=lambda p: p.name.lower())
+    return preferred + rest
 
-music_tracks = get_music_tracks()
-music_track = pick_shyama_sangeet(music_tracks)
+music_tracks = order_music_playlist(get_music_tracks())
 
-if music_track:
-    sync_static_assets([music_track], STATIC_MUSIC_DIR)
-    music_src = "/app/static/music/" + quote(music_track.name)
-    music_title = image_title(music_track)
+# Metro is map-first — never show / inject the music player there
+if page == "Kolkata Metro":
+    components.html(
+        """
+<script>
+(function () {
+  try {
+    var doc = window.parent.document;
+    doc.querySelectorAll(".music-player, #kali-music-player").forEach(function (el) {
+      try {
+        var audio = el.querySelector("audio");
+        if (audio) audio.pause();
+        if (el._kaliAudio) el._kaliAudio.pause();
+      } catch (e) {}
+      el.style.setProperty("display", "none", "important");
+      el.style.setProperty("visibility", "hidden", "important");
+      el.style.setProperty("pointer-events", "none", "important");
+    });
+  } catch (e) {}
+})();
+</script>
+        """,
+        height=0,
+        width=0,
+    )
+elif music_tracks:
+    sync_static_assets(music_tracks, STATIC_MUSIC_DIR)
+    playlist = [
+        {
+            "id": p.name,
+            "src": "/app/static/music/" + quote(p.name),
+            "title": music_display_title(p),
+        }
+        for p in music_tracks
+    ]
+    playlist_json = json.dumps(playlist, ensure_ascii=False)
+    playlist_key = "|".join(item["id"] for item in playlist)
     vol_pct = int(DEFAULT_MUSIC_VOLUME * 100)
-    # Inject into the parent page so controls work and playback
-    # survives Streamlit reruns. Autostarts at 1% volume; user can change it.
+    # Inject into the parent page so controls / playlist survive Streamlit reruns.
     components.html(
         f"""
         <script>
-        (function () {{
+        (async function () {{
           const doc = window.parent.document;
-          const SRC = {music_src!r};
-          const TITLE = {music_title!r};
+          const win = window.parent;
+          const PLAYLIST = {playlist_json};
+          const PLAYLIST_KEY = {playlist_key!r};
           const DEFAULT_VOL = {vol_pct};
+          const PLAYER_VERSION = "v5-playlist-oshyama";
 
-          const PLAYER_VERSION = "v3-no-emoji";
+          if (win.__kaliMusicBooting) return;
           let player = doc.getElementById("kali-music-player");
-          if (player && player.dataset.version !== PLAYER_VERSION) {{
-            if (player._kaliBlobUrl) URL.revokeObjectURL(player._kaliBlobUrl);
-            player.remove();
-            player = null;
+          if (
+            player &&
+            player.dataset.version === PLAYER_VERSION &&
+            player._kaliPlaylistKey === PLAYLIST_KEY &&
+            player._kaliReady
+          ) {{
+            return;
           }}
-          if (!player) {{
-            player = doc.createElement("div");
-            player.id = "kali-music-player";
-            player.className = "music-player";
-            player.dataset.version = PLAYER_VERSION;
-            player.innerHTML = `
-              <div class="mp-top">
-                <span class="mp-diya" id="mp-diya">✦</span>
-                <div class="mp-meta">
-                  <div class="mp-label">SHYAMA SANGEET</div>
-                  <div class="mp-track" id="mp-track"></div>
+
+          win.__kaliMusicBooting = true;
+
+          try {{
+            if (player && (player.dataset.version !== PLAYER_VERSION || player._kaliPlaylistKey !== PLAYLIST_KEY)) {{
+              try {{ if (player._kaliAudio) player._kaliAudio.pause(); }} catch (_) {{}}
+              if (player._kaliBlobUrl) URL.revokeObjectURL(player._kaliBlobUrl);
+              if (player._kaliAbort) {{ try {{ player._kaliAbort.abort(); }} catch (_) {{}} }}
+              player.remove();
+              player = null;
+            }}
+
+            if (!player) {{
+              player = doc.createElement("div");
+              player.id = "kali-music-player";
+              player.className = "music-player";
+              player.dataset.version = PLAYER_VERSION;
+              player._kaliPlaylistKey = PLAYLIST_KEY;
+              player._kaliPlaylist = PLAYLIST;
+              player._kaliIndex = 0;
+              player.innerHTML = `
+                <div class="mp-top">
+                  <span class="mp-diya" id="mp-diya">✦</span>
+                  <div class="mp-meta">
+                    <div class="mp-label">SHYAMA SANGEET · PLAYLIST</div>
+                    <button type="button" class="mp-track-btn" id="mp-track-btn"
+                            title="Show song list" aria-expanded="false">
+                      <div class="mp-track" id="mp-track"></div>
+                    </button>
+        </div>
+                  <span class="mp-status" id="mp-status">Loading</span>
+    </div>
+                <div class="mp-controls">
+                  <button type="button" class="mp-btn" id="mp-prev"
+                          aria-label="Previous song" title="Previous">⏮</button>
+                  <button type="button" class="mp-btn primary" id="mp-play"
+                          aria-label="Play or pause" title="Play / Pause">▶</button>
+                  <button type="button" class="mp-btn" id="mp-next"
+                          aria-label="Next song" title="Next">⏭</button>
+                  <button type="button" class="mp-btn" id="mp-list"
+                          aria-label="Song list" title="Song list">☰</button>
+                  <div class="mp-vol">
+                    <span class="mp-vol-icon" id="mp-vol-icon" aria-hidden="true">Vol</span>
+                    <input type="range" id="mp-volume" min="0" max="100" step="1"
+                           aria-label="Volume" title="Volume">
+                    <span class="mp-vol-pct" id="mp-vol-pct"></span>
+                  </div>
                 </div>
-                <span class="mp-status" id="mp-status">Loading</span>
-              </div>
-              <div class="mp-controls">
-                <button type="button" class="mp-btn primary" id="mp-play"
-                        aria-label="Play or pause" title="Play / Pause">▶</button>
-                <button type="button" class="mp-btn" id="mp-stop"
-                        aria-label="Stop" title="Stop">■</button>
-                <div class="mp-vol">
-                  <span class="mp-vol-icon" id="mp-vol-icon" aria-hidden="true">Vol</span>
-                  <input type="range" id="mp-volume" min="0" max="100"
-                         aria-label="Volume" title="Volume">
-                  <span class="mp-vol-pct" id="mp-vol-pct"></span>
-                </div>
-              </div>
-              <audio id="mp-audio" preload="auto" loop></audio>
-            `;
-            doc.body.appendChild(player);
+                <div class="mp-list-panel" id="mp-list-panel" role="listbox" aria-label="Songs"></div>
+                <audio id="mp-audio" preload="auto" playsinline></audio>
+              `;
+              doc.body.appendChild(player);
 
-            const audio = player.querySelector("#mp-audio");
-            const playBtn = player.querySelector("#mp-play");
-            const stopBtn = player.querySelector("#mp-stop");
-            const statusEl = player.querySelector("#mp-status");
-            const diyaEl = player.querySelector("#mp-diya");
-            const trackEl = player.querySelector("#mp-track");
-            const volInput = player.querySelector("#mp-volume");
-            const volPctEl = player.querySelector("#mp-vol-pct");
-            const volIcon = player.querySelector("#mp-vol-icon");
+              const audio = player.querySelector("#mp-audio");
+              const playBtn = player.querySelector("#mp-play");
+              const prevBtn = player.querySelector("#mp-prev");
+              const nextBtn = player.querySelector("#mp-next");
+              const listBtn = player.querySelector("#mp-list");
+              const trackBtn = player.querySelector("#mp-track-btn");
+              const listPanel = player.querySelector("#mp-list-panel");
+              const statusEl = player.querySelector("#mp-status");
+              const diyaEl = player.querySelector("#mp-diya");
+              const trackEl = player.querySelector("#mp-track");
+              const volInput = player.querySelector("#mp-volume");
+              const volPctEl = player.querySelector("#mp-vol-pct");
+              const volIcon = player.querySelector("#mp-vol-icon");
 
-            const applyVolume = (pct) => {{
-              const v = Math.max(0, Math.min(100, Number(pct))) / 100;
-              audio.muted = false;
-              audio.volume = v;
-              volPctEl.textContent = Math.round(v * 100) + "%";
-              volIcon.textContent = v === 0 ? "Mute" : "Vol";
-            }};
+              player._kaliVolPct = DEFAULT_VOL;
+              player._kaliBusy = false;
+              player._kaliCache = Object.create(null);
 
-            const setUi = (state) => {{
-              statusEl.textContent = state;
-              statusEl.classList.remove("playing", "paused");
-              diyaEl.classList.remove("is-playing");
-              if (state === "Playing") {{
-                statusEl.classList.add("playing");
-                diyaEl.classList.add("is-playing");
-                playBtn.textContent = "❚❚";
-                playBtn.title = "Pause";
-              }} else if (state === "Paused") {{
-                statusEl.classList.add("paused");
-                playBtn.textContent = "▶";
-                playBtn.title = "Play";
-              }} else {{
-                playBtn.textContent = "▶";
-                playBtn.title = "Play";
-              }}
-            }};
+              const applyVolume = (pct) => {{
+                const n = Math.max(0, Math.min(100, Number(pct)));
+                if (!Number.isFinite(n)) return;
+                player._kaliVolPct = n;
+                if (String(volInput.value) !== String(n)) volInput.value = String(n);
+                audio.volume = n / 100;
+                audio.muted = n === 0;
+                volPctEl.textContent = Math.round(n) + "%";
+                volIcon.textContent = n === 0 ? "Mute" : "Vol";
+              }};
 
-            const tryAutostart = async () => {{
-              if (player._kaliAutostarted || player._kaliUserStopped) return;
-              player._kaliAutostarted = true;
-              applyVolume(volInput.value || DEFAULT_VOL);
-              try {{
-                await audio.play();
-                setUi("Playing");
-                return;
-              }} catch (_) {{}}
-              // Fallback for strict autoplay policies: start muted, then restore 1%.
-              try {{
-                audio.muted = true;
-                await audio.play();
-                audio.muted = false;
-                applyVolume(volInput.value || DEFAULT_VOL);
-                setUi("Playing");
-              }} catch (_) {{
-                setUi("Stopped");
-                statusEl.textContent = "Tap ▶";
-              }}
-            }};
+              const setUi = (state) => {{
+                if (player._kaliReloading && (state === "Paused" || state === "Stopped")) return;
+                statusEl.textContent = state;
+                statusEl.classList.remove("playing", "paused");
+                diyaEl.classList.remove("is-playing");
+                if (state === "Playing") {{
+                  statusEl.classList.add("playing");
+                  diyaEl.classList.add("is-playing");
+                  playBtn.textContent = "❚❚";
+                  playBtn.title = "Pause";
+                }} else if (state === "Paused") {{
+                  statusEl.classList.add("paused");
+                  playBtn.textContent = "▶";
+                  playBtn.title = "Play";
+                }} else {{
+                  playBtn.textContent = "▶";
+                  playBtn.title = "Play";
+                }}
+              }};
 
-            playBtn.addEventListener("click", async () => {{
-              try {{
-                if (audio.paused) {{
-                  player._kaliUserStopped = false;
+              const renderList = () => {{
+                const idx = player._kaliIndex || 0;
+                listPanel.innerHTML = player._kaliPlaylist.map((t, i) => `
+                  <button type="button" class="mp-list-item${{i === idx ? " is-active" : ""}}"
+                          data-index="${{i}}" role="option" aria-selected="${{i === idx}}">
+                    <span class="mp-list-idx">${{String(i + 1).padStart(2, "0")}}</span>
+                    <span class="mp-list-title">${{t.title.replace(/</g, "&lt;")}}</span>
+                  </button>
+                `).join("");
+              }};
+
+              const setListOpen = (open) => {{
+                player.classList.toggle("mp-list-open", !!open);
+                trackBtn.setAttribute("aria-expanded", open ? "true" : "false");
+                if (open) renderList();
+              }};
+
+              const showTrackMeta = () => {{
+                const t = player._kaliPlaylist[player._kaliIndex] || {{}};
+                trackEl.textContent = t.title || "Untitled";
+                trackEl.title = (t.title || "") + " — click for list";
+                renderList();
+              }};
+
+              const fetchBlobUrl = async (src, signal) => {{
+                if (player._kaliCache[src]) return player._kaliCache[src];
+                const res = await fetch(src, {{ signal, cache: "force-cache" }});
+                if (!res.ok) throw new Error("fetch failed");
+                const buf = await res.arrayBuffer();
+                const blobUrl = URL.createObjectURL(new Blob([buf], {{ type: "audio/mpeg" }}));
+                player._kaliCache[src] = blobUrl;
+                return blobUrl;
+              }};
+
+              const loadIndex = async (index, {{ autoplay = false, isAdvance = false }} = {{}}) => {{
+                const list = player._kaliPlaylist;
+                if (!list.length) return;
+                const idx = ((index % list.length) + list.length) % list.length;
+                const track = list[idx];
+                const gen = (player._kaliLoadGen || 0) + 1;
+                player._kaliLoadGen = gen;
+                if (player._kaliAbort) {{
+                  try {{ player._kaliAbort.abort(); }} catch (_) {{}}
+                }}
+                const ctrl = new AbortController();
+                player._kaliAbort = ctrl;
+                player._kaliReloading = true;
+                player._kaliReady = false;
+                player._kaliIndex = idx;
+                showTrackMeta();
+                player._kaliSetUi("Loading");
+
+                try {{
+                  const blobUrl = await fetchBlobUrl(track.src, ctrl.signal);
+                  if (player._kaliLoadGen !== gen) return;
+                  player._kaliSrc = track.src;
+                  audio.src = blobUrl;
+                  audio.load();
+                  player._kaliApplyVolume(player._kaliVolPct || DEFAULT_VOL);
+
+                  await new Promise((resolve) => {{
+                    const done = () => {{
+                      audio.removeEventListener("canplay", done);
+                      audio.removeEventListener("error", done);
+                      resolve();
+                    }};
+                    audio.addEventListener("canplay", done, {{ once: true }});
+                    audio.addEventListener("error", done, {{ once: true }});
+                    setTimeout(done, 4000);
+                  }});
+                  if (player._kaliLoadGen !== gen) return;
+
+                  player._kaliReady = true;
+                  player._kaliReloading = false;
+
+                  if (autoplay || isAdvance) {{
+                    player._kaliUserStopped = false;
+                    try {{
+                      await audio.play();
+                      player._kaliAutostarted = true;
+                      setUi("Playing");
+                    }} catch (_) {{
+                      try {{
+                        audio.muted = true;
+                        await audio.play();
+                        applyVolume(player._kaliVolPct);
+                        player._kaliAutostarted = true;
+                        setUi("Playing");
+                      }} catch (__) {{
+                        setUi("Stopped");
+                        statusEl.textContent = "Tap ▶";
+                      }}
+                    }}
+                  }} else if (!player._kaliAutostarted) {{
+                    await player._kaliTryAutostart();
+                  }} else {{
+                    setUi(audio.paused ? "Stopped" : "Playing");
+                  }}
+                }} catch (err) {{
+                  if (err && err.name === "AbortError") return;
+                  if (player._kaliLoadGen !== gen) return;
+                  player._kaliReloading = false;
+                  player._kaliReady = false;
+                  setUi("Stopped");
+                  statusEl.textContent = "Unavailable";
+                }}
+              }};
+
+              const tryAutostart = async () => {{
+                if (player._kaliAutostarted || player._kaliUserStopped || !player._kaliReady) return;
+                player._kaliAutostarted = true;
+                applyVolume(player._kaliVolPct);
+                try {{
                   await audio.play();
                   setUi("Playing");
-                }} else {{
-                  audio.pause();
-                  setUi("Paused");
+                  return;
+                }} catch (_) {{}}
+                try {{
+                  audio.muted = true;
+                  await audio.play();
+                  applyVolume(player._kaliVolPct);
+                  setUi("Playing");
+                }} catch (_) {{
+                  setUi("Stopped");
+                  statusEl.textContent = "Tap ▶";
                 }}
-              }} catch (err) {{
-                setUi("Stopped");
-                statusEl.textContent = "Blocked";
-              }}
-            }});
+              }};
 
-            stopBtn.addEventListener("click", () => {{
-              player._kaliUserStopped = true;
-              audio.pause();
-              audio.currentTime = 0;
-              setUi("Stopped");
-            }});
+              const playNext = async () => {{
+                if (player._kaliUserStopped) return;
+                await loadIndex((player._kaliIndex || 0) + 1, {{ isAdvance: true }});
+              }};
 
-            volInput.addEventListener("input", () => applyVolume(volInput.value));
-            audio.addEventListener("play", () => setUi("Playing"));
-            audio.addEventListener("pause", () => {{
-              if (audio.currentTime === 0 || audio.ended) setUi("Stopped");
-              else setUi("Paused");
-            }});
+              playBtn.addEventListener("click", async (e) => {{
+                e.preventDefault();
+                e.stopPropagation();
+                if (player._kaliBusy || player._kaliReloading || !player._kaliReady) return;
+                player._kaliBusy = true;
+                playBtn.disabled = true;
+                try {{
+                  if (audio.paused) {{
+                    player._kaliUserStopped = false;
+                    applyVolume(player._kaliVolPct);
+                    await audio.play();
+                    setUi("Playing");
+                  }} else {{
+                    audio.pause();
+                    setUi("Paused");
+                  }}
+                }} catch (_) {{
+                  setUi("Stopped");
+                  statusEl.textContent = "Blocked";
+                }} finally {{
+                  player._kaliBusy = false;
+                  playBtn.disabled = false;
+                }}
+              }});
 
-            volInput.value = String(DEFAULT_VOL);
-            applyVolume(DEFAULT_VOL);
-            setUi("Loading");
-            player._kaliAudio = audio;
-            player._kaliTrack = trackEl;
-            player._kaliSetUi = setUi;
-            player._kaliTryAutostart = tryAutostart;
+              prevBtn.addEventListener("click", async (e) => {{
+                e.preventDefault();
+                e.stopPropagation();
+                if (player._kaliBusy || player._kaliReloading) return;
+                const restartCurrent = (audio.currentTime || 0) > 3;
+                if (restartCurrent) {{
+                  try {{ audio.currentTime = 0; }} catch (_) {{}}
+                  return;
+                }}
+                await loadIndex((player._kaliIndex || 0) - 1, {{
+                  autoplay: !audio.paused || !!player._kaliAutostarted,
+                }});
+              }});
+
+              nextBtn.addEventListener("click", async (e) => {{
+                e.preventDefault();
+                e.stopPropagation();
+                if (player._kaliBusy || player._kaliReloading) return;
+                await loadIndex((player._kaliIndex || 0) + 1, {{
+                  autoplay: !audio.paused || !!player._kaliAutostarted,
+                }});
+              }});
+
+              const toggleList = (e) => {{
+                e.preventDefault();
+                e.stopPropagation();
+                setListOpen(!player.classList.contains("mp-list-open"));
+              }};
+              listBtn.addEventListener("click", toggleList);
+              trackBtn.addEventListener("click", toggleList);
+
+              listPanel.addEventListener("click", async (e) => {{
+                const btn = e.target.closest("[data-index]");
+                if (!btn) return;
+                e.preventDefault();
+                e.stopPropagation();
+                const i = Number(btn.getAttribute("data-index"));
+                if (!Number.isFinite(i)) return;
+                setListOpen(false);
+                await loadIndex(i, {{ autoplay: true }});
+              }});
+
+              const onVol = (e) => {{
+                e.stopPropagation();
+                applyVolume(volInput.value);
+              }};
+              volInput.addEventListener("input", onVol);
+              volInput.addEventListener("change", onVol);
+              volInput.addEventListener("pointerdown", (e) => e.stopPropagation());
+              volInput.addEventListener("pointermove", (e) => {{
+                if (e.buttons) applyVolume(volInput.value);
+              }});
+
+              audio.addEventListener("play", () => setUi("Playing"));
+              audio.addEventListener("pause", () => {{
+                if (player._kaliReloading || player._kaliBusy) return;
+                if (audio.ended) return;
+                if (audio.currentTime === 0) setUi("Stopped");
+                else setUi("Paused");
+              }});
+              audio.addEventListener("ended", () => {{
+                // Advance through playlist; wrap to first after last.
+                playNext();
+              }});
+
+              volInput.value = String(DEFAULT_VOL);
+              applyVolume(DEFAULT_VOL);
+              setUi("Loading");
+              renderList();
+
+              player._kaliAudio = audio;
+              player._kaliTrack = trackEl;
+              player._kaliSetUi = setUi;
+              player._kaliTryAutostart = tryAutostart;
+              player._kaliApplyVolume = applyVolume;
+              player._kaliLoadIndex = loadIndex;
+            }}
+
+            await player._kaliLoadIndex(player._kaliIndex || 0, {{ autoplay: false }});
+          }} finally {{
+            win.__kaliMusicBooting = false;
           }}
-
-          const audio = player._kaliAudio;
-          const trackEl = player._kaliTrack;
-          trackEl.textContent = TITLE;
-          trackEl.title = TITLE;
-
-          // Streamlit serves non-whitelisted static types as text/plain + nosniff,
-          // so fetch bytes and attach a proper audio/mpeg blob URL.
-          const loadTrack = async () => {{
-            if (player._kaliSrc === SRC && audio.src) {{
-              if (!player._kaliAutostarted) await player._kaliTryAutostart();
-              return;
-            }}
-            const wasPlaying = !audio.paused && !!audio.src;
-            const t = audio.currentTime || 0;
-            try {{
-              const res = await fetch(SRC);
-              if (!res.ok) throw new Error("fetch failed");
-              const buf = await res.arrayBuffer();
-              if (player._kaliBlobUrl) URL.revokeObjectURL(player._kaliBlobUrl);
-              const blobUrl = URL.createObjectURL(new Blob([buf], {{ type: "audio/mpeg" }}));
-              player._kaliBlobUrl = blobUrl;
-              player._kaliSrc = SRC;
-              audio.src = blobUrl;
-              audio.load();
-              if (wasPlaying) {{
-                audio.currentTime = t;
-                await audio.play();
-              }} else if (!player._kaliAutostarted) {{
-                await player._kaliTryAutostart();
-              }}
-            }} catch (err) {{
-              player._kaliSetUi("Stopped");
-              const statusEl = player.querySelector("#mp-status");
-              if (statusEl) statusEl.textContent = "Unavailable";
-            }}
-          }};
-          loadTrack();
         }})();
         </script>
         """,
@@ -2267,77 +4162,160 @@ if music_track:
     )
 else:
     st.caption(
-        "Drop a Shyama Sangeet track into assets/music/ "
+        "Drop Shyama Sangeet tracks into assets/music/ "
         "to enable the music player."
     )
-
-pages = [
-    "Home", "AI Assistant", "Gallery",
-    "Vision Lab", "Kolkata Explorer",
-    "Analytics", "About"
-]
-
-if "page" not in st.session_state:
-    st.session_state.page = "Home"
-
-# Deep-link CTAs from HTML (e.g. Experience "Explore Now")
-_nav_q = st.query_params.get("nav")
-if _nav_q in pages:
-    st.session_state.navigation = _nav_q
-    st.query_params.clear()
-
-page = st.radio(
-    "Navigation",
-    pages,
-    horizontal=True,
-    label_visibility="collapsed",
-    key="navigation"
-)
-
-st.divider()
 
 images = get_images()
 
 # =====================================================
-# AMBIENT KALI BACKGROUND
+# AMBIENT WALLPAPER — shuffle Kali Ghat Temple / Kishori Kali every 5s
+# (all pages except Kolkata Metro, which stays map-first)
 # =====================================================
 
-hero_bg = ASSET_DIR / "maa_kali_hero.png"
-if not hero_bg.exists():
-    hero_bg = ASSET_DIR / "maa_kali_hero.jpg"
+wallpaper_files = [
+    ASSET_DIR / "kali ghat temple.jpg",
+    ASSET_DIR / "kishori kali.png",
+]
+wallpaper_files = [
+    p for p in wallpaper_files if p.exists() and p.stat().st_size > 0
+]
 
-if hero_bg.exists() and hero_bg.stat().st_size > 0:
-    sync_static_assets([hero_bg], STATIC_IMG_DIR)
-    st.markdown(f"""
+if page == "Kolkata Metro":
+    # Tear down wallpaper if user navigates onto the map page
+    components.html(
+        """
+<script>
+(function () {
+  try {
+    var doc = window.parent.document;
+    var win = window.parent;
+    if (win.__kaliWallpaperTimer) {
+      clearInterval(win.__kaliWallpaperTimer);
+      win.__kaliWallpaperTimer = null;
+    }
+    var root = doc.getElementById("kali-wallpaper");
+    if (root) root.remove();
+  } catch (e) {}
+})();
+</script>
+        """,
+        height=0,
+        width=0,
+    )
+elif wallpaper_files:
+    sync_static_assets(wallpaper_files, STATIC_IMG_DIR)
+    wallpaper_urls = [
+        "/app/static/assets/" + quote(p.name) for p in wallpaper_files
+    ]
+    wallpaper_json = json.dumps(wallpaper_urls, ensure_ascii=False)
+    components.html(
+        f"""
+<script>
+(function () {{
+  const doc = window.parent.document;
+  const win = window.parent;
+  const SLIDES = {wallpaper_json};
+  const INTERVAL_MS = 5000;
+  const VERSION = "v1-kali-wallpaper-shuffle";
+
+  if (!SLIDES.length) return;
+
+  let root = doc.getElementById("kali-wallpaper");
+  if (root && root.dataset.version === VERSION && root._kaliReady) {{
+    return;
+  }}
+
+  if (win.__kaliWallpaperTimer) {{
+    clearInterval(win.__kaliWallpaperTimer);
+    win.__kaliWallpaperTimer = null;
+  }}
+  if (root) root.remove();
+
+  root = doc.createElement("div");
+  root.id = "kali-wallpaper";
+  root.dataset.version = VERSION;
+  root.setAttribute("aria-hidden", "true");
+  root.innerHTML = `
     <style>
-    .stApp {{
+      #kali-wallpaper {{
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        overflow: hidden;
+        background: #070408;
+      }}
+      #kali-wallpaper .kali-wp-slide {{
+        position: absolute;
+        inset: 0;
+        background-position: center 18%;
+        background-size: cover;
+        background-repeat: no-repeat;
+        opacity: 0;
+        transform: scale(1.04);
+        transition: opacity 1.1s ease, transform 5s ease;
+      }}
+      #kali-wallpaper .kali-wp-slide.is-active {{
+        opacity: 1;
+        transform: scale(1);
+      }}
+      #kali-wallpaper .kali-wp-veil {{
+        position: absolute;
+        inset: 0;
         background:
             linear-gradient(165deg,
                 rgba(9,4,8,.58) 0%,
                 rgba(15,7,12,.74) 42%,
                 rgba(9,4,8,.90) 72%,
                 rgba(8,5,9,.97) 100%),
-            radial-gradient(ellipse at 82% 6%,rgba(118,31,53,.55) 0%,transparent 46%),
-            radial-gradient(ellipse at 10% 94%,rgba(214,51,108,.14) 0%,transparent 44%),
-            url("/app/static/assets/{quote(hero_bg.name)}") center 12% / cover no-repeat fixed,
-            linear-gradient(160deg,#070408 0%,#150810 45%,#1D0A14 78%,#080509);
-    }}
-    @media (max-width:700px) {{
-        .stApp {{
-            background:
-                linear-gradient(165deg,
-                    rgba(9,4,8,.62) 0%,
-                    rgba(15,7,12,.78) 42%,
-                    rgba(9,4,8,.92) 72%,
-                    rgba(8,5,9,.98) 100%),
-                radial-gradient(ellipse at 82% 6%,rgba(118,31,53,.5) 0%,transparent 46%),
-                radial-gradient(ellipse at 10% 94%,rgba(214,51,108,.12) 0%,transparent 44%),
-                url("/app/static/assets/{quote(hero_bg.name)}") center 18% / cover no-repeat scroll,
-                linear-gradient(160deg,#070408 0%,#150810 45%,#1D0A14 78%,#080509);
+          radial-gradient(ellipse at 82% 6%,rgba(118,31,53,.45) 0%,transparent 46%),
+          radial-gradient(ellipse at 10% 94%,rgba(214,51,108,.12) 0%,transparent 44%);
+      }}
+      [data-testid="stAppViewContainer"],
+      [data-testid="stMain"],
+      .stApp {{
+        background: transparent !important;
+        background-image: none !important;
+      }}
+      @media (max-width:700px) {{
+        #kali-wallpaper .kali-wp-slide {{
+          background-position: center 22%;
         }}
     }}
     </style>
-    """, unsafe_allow_html=True)
+    <div class="kali-wp-slides"></div>
+    <div class="kali-wp-veil"></div>
+  `;
+
+  const host = doc.querySelector(".stApp") || doc.body;
+  host.insertBefore(root, host.firstChild);
+
+  const track = root.querySelector(".kali-wp-slides");
+  SLIDES.forEach(function (src, i) {{
+    const slide = doc.createElement("div");
+    slide.className = "kali-wp-slide" + (i === 0 ? " is-active" : "");
+    slide.style.backgroundImage = 'url("' + src + '")';
+    track.appendChild(slide);
+  }});
+
+  let idx = 0;
+  function shuffle() {{
+    const slides = track.querySelectorAll(".kali-wp-slide");
+    if (slides.length < 2) return;
+    slides[idx].classList.remove("is-active");
+    idx = (idx + 1) % slides.length;
+    slides[idx].classList.add("is-active");
+  }}
+
+  win.__kaliWallpaperTimer = win.setInterval(shuffle, INTERVAL_MS);
+  root._kaliReady = true;
+}})();
+</script>
+        """,
+        height=0,
+        width=0,
+    )
 
 
 # =====================================================
@@ -2348,7 +4326,7 @@ if page == "Home":
 
     metrics = [
         (str(len(images)), "IMAGES"),
-        ("07", "MODULES"),
+        ("06", "MODULES"),
         ("2026", "EDITION"),
     ]
     metrics_html = "".join(
@@ -2363,25 +4341,25 @@ if page == "Home":
 
     st.html(f"""
 <div class="hero-shell">
-  <div class="eyebrow">✦ A JOURNEY THROUGH DIVINE BENGAL</div>
-  <h1 class="hero-title">KALI VISION AI</h1>
-  <div class="hero-subtitle">The Divine Intelligence of Bengal</div>
-  <div class="bengali-blessing">শুভ কালী পূজা · জয় মা কালী</div>
-  <p>
-    On the darkest night of Deepavali, Bengal lights a million diyas
-    for the Mother. Discover that living heritage through Artificial
-    Intelligence, Computer Vision and Data Analytics — the temples,
-    the pandals, the flames and the visual splendour of Kali Puja.
-  </p>
+            <div class="eyebrow">✦ A JOURNEY THROUGH DIVINE BENGAL</div>
+            <h1 class="hero-title">KALI VISION AI</h1>
+            <div class="hero-subtitle">The Divine Intelligence of Bengal</div>
+            <div class="bengali-blessing">শুভ কালী পূজা · জয় মা কালী</div>
+            <p>
+            On the darkest night of Deepavali, Bengal lights a million diyas
+            for the Mother. Discover that living heritage through Artificial
+            Intelligence, Computer Vision and Data Analytics — the temples,
+            the pandals, the flames and the visual splendour of Kali Puja.
+            </p>
   <div class="hero-metrics">
     {metrics_html}
-  </div>
-</div>
+        </div>
+                </div>
 """)
 
     if st.button("Explore Divine Bengal →", use_container_width=False):
-        st.session_state.navigation = "Gallery"
-        st.rerun()
+            st.session_state.navigation = "Gallery"
+            st.rerun()
 
     st.markdown("""
     <div class="marquee"><div class="marquee-inner">
@@ -2394,20 +4372,18 @@ if page == "Home":
     exp_kali = ASSET_DIR / "maa_kali_hero.png"
     card_bgs = {
         "01": ASSET_DIR / "Dakshineswar Temple Aglow by Night.png",
-        "02": ASSET_DIR / "eyes-pandal.B-PIDAK9_KeRT9.png",
-        "03": ASSET_DIR / "kalighat_temple_kolkata.jpg",
-        "04": ASSET_DIR / "kali_puja_pandal_kalighat_replica_behala.jpg",
-        "05": ASSET_DIR / "kali_puja_pandal_kolkata_celebration_11.jpg",
-        "06": ASSET_DIR / "kali_puja_pandal_pramanick_bari_kolkata.jpg",
+        "02": ASSET_DIR / "kalighat_temple_kolkata.jpg",
+        "03": ASSET_DIR / "kali_puja_pandal_kalighat_replica_behala.jpg",
+        "04": ASSET_DIR / "kali_puja_pandal_kolkata_celebration_11.jpg",
+        "05": ASSET_DIR / "kali_puja_pandal_pramanick_bari_kolkata.jpg",
     }
     # Fallbacks if a preferred file is missing
     fallbacks = {
         "01": ASSET_DIR / "dakshineswar_temple_real.jpg",
-        "02": ASSET_DIR / "kali_murti_south_kolkata_11.jpg",
-        "03": ASSET_DIR / "kalighat_temple.jpg",
-        "04": ASSET_DIR / "kali_murti_kolkata_17.jpg",
-        "05": ASSET_DIR / "kali_puja_pandal_behala_kolkata.jpg",
-        "06": ASSET_DIR / "kali_puja_adi_kali_pandal.jpg",
+        "02": ASSET_DIR / "kalighat_temple.jpg",
+        "03": ASSET_DIR / "kali_murti_kolkata_17.jpg",
+        "04": ASSET_DIR / "kali_puja_pandal_behala_kolkata.jpg",
+        "05": ASSET_DIR / "kali_puja_adi_kali_pandal.jpg",
     }
     for key, path in list(card_bgs.items()):
         if not path.exists() or path.stat().st_size == 0:
@@ -2440,7 +4416,7 @@ if page == "Home":
       <div class="experience-lede">
         <span class="experience-lede-bar" aria-hidden="true"></span>
         <p>A digital space that blends Bengal’s timeless traditions with the power of AI.</p>
-      </div>
+                </div>
     </div>
     <div class="experience-portrait">
       {"<img src='" + kali_url + "' alt='Maa Kali'>" if kali_url else ""}
@@ -2462,23 +4438,9 @@ if page == "Home":
       <div class="exp-card-bg" style="background-image:url('{bg['02']}')"></div>
       <div class="exp-mini-top">
         <span class="exp-mini-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2"></rect><circle cx="9" cy="11" r="1.6"></circle><path d="m21 16-4.5-4.5L9 19"></path></svg>
-        </span>
-        <span class="exp-num">02</span>
-      </div>
-      <div class="exp-mini-body">
-        <h4>Vision Intelligence</h4>
-        <a class="exp-pill exp-pill-sm" href="?nav=Vision+Lab" target="_self">Explore →</a>
-      </div>
-    </div>
-
-    <div class="exp-card exp-mini exp-card-03">
-      <div class="exp-card-bg" style="background-image:url('{bg['03']}')"></div>
-      <div class="exp-mini-top">
-        <span class="exp-mini-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M12 21s7-5.2 7-11a7 7 0 1 0-14 0c0 5.8 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>
         </span>
-        <span class="exp-num">03</span>
+        <span class="exp-num">02</span>
       </div>
       <div class="exp-mini-body">
         <h4>Kolkata Explorer</h4>
@@ -2486,13 +4448,13 @@ if page == "Home":
       </div>
     </div>
 
-    <div class="exp-card exp-mini exp-card-04">
-      <div class="exp-card-bg" style="background-image:url('{bg['04']}')"></div>
+    <div class="exp-card exp-mini exp-card-03">
+      <div class="exp-card-bg" style="background-image:url('{bg['03']}')"></div>
       <div class="exp-mini-top">
         <span class="exp-mini-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><rect x="4" y="7" width="14" height="12" rx="1.5"></rect><path d="M8 7V5.5A1.5 1.5 0 0 1 9.5 4h9A1.5 1.5 0 0 1 20 5.5V15"></path><path d="M4 11h14"></path></svg>
         </span>
-        <span class="exp-num">04</span>
+        <span class="exp-num">03</span>
       </div>
       <div class="exp-mini-body">
         <h4>Divine Gallery</h4>
@@ -2500,13 +4462,13 @@ if page == "Home":
       </div>
     </div>
 
-    <div class="exp-card exp-mini exp-card-05">
-      <div class="exp-card-bg" style="background-image:url('{bg['05']}')"></div>
+    <div class="exp-card exp-mini exp-card-04">
+      <div class="exp-card-bg" style="background-image:url('{bg['04']}')"></div>
       <div class="exp-mini-top">
         <span class="exp-mini-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24"><path d="M4 19h16"></path><path d="M7 16V10"></path><path d="M12 16V6"></path><path d="M17 16v-7"></path></svg>
         </span>
-        <span class="exp-num">05</span>
+        <span class="exp-num">04</span>
       </div>
       <div class="exp-mini-body">
         <h4>Festival Analytics</h4>
@@ -2514,17 +4476,17 @@ if page == "Home":
       </div>
     </div>
 
-    <div class="exp-card exp-mini exp-card-06">
-      <div class="exp-card-bg" style="background-image:url('{bg['06']}')"></div>
+    <div class="exp-card exp-mini exp-card-05">
+      <div class="exp-card-bg" style="background-image:url('{bg['05']}')"></div>
       <div class="exp-mini-top">
         <span class="exp-mini-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="M12 20c0-4 2-6 2-9a2 2 0 1 0-4 0c0 3 2 5 2 9z"></path><path d="M8.5 10c-2-.5-4 1-4 3 2 0 3.5-1 4-3z"></path><path d="M15.5 10c2-.5 4 1 4 3-2 0-3.5-1-4-3z"></path><path d="M9 7c-1-2 0-4 3-4 3 0 4 2 3 4"></path></svg>
+          <svg viewBox="0 0 24 24"><path d="M3 17h18"></path><path d="M5 17V9l3 2 3-4 3 3 3-2 2 3v6"></path><circle cx="8" cy="17" r="1.2"></circle><circle cx="16" cy="17" r="1.2"></circle></svg>
         </span>
-        <span class="exp-num">06</span>
+        <span class="exp-num">05</span>
       </div>
       <div class="exp-mini-body">
-        <h4>Cultural Discovery</h4>
-        <a class="exp-pill exp-pill-sm" href="?nav=About" target="_self">Explore →</a>
+        <h4>Kolkata Metro</h4>
+        <a class="exp-pill exp-pill-sm" href="?nav=Kolkata+Metro" target="_self">Explore →</a>
       </div>
     </div>
   </div>
@@ -2670,13 +4632,13 @@ elif page == "AI Assistant":
             label_visibility="collapsed",
         ) or "English"
 
-        suggestions = [
-            "What is Kali Puja?", "Tell me about Dakshineswar",
-            "What is Shyama Sangeet?", "Why is Maa Kali's tongue out?",
-            "What happens at visarjan?", "Who makes the murtis?"
-        ]
-        st.markdown('<div class="assistant-label">SACRED QUESTIONS</div>', unsafe_allow_html=True)
-        picked = st.pills("Sacred questions", suggestions, label_visibility="collapsed")
+    suggestions = [
+        "What is Kali Puja?", "Tell me about Dakshineswar",
+        "What is Shyama Sangeet?", "Why is Maa Kali's tongue out?",
+        "What happens at visarjan?", "Who makes the murtis?"
+    ]
+    st.markdown('<div class="assistant-label">SACRED QUESTIONS</div>', unsafe_allow_html=True)
+    picked = st.pills("Sacred questions", suggestions, label_visibility="collapsed")
 
     if "chat" not in st.session_state:
         st.session_state.chat = [{
@@ -2690,9 +4652,9 @@ elif page == "AI Assistant":
 
     with st.container(border=True):
         st.markdown('<div class="assistant-stage-mark"></div>', unsafe_allow_html=True)
-        for m in st.session_state.chat:
-            with st.chat_message(m["role"]):
-                st.markdown(m["content"])
+    for m in st.session_state.chat:
+        with st.chat_message(m["role"]):
+            st.markdown(m["content"])
 
     st.html("""
 <div class="assistant-footnote">
@@ -2716,117 +4678,6 @@ elif page == "AI Assistant":
             "content": compose(divine_answer(prompt), lang)
         })
         st.rerun()
-
-
-# =====================================================
-# VISION LAB
-# =====================================================
-
-elif page == "Vision Lab":
-
-    st.html("""
-<div class="vision-header">
-  <div class="vision-kicker">READ THE SACRED IMAGE</div>
-  <h2 class="vision-title">Vision Intelligence Lab</h2>
-  <div class="vision-lede">
-    <span class="vision-lede-bar" aria-hidden="true"></span>
-    <p>Upload a devotional frame to study its light, colour and proportion — a classical image-processing baseline, not a trained deep-learning classifier.</p>
-  </div>
-</div>
-""")
-
-    with st.container(border=True):
-        st.markdown(
-            '<div class="vision-upload-mark"></div><div class="vision-label">OFFER AN IMAGE</div>',
-            unsafe_allow_html=True,
-        )
-        upload = st.file_uploader(
-            "Upload an image",
-            type=["jpg", "jpeg", "png", "webp"],
-            label_visibility="collapsed",
-        )
-
-    if upload:
-        try:
-            img = Image.open(upload).convert("RGB")
-            info = get_image_stats(upload)
-
-            with st.container(border=True):
-                st.markdown('<div class="vision-stage-mark"></div>', unsafe_allow_html=True)
-                left, right = st.columns([1, 1.05], gap="large")
-
-                with left:
-                    st.markdown('<div class="vision-label">SACRED FRAME</div>', unsafe_allow_html=True)
-                    st.markdown('<div class="vision-frame">', unsafe_allow_html=True)
-                    st.image(img, use_container_width=True)
-                    st.markdown("</div>", unsafe_allow_html=True)
-
-                with right:
-                    st.markdown('<div class="vision-label">IMAGE INTELLIGENCE</div>', unsafe_allow_html=True)
-                    st.markdown('<h3 class="vision-report-title">Visual Report</h3>', unsafe_allow_html=True)
-
-                    metrics = [
-                        (f"{info['width']}", "WIDTH PX"),
-                        (f"{info['height']}", "HEIGHT PX"),
-                        (f"{info['brightness']}", "AVG BRIGHTNESS"),
-                        (f"{info['aspect_ratio']}", "ASPECT RATIO"),
-                    ]
-                    m1, m2 = st.columns(2)
-                    m3, m4 = st.columns(2)
-                    for col, (val, label) in zip([m1, m2, m3, m4], metrics):
-                        with col:
-                            st.markdown(f"""
-                            <div class="metric-box" style="padding:14px 12px;margin-bottom:10px">
-                                <div class="metric-value" style="font-size:26px">{val}</div>
-                                <div class="metric-caption">{label}</div>
-                            </div>
-                            """, unsafe_allow_html=True)
-
-                    color_df = pd.DataFrame({
-                        "Channel": ["Red", "Green", "Blue"],
-                        "Mean intensity": [info["red"], info["green"], info["blue"]],
-                    })
-                    fig = px.bar(
-                        color_df,
-                        x="Channel",
-                        y="Mean intensity",
-                        title="RGB Channel Analysis",
-                        color="Channel",
-                        color_discrete_map={
-                            "Red": "#D6336C",
-                            "Green": "#A58A79",
-                            "Blue": "#761F35",
-                        },
-                    )
-                    fig.update_layout(
-                        paper_bgcolor="rgba(0,0,0,0)",
-                        plot_bgcolor="rgba(0,0,0,0)",
-                        font=dict(color="#B9A7A4", family="Inter"),
-                        title_font=dict(color="#F8ECDD", family="Cormorant Garamond", size=22),
-                        showlegend=False,
-                        margin=dict(t=56, b=24, l=12, r=12),
-                    )
-                    fig.update_traces(marker_line_width=0, opacity=0.92)
-                    fig.update_xaxes(color="#E8D8C8", gridcolor="rgba(229,188,112,.12)")
-                    fig.update_yaxes(color="#E8D8C8", gridcolor="rgba(229,188,112,.12)")
-                    st.plotly_chart(fig, use_container_width=True)
-
-                    st.markdown("""
-                    <div class="vision-note">
-                      <b>Baseline complete</b> — dimensions, luminance and RGB means extracted with Pillow.
-                      A trained murti &amp; pandal classifier remains on the roadmap.
-                    </div>
-                    """, unsafe_allow_html=True)
-
-        except Exception as e:
-            st.error(f"Unable to process this image: {e}")
-    else:
-        st.markdown("""
-        <div class="vision-empty">
-          <h3>Awaiting a sacred frame</h3>
-          <p>Offer a JPG, PNG or WebP of a murti, pandal or temple — the lab will read its light and colour signature.</p>
-        </div>
-        """, unsafe_allow_html=True)
 
 
 # =====================================================
@@ -3128,10 +4979,20 @@ elif page == "Kolkata Explorer":
           Curated markers stay visible when you search your own place.
           <br><b>Visit mindfully</b> — confirm opening hours and crowd conditions before you go.
           Coordinates are approximate cultural landmarks, not official GIS survey points.
-        </div>
+    </div>
         """,
         unsafe_allow_html=True,
     )
+
+
+# =====================================================
+# KOLKATA METRO
+# =====================================================
+
+elif page == "Kolkata Metro":
+    from modules.metro.metro_ui import render_metro_page
+
+    render_metro_page()
 
 
 # =====================================================
@@ -3320,12 +5181,12 @@ elif page == "Analytics":
         if pdf_bytes:
             with st.container(border=True):
                 st.markdown('<div class="inventory-actions-mark"></div>', unsafe_allow_html=True)
-                st.download_button(
+        st.download_button(
                     "Download dataset report (PDF)",
                     data=pdf_bytes,
                     file_name="kali_vision_dataset_report.pdf",
                     mime="application/pdf",
-                )
+        )
 
     else:
         st.info("Add images to your assets folder to generate analytics.")
@@ -3413,7 +5274,7 @@ elif page == "About":
         ("PY","Language","Python 3"),
         ("DATA","Data","Pandas · NumPy"),
         ("VIZ","Visualisation","Plotly Express"),
-        ("CV","Vision","Pillow · PyTorch (roadmap)"),
+        ("IMG","Imagery","Pillow · sacred gallery archive"),
         ("AI","Intelligence","Curated KB · LLM + RAG (roadmap)")
     ]
     for i in range(0,len(tech),3):
@@ -3445,7 +5306,7 @@ elif page == "About":
                 <li class="done">Sacred gallery — authentic frames of Bengal's Kali Puja</li>
                 <li class="done">Devotional audio — Shyama Sangeet site-wide</li>
                 <li class="done">Curated knowledge assistant</li>
-                <li class="done">Dataset analytics & Vision Lab</li>
+                <li class="done">Dataset analytics</li>
             </ul>
         </div>
         """,unsafe_allow_html=True)
@@ -3484,10 +5345,11 @@ elif page == "About":
 
 
 # =====================================================
-# FOOTER
+# FOOTER (hidden on Metro — map is full-bleed; footer caused a black flash)
 # =====================================================
 
-st.markdown("""
+if page != "Kolkata Metro":
+    st.markdown("""
 <div class="footer">
     <div class="footer-diyas"><span>✦</span><span>✦</span><span>✦</span></div>
     ✦ BUILT WITH INTELLIGENCE · INSPIRED BY DIVINITY ✦
@@ -3496,4 +5358,4 @@ st.markdown("""
     <br><br>
     KALI VISION AI © 2026
 </div>
-""",unsafe_allow_html=True)
+""", unsafe_allow_html=True)

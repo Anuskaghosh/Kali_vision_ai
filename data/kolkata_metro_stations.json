@@ -1,0 +1,5486 @@
+{
+  "meta": {
+    "title": "Kolkata Metro stations — Stage 1 verified inventory",
+    "version": "0.1.1-stage1-audit",
+    "created_utc": "2026-11-06T18:22:59Z",
+    "crs": "EPSG:4326",
+    "scope": [
+      "Blue",
+      "Green",
+      "Purple",
+      "Orange",
+      "Yellow"
+    ],
+    "status_vocabulary": [
+      "operational",
+      "partially_operational",
+      "under_construction",
+      "proposed"
+    ],
+    "methodology": [
+      "Station names, codes, and corridor assignments seeded from Metro Railway Kolkata corridor naming and cross-checked against Wikipedia list, KMRC Green Line pages, and Yellow/Orange corridor articles.",
+      "Operational status is NOT assumed for entire corridors; under-construction and proposed segments are listed separately.",
+      "Coordinates taken only from OpenStreetMap Overpass exact name matches; no invented coordinates and no fuzzy forcing.",
+      "Interchange stations are stored once with per-line status entries.",
+      "2026-11-06 data-quality audit: Wikipedia WGS outliers rejected where OSM metro network nodes sit on corridor; railway-not-metro OSM hits nulled; unresolved UC/proposed coords remain null with flags.",
+      "Records lacking a reliable OSM metro match or with conflicting evidence are flagged needs_manual_verification."
+    ],
+    "completeness_statement": "This Stage 1 dataset is audited but NOT fully verified. Unresolved under-construction and proposed stations still lack metro-grade coordinates; Yellow Line proposed names may change with realignment. Pink Line is out of scope.",
+    "sources": [
+      {
+        "id": "metro-railway-kolkata-portal",
+        "title": "Metro Railway, Kolkata (Indian Railways portal)",
+        "url": "https://mtp.indianrailways.gov.in/",
+        "retrieved": "2026-11-06",
+        "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+      },
+      {
+        "id": "kmrc-stations",
+        "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+        "url": "https://www.kmrc.in/stations.php",
+        "retrieved": "2026-11-06",
+        "note": "Green Line (East–West) station-to-station inventory."
+      },
+      {
+        "id": "wikipedia-list-of-kolkata-metro-stations",
+        "title": "List of Kolkata Metro stations",
+        "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+        "retrieved": "2026-11-06",
+        "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+      },
+      {
+        "id": "wikipedia-orange-line-kolkata-metro",
+        "title": "Orange Line (Kolkata Metro)",
+        "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+        "retrieved": "2026-11-06"
+      },
+      {
+        "id": "wikipedia-yellow-line-kolkata-metro",
+        "title": "Yellow Line (Kolkata Metro)",
+        "url": "https://en.wikipedia.org/wiki/Yellow_Line_(Kolkata_Metro)",
+        "retrieved": "2026-11-06"
+      },
+      {
+        "id": "openstreetmap-overpass",
+        "title": "OpenStreetMap via Overpass API",
+        "url": "https://overpass-api.de/api/interpreter",
+        "retrieved": "2026-11-06",
+        "query_bbox": [
+          22.4,
+          88.2,
+          22.75,
+          88.55
+        ],
+        "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+      }
+    ]
+  },
+  "stations": [
+    {
+      "id": "km-kavi-subhash",
+      "name": "Kavi Subhash",
+      "name_bn": "কবি সুভাষ",
+      "station_code": "KKSO",
+      "aliases": [
+        "New Garia"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        },
+        {
+          "line": "Orange",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2010-10-07",
+      "lat": 22.4711093,
+      "lon": 88.3980989,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 11703389776,
+        "name": "Kavi Subhash",
+        "url": "https://www.openstreetmap.org/node/11703389776"
+      },
+      "notes": "Interchange Blue/Orange. Orange opened 2024-03-06 per corridor sources.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-shahid-khudiram",
+      "name": "Shahid Khudiram",
+      "name_bn": "শহীদ ক্ষুদিরাম",
+      "station_code": "KSKD",
+      "aliases": [
+        "Briji",
+        "Dhalai Bridge"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2010-10-07",
+      "lat": 22.4659847,
+      "lon": 88.3915408,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421533466,
+        "name": "Shahid Khudiram",
+        "url": "https://www.openstreetmap.org/node/5421533466"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-kavi-nazrul",
+      "name": "Kavi Nazrul",
+      "name_bn": "কবি নজরুল",
+      "station_code": "KKNZ",
+      "aliases": [
+        "Garia Bazar"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2009-08-22",
+      "lat": 22.4642505,
+      "lon": 88.3804604,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421533465,
+        "name": "Kavi Nazrul",
+        "url": "https://www.openstreetmap.org/node/5421533465"
+      },
+      "notes": "Audit 2026-11-06: Wikipedia list WGS (≈22.778°N, 88.634°E) is ~44 km off corridor; rejected. OSM node 5421533465 (network=Kolkata Metro) sits between Shahid Khudiram and Gitanjali on Blue Line (~1.2 km neighbor spacing) and is retained.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [
+          "coords_corridor_audited",
+          "wikipedia_list_coordinates_rejected"
+        ],
+        "audit_coords_ok": true
+      }
+    },
+    {
+      "id": "km-gitanjali",
+      "name": "Gitanjali",
+      "name_bn": "গীতাঞ্জলি",
+      "station_code": "KGTN",
+      "aliases": [
+        "Naktala"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2009-08-22",
+      "lat": 22.4694673,
+      "lon": 88.3700116,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "way",
+        "id": 535333554,
+        "name": "Gitanjali",
+        "url": "https://www.openstreetmap.org/way/535333554"
+      },
+      "notes": "Audit 2026-11-06: Wikipedia list WGS (≈22.783°N, 88.617°E) is ~43 km off corridor; rejected. OSM way 535333554 (network=Kolkata Metro) sits between Kavi Nazrul and Masterda Surya Sen on Blue Line and is retained.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [
+          "coords_corridor_audited",
+          "wikipedia_list_coordinates_rejected"
+        ],
+        "audit_coords_ok": true
+      }
+    },
+    {
+      "id": "km-masterda-surya-sen",
+      "name": "Masterda Surya Sen",
+      "name_bn": "মাস্টারদা সূর্য সেন",
+      "station_code": "KMSN",
+      "aliases": [
+        "Bansdroni"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2009-08-22",
+      "lat": 22.4734404,
+      "lon": 88.3608976,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "way",
+        "id": 469357608,
+        "name": "Masterda Surya Sen",
+        "url": "https://www.openstreetmap.org/way/469357608"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-netaji",
+      "name": "Netaji",
+      "name_bn": "নেতাজি",
+      "station_code": "KNTJ",
+      "aliases": [
+        "Kudghat"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2009-08-22",
+      "lat": 22.4809928,
+      "lon": 88.3460002,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421533468,
+        "name": "Netaji",
+        "url": "https://www.openstreetmap.org/node/5421533468"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-mahanayak-uttam-kumar",
+      "name": "Mahanayak Uttam Kumar",
+      "name_bn": "মহানায়ক উত্তম কুমার",
+      "station_code": "KMUK",
+      "aliases": [
+        "Tollygunge"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1986-04-29",
+      "lat": 22.4947692,
+      "lon": 88.3450879,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421536497,
+        "name": "Mahanayak Uttam Kumar",
+        "url": "https://www.openstreetmap.org/node/5421536497"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-rabindra-sarobar",
+      "name": "Rabindra Sarobar",
+      "name_bn": "রবীন্দ্র সরোবর",
+      "station_code": "KRSB",
+      "aliases": [
+        "Charu Market",
+        "Dhakuria"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1986-04-29",
+      "lat": 22.5072216,
+      "lon": 88.3454936,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421538365,
+        "name": "Rabindra Sarobar",
+        "url": "https://www.openstreetmap.org/node/5421538365"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-kalighat",
+      "name": "Kalighat",
+      "name_bn": "কালীঘাট",
+      "station_code": "KKHG",
+      "aliases": [
+        "Rashbehari"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1986-04-29",
+      "lat": 22.5168752,
+      "lon": 88.3458448,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421539684,
+        "name": "Kalighat",
+        "url": "https://www.openstreetmap.org/node/5421539684"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-jatin-das-park",
+      "name": "Jatin Das Park",
+      "name_bn": "যতীন দাস পার্ক",
+      "station_code": "KJPK",
+      "aliases": [
+        "Hazra"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1986-04-29",
+      "lat": 22.5241535,
+      "lon": 88.3464729,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421540159,
+        "name": "Jatin Das Park",
+        "url": "https://www.openstreetmap.org/node/5421540159"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-netaji-bhavan",
+      "name": "Netaji Bhavan",
+      "name_bn": "নেতাজি ভবন",
+      "station_code": "KNBN",
+      "aliases": [
+        "Bhawanipore"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1984-10-24",
+      "lat": 22.5331821,
+      "lon": 88.3459269,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421541284,
+        "name": "Netaji Bhavan",
+        "url": "https://www.openstreetmap.org/node/5421541284"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-rabindra-sadan",
+      "name": "Rabindra Sadan",
+      "name_bn": "রবীন্দ্র সদন",
+      "station_code": "KRSD",
+      "aliases": [
+        "Exide"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1984-10-24",
+      "lat": 22.5414899,
+      "lon": 88.3473493,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421542551,
+        "name": "Rabindra Sadan",
+        "url": "https://www.openstreetmap.org/node/5421542551"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-maidan",
+      "name": "Maidan",
+      "name_bn": "ময়দান",
+      "station_code": "KMDI",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1984-10-24",
+      "lat": 22.5494672,
+      "lon": 88.3487883,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421543288,
+        "name": "Maidan",
+        "url": "https://www.openstreetmap.org/node/5421543288"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-park-street",
+      "name": "Park Street",
+      "name_bn": "পার্ক স্ট্রীট",
+      "station_code": "KPSK",
+      "aliases": [
+        "Mother Teresa"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        },
+        {
+          "line": "Purple",
+          "status": "under_construction",
+          "notes": "Purple Line northern extension; not an independent new station identity"
+        }
+      ],
+      "primary_status": "partially_operational",
+      "opened": "1984-10-24",
+      "lat": 22.5551591,
+      "lon": 88.3501171,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421528503,
+        "name": "Park Street",
+        "url": "https://www.openstreetmap.org/node/5421528503"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-esplanade",
+      "name": "Esplanade",
+      "name_bn": "এসপ্ল্যানেড",
+      "station_code": "KESP",
+      "aliases": [
+        "Dharmatala"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        },
+        {
+          "line": "Green",
+          "status": "operational"
+        },
+        {
+          "line": "Purple",
+          "status": "under_construction",
+          "notes": "Purple Line northern extension interchange"
+        }
+      ],
+      "primary_status": "partially_operational",
+      "opened": "1984-10-24",
+      "lat": 22.5636143,
+      "lon": 88.3512099,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421545051,
+        "name": "Esplanade (Line 1)",
+        "url": "https://www.openstreetmap.org/node/5421545051"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-chandni-chowk",
+      "name": "Chandni Chowk",
+      "name_bn": "চাঁদনি চক",
+      "station_code": "KCWC",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1995-02-15",
+      "lat": 22.5670118,
+      "lon": 88.3541581,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421543316,
+        "name": "Chandni Chowk",
+        "url": "https://www.openstreetmap.org/node/5421543316"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-central",
+      "name": "Central",
+      "name_bn": "সেন্ট্রাল",
+      "station_code": "KCEN",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1995-02-15",
+      "lat": 22.5724857,
+      "lon": 88.3587427,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421528426,
+        "name": "Central",
+        "url": "https://www.openstreetmap.org/node/5421528426"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-mahatma-gandhi-road",
+      "name": "Mahatma Gandhi Road",
+      "name_bn": "মহাত্মা গান্ধী রোড",
+      "station_code": "KMHR",
+      "aliases": [
+        "Mahajati Sadan"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1995-09-27",
+      "lat": 22.5809206,
+      "lon": 88.3613271,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421545390,
+        "name": "Mahatma Gandhi Road",
+        "url": "https://www.openstreetmap.org/node/5421545390"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-girish-park",
+      "name": "Girish Park",
+      "name_bn": "গিরীশ পার্ক",
+      "station_code": "KGPK",
+      "aliases": [
+        "Jorasanko"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1995-02-15",
+      "lat": 22.5871445,
+      "lon": 88.3629415,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421546475,
+        "name": "Girish Park",
+        "url": "https://www.openstreetmap.org/node/5421546475"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-shobhabazar-sutanuti",
+      "name": "Shobhabazar Sutanuti",
+      "name_bn": "শোভাবাজার সুতানুটি",
+      "station_code": "KSHO",
+      "aliases": [
+        "Hatkhola"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1995-02-15",
+      "lat": 22.595881,
+      "lon": 88.3651996,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421546940,
+        "name": "Shobhabazar Sutanuti",
+        "url": "https://www.openstreetmap.org/node/5421546940"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-shyambazar",
+      "name": "Shyambazar",
+      "name_bn": "শ্যামবাজার",
+      "station_code": "KSHY",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1995-02-15",
+      "lat": 22.601335,
+      "lon": 88.3724974,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421546974,
+        "name": "Shyambazar",
+        "url": "https://www.openstreetmap.org/node/5421546974"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-belgachhia",
+      "name": "Belgachhia",
+      "name_bn": "বেলগাছিয়া",
+      "station_code": "KBEL",
+      "aliases": [
+        "Belgachia"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1984-11-12",
+      "lat": 22.6059241,
+      "lon": 88.3863913,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421548359,
+        "name": "Belgachia",
+        "url": "https://www.openstreetmap.org/node/5421548359"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-dum-dum",
+      "name": "Dum Dum",
+      "name_bn": "দমদম",
+      "station_code": "KDMI",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "1984-11-12",
+      "lat": 22.6211141,
+      "lon": 88.3928973,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421537963,
+        "name": "Dum Dum",
+        "url": "https://www.openstreetmap.org/node/5421537963"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-noapara",
+      "name": "Noapara",
+      "name_bn": "নোয়াপাড়া",
+      "station_code": "KNAP",
+      "aliases": [
+        "Maa Sarada"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        },
+        {
+          "line": "Yellow",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2013-07-10",
+      "lat": 22.6398418,
+      "lon": 88.3941343,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421551283,
+        "name": "Noapara",
+        "url": "https://www.openstreetmap.org/node/5421551283"
+      },
+      "notes": "Yellow Line interchange opened 2025-08-22.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-yellow-line-kolkata-metro",
+          "title": "Yellow Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Yellow_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-baranagar",
+      "name": "Baranagar",
+      "name_bn": "বরাহনগর",
+      "station_code": "KBAR",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2021-02-22",
+      "lat": 22.6530765,
+      "lon": 88.3805962,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 8475640176,
+        "name": "Baranagar",
+        "url": "https://www.openstreetmap.org/node/8475640176"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-dakshineswar",
+      "name": "Dakshineswar",
+      "name_bn": "দক্ষিণেশ্বর",
+      "station_code": "KDSW",
+      "aliases": [
+        "Dakshineshwar",
+        "Sri Ramakrishna"
+      ],
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2021-02-22",
+      "lat": 22.6540325,
+      "lon": 88.3637533,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 10036655361,
+        "name": "Dakshineshwar",
+        "url": "https://www.openstreetmap.org/node/10036655361"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-salt-lake-sector-v",
+      "name": "Salt Lake Sector-V",
+      "name_bn": "সল্টলেক সেক্টর V",
+      "station_code": "SVSA",
+      "aliases": [
+        "Salt Lake Sector V",
+        "Sector V"
+      ],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2020-02-13",
+      "lat": 22.5809434,
+      "lon": 88.4290872,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 7976140073,
+        "name": "Salt Lake Sector V",
+        "url": "https://www.openstreetmap.org/node/7976140073"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-karunamoyee",
+      "name": "Karunamoyee",
+      "name_bn": "করুণাময়ী",
+      "station_code": "KESA",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2020-02-13",
+      "lat": 22.58638,
+      "lon": 88.4215312,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 7976140059,
+        "name": "Karunamoyee",
+        "url": "https://www.openstreetmap.org/node/7976140059"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-central-park",
+      "name": "Central Park",
+      "name_bn": "সেন্ট্রাল পার্ক",
+      "station_code": "CPSA",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2020-02-13",
+      "lat": 22.5904737,
+      "lon": 88.4156247,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 7976140060,
+        "name": "Central Park",
+        "url": "https://www.openstreetmap.org/node/7976140060"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-city-center",
+      "name": "City Center",
+      "name_bn": "সিটি সেন্টার",
+      "station_code": "CCSC",
+      "aliases": [
+        "City Centre"
+      ],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2020-02-13",
+      "lat": 22.5870993,
+      "lon": 88.4078908,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 7976140063,
+        "name": "City Centre",
+        "url": "https://www.openstreetmap.org/node/7976140063"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-bengal-chemical",
+      "name": "Bengal Chemical",
+      "name_bn": "বেঙ্গল কেমিক্যাল",
+      "station_code": "BCSD",
+      "aliases": [
+        "Mani Square"
+      ],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2020-02-13",
+      "lat": 22.5800666,
+      "lon": 88.4012962,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 7976140066,
+        "name": "Bengal Chemical",
+        "url": "https://www.openstreetmap.org/node/7976140066"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-salt-lake-stadium",
+      "name": "Salt Lake Stadium",
+      "name_bn": "সল্টলেক স্টেডিয়াম",
+      "station_code": "SSSA",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2020-02-13",
+      "lat": 22.5731115,
+      "lon": 88.4030891,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 7976140069,
+        "name": "Salt Lake Stadium",
+        "url": "https://www.openstreetmap.org/node/7976140069"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-phoolbagan",
+      "name": "Phoolbagan",
+      "name_bn": "ফুলবাগান",
+      "station_code": "PBGB",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2020-10-04",
+      "lat": 22.5721268,
+      "lon": 88.3902408,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 7976140072,
+        "name": "Phoolbagan",
+        "url": "https://www.openstreetmap.org/node/7976140072"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-sealdah",
+      "name": "Sealdah",
+      "name_bn": "শিয়ালদহ",
+      "station_code": "SDHM",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2022-07-11",
+      "lat": 22.5666059,
+      "lon": 88.3697815,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 9884790401,
+        "name": "Sealdah",
+        "url": "https://www.openstreetmap.org/node/9884790401"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-mahakaran",
+      "name": "Mahakaran",
+      "name_bn": "মহাকরণ",
+      "station_code": "MKNA",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2024-03-06",
+      "lat": 22.5720777,
+      "lon": 88.3505275,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 11699268223,
+        "name": "Mahakaran",
+        "url": "https://www.openstreetmap.org/node/11699268223"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-howrah",
+      "name": "Howrah",
+      "name_bn": "হাওড়া",
+      "station_code": "HWHM",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2024-03-06",
+      "lat": 22.5833648,
+      "lon": 88.3403452,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 11699268224,
+        "name": "Howrah",
+        "url": "https://www.openstreetmap.org/node/11699268224"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-howrah-maidan",
+      "name": "Howrah Maidan",
+      "name_bn": "হাওড়া ময়দান",
+      "station_code": "HWMM",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2024-03-06",
+      "lat": 22.5838585,
+      "lon": 88.3339983,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 11699268225,
+        "name": "Howrah Maidan",
+        "url": "https://www.openstreetmap.org/node/11699268225"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-joka",
+      "name": "Joka",
+      "name_bn": "জোকা",
+      "station_code": "KJKA",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2022-12-30",
+      "lat": 22.452347,
+      "lon": 88.3018236,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 10296539478,
+        "name": "Joka",
+        "url": "https://www.openstreetmap.org/node/10296539478"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-thakurpukur",
+      "name": "Thakurpukur",
+      "name_bn": "ঠাকুরপুকুর",
+      "station_code": "KTKP",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2022-12-30",
+      "lat": 22.4643677,
+      "lon": 88.3075322,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 10296539469,
+        "name": "Thakurpukur",
+        "url": "https://www.openstreetmap.org/node/10296539469"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-behala-sakherbazar",
+      "name": "Behala Sakherbazar",
+      "name_bn": "সখেরবাজার",
+      "station_code": "KSKB",
+      "aliases": [
+        "Sakher Bazar",
+        "Silpara",
+        "Behala Sakher Bazar"
+      ],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2022-12-30",
+      "lat": 22.4748533,
+      "lon": 88.3099593,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 10296539474,
+        "name": "Sakher Bazar",
+        "url": "https://www.openstreetmap.org/node/10296539474"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-behala-chowrasta",
+      "name": "Behala Chowrasta",
+      "name_bn": "বেহালা চৌরাস্তা",
+      "station_code": "KBCR",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2022-12-30",
+      "lat": 22.4873548,
+      "lon": 88.3133794,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 9321292345,
+        "name": "Behala Chowrasta",
+        "url": "https://www.openstreetmap.org/node/9321292345"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-behala-bazar",
+      "name": "Behala Bazar",
+      "name_bn": "বেহালা বাজার",
+      "station_code": "KBBR",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2022-12-30",
+      "lat": 22.4987585,
+      "lon": 88.3173872,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 9321290815,
+        "name": "Behala Bazar",
+        "url": "https://www.openstreetmap.org/node/9321290815"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-taratala",
+      "name": "Taratala",
+      "name_bn": "তারাতলা",
+      "station_code": "KTRT",
+      "aliases": [
+        "Pathakpara"
+      ],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2022-12-30",
+      "lat": 22.5076863,
+      "lon": 88.3203842,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 10296539476,
+        "name": "Taratala",
+        "url": "https://www.openstreetmap.org/node/10296539476"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-majerhat",
+      "name": "Majerhat",
+      "name_bn": "মাঝেরহাট",
+      "station_code": "KMJH",
+      "aliases": [
+        "Majherhat"
+      ],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2024-03-06",
+      "lat": 22.5191466,
+      "lon": 88.3236555,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 11699268226,
+        "name": "Majerhat",
+        "url": "https://www.openstreetmap.org/node/11699268226"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-satyajit-ray",
+      "name": "Satyajit Ray",
+      "name_bn": "সত্যজিৎ রায়",
+      "station_code": "KSJR",
+      "aliases": [
+        "Chak Garia",
+        "Ajoy Nagar"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2024-03-06",
+      "lat": 22.4846775,
+      "lon": 88.3926447,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 11447425096,
+        "name": "Satyajit Ray",
+        "url": "https://www.openstreetmap.org/node/11447425096"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-jyotirindra-nandi",
+      "name": "Jyotirindra Nandi",
+      "name_bn": "জ্যোতিরিন্দ্র নন্দী",
+      "station_code": "KJNN",
+      "aliases": [
+        "Singhbari"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2024-03-06",
+      "lat": 22.4956263,
+      "lon": 88.398449,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 11447425095,
+        "name": "Jyotirindra Nandi",
+        "url": "https://www.openstreetmap.org/node/11447425095"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-kavi-sukanta",
+      "name": "Kavi Sukanta",
+      "name_bn": "কবি সুকান্ত",
+      "station_code": "KKSK",
+      "aliases": [
+        "Avishikta More"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2024-03-06",
+      "lat": 22.5053017,
+      "lon": 88.4009957,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 11447425092,
+        "name": "Kavi Sukanta",
+        "url": "https://www.openstreetmap.org/node/11447425092"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-hemanta-mukhopadhyay",
+      "name": "Hemanta Mukhopadhyay",
+      "name_bn": "হেমন্ত মুখোপাধ্যায়",
+      "station_code": "KHMD",
+      "aliases": [
+        "Ruby"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2024-03-06",
+      "lat": 22.5148514,
+      "lon": 88.4014276,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 11447425091,
+        "name": "Hemanta Mukhopadhyay",
+        "url": "https://www.openstreetmap.org/node/11447425091"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-vip-bazar",
+      "name": "VIP Bazar",
+      "name_bn": "ভিআইপি বাজার",
+      "station_code": "KVIB",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2025-08-22",
+      "lat": 22.5246847,
+      "lon": 88.3962331,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 13088485707,
+        "name": "VIP Bazar",
+        "url": "https://www.openstreetmap.org/node/13088485707"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-ritwik-ghatak",
+      "name": "Ritwik Ghatak",
+      "name_bn": "ঋত্বিক ঘটক",
+      "station_code": "KRWG",
+      "aliases": [
+        "Ritwick Ghatak",
+        "Bantala Road"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2025-08-22",
+      "lat": 22.5329995,
+      "lon": 88.3964191,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 13088485704,
+        "name": "Ritwik Ghatak",
+        "url": "https://www.openstreetmap.org/node/13088485704"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-barun-sengupta",
+      "name": "Barun Sengupta",
+      "name_bn": "বরুণ সেনগুপ্ত",
+      "station_code": "KBST",
+      "aliases": [
+        "Science City",
+        "Dhapa",
+        "Mathpukur",
+        "Metropolitan"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2025-08-22",
+      "lat": 22.5438072,
+      "lon": 88.3992762,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 13088485701,
+        "name": "Barun Sengupta",
+        "url": "https://www.openstreetmap.org/node/13088485701"
+      },
+      "notes": "Audit 2026-11-06: Wikipedia list longitude ≈88.339°E is ~6 km west of EM Bypass; rejected. OSM node 13088485701 (network=Kolkata Metro) lies between Ritwik Ghatak and Beleghata on Orange Line (~0.9–1.2 km neighbor spacing) and is retained.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [
+          "coords_corridor_audited",
+          "wikipedia_list_coordinates_rejected"
+        ],
+        "audit_coords_ok": true
+      }
+    },
+    {
+      "id": "km-beleghata",
+      "name": "Beleghata",
+      "name_bn": "বেলেঘাটা",
+      "station_code": "KBGA",
+      "aliases": [
+        "Tangra"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2025-08-22",
+      "lat": 22.5507084,
+      "lon": 88.4039852,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 13088458999,
+        "name": "Beleghata",
+        "url": "https://www.openstreetmap.org/node/13088458999"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-dum-dum-cantonment",
+      "name": "Dum Dum Cantonment",
+      "name_bn": "দমদম ক্যান্টনমেন্ট",
+      "station_code": "KDCM",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Yellow",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2025-08-22",
+      "lat": 22.6375936,
+      "lon": 88.4121618,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 13088491874,
+        "name": "Dum Dum Cantonment",
+        "url": "https://www.openstreetmap.org/node/13088491874"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-yellow-line-kolkata-metro",
+          "title": "Yellow Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Yellow_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-jessore-road",
+      "name": "Jessore Road",
+      "name_bn": "যশোহর রোড",
+      "station_code": "KJRO",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Yellow",
+          "status": "operational"
+        }
+      ],
+      "primary_status": "operational",
+      "opened": "2025-08-22",
+      "lat": 22.6392646,
+      "lon": 88.4297701,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 13088491871,
+        "name": "Jessore Road",
+        "url": "https://www.openstreetmap.org/node/13088491871"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-yellow-line-kolkata-metro",
+          "title": "Yellow Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Yellow_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-jai-hind",
+      "name": "Jai Hind",
+      "name_bn": "জয় হিন্দ",
+      "station_code": "KJHD",
+      "aliases": [
+        "Biman Bandar",
+        "Airport"
+      ],
+      "lines": [
+        {
+          "line": "Yellow",
+          "status": "operational"
+        },
+        {
+          "line": "Orange",
+          "status": "under_construction",
+          "notes": "Orange Line airport extension not yet operational"
+        }
+      ],
+      "primary_status": "partially_operational",
+      "opened": "2025-08-22",
+      "lat": 22.6473058,
+      "lon": 88.4373029,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 13088491840,
+        "name": "Jai Hind",
+        "url": "https://www.openstreetmap.org/node/13088491840"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "wikipedia-yellow-line-kolkata-metro",
+          "title": "Yellow Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Yellow_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-mominpur",
+      "name": "Mominpur",
+      "name_bn": "মোমিনপুর",
+      "station_code": null,
+      "aliases": [
+        "Mominpore"
+      ],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Purple northern extension; listed under construction / works in progress in corridor summaries.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-khidirpur",
+      "name": "Khidirpur",
+      "name_bn": "খিদিরপুর",
+      "station_code": null,
+      "aliases": [
+        "Kidderpore"
+      ],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-victoria",
+      "name": "Victoria",
+      "name_bn": "ভিক্টোরিয়া",
+      "station_code": null,
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "name_may_collide_with_landmark",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-eden-gardens",
+      "name": "Eden Gardens",
+      "name_bn": "ইডেন গার্ডেনস",
+      "station_code": null,
+      "aliases": [
+        "Babughat"
+      ],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Wikipedia list marks Approved; not claimed operational.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "status_approved_or_proposed"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-iim-calcutta",
+      "name": "IIM Calcutta",
+      "name_bn": "আই আই এম জোকা",
+      "station_code": null,
+      "aliases": [
+        "IIM Joka"
+      ],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Distinct from operational Joka; do not reuse Joka OSM coordinates.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "tender_floated"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-diamond-park",
+      "name": "Diamond Park",
+      "name_bn": "ডায়মন্ড পার্ক",
+      "station_code": null,
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Purple",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Purple branch; land acquisition reported ongoing.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "land_acquisition",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-birati",
+      "name": "Birati",
+      "name_bn": "বিরাটি",
+      "station_code": null,
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Yellow",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-yellow-line-kolkata-metro",
+          "title": "Yellow Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Yellow_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-michael-nagar",
+      "name": "Michael Nagar",
+      "name_bn": "মাইকেল নগর",
+      "station_code": null,
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Yellow",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-yellow-line-kolkata-metro",
+          "title": "Yellow Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Yellow_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-new-barrackpur",
+      "name": "New Barrackpur",
+      "name_bn": "নিউ ব্যারাকপুর",
+      "station_code": null,
+      "aliases": [
+        "New Barrackpore",
+        "Bidhanpally",
+        "Netaji Nagar"
+      ],
+      "lines": [
+        {
+          "line": "Yellow",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Audit 2026-11-06: retained as proposed Yellow station name from corridor lists; newer Yellow alignment articles also cite Bidhanpally / possible Netaji Nagar rename near New Barrackpore — identity unresolved; coordinates kept null.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-yellow-line-kolkata-metro",
+          "title": "Yellow Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Yellow_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "yellow_alignment_name_may_change"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-madhyamgram",
+      "name": "Madhyamgram",
+      "name_bn": "মধ্যমগ্রাম",
+      "station_code": null,
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Yellow",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-yellow-line-kolkata-metro",
+          "title": "Yellow Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Yellow_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-hridaypur",
+      "name": "Hridaypur",
+      "name_bn": "হৃদয়পুর",
+      "station_code": null,
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Yellow",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-yellow-line-kolkata-metro",
+          "title": "Yellow Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Yellow_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-barasat",
+      "name": "Barasat",
+      "name_bn": "বারাসাত",
+      "station_code": null,
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Yellow",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Audit 2026-11-06: OSM way 535333476 is named Barasat with station=subway but network is empty and location aligns with Barasat Junction railway precinct — NOT accepted as Yellow Line metro coordinates. Proposed Yellow terminus remains; lat/lon kept null.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-yellow-line-kolkata-metro",
+          "title": "Yellow Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Yellow_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "rejected",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_hit_rejected_railway_not_metro"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-gour-kishore-ghosh",
+      "name": "Gour Kishore Ghosh",
+      "name_bn": "গৌর কিশোর ঘোষ",
+      "station_code": "KGKG",
+      "aliases": [
+        "Sukant Nagar",
+        "Chingrighata"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-nalban",
+      "name": "Nalban",
+      "name_bn": "নলবন",
+      "station_code": "KNLN",
+      "aliases": [
+        "Nicco Park",
+        "Nalban Metro Station"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": 22.5733404,
+      "lon": 88.4212209,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 7944684393,
+        "name": "Nalban Metro Station",
+        "url": "https://www.openstreetmap.org/node/7944684393"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-it-centre",
+      "name": "IT Centre",
+      "name_bn": "আই টি সেন্টার",
+      "station_code": "KITC",
+      "aliases": [
+        "IT Center",
+        "Sector-V CM Block",
+        "Salt Lake Sector-V Orange"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Audit 2026-11-06: Orange Line UC station near Green Salt Lake Sector-V interchange. Distinct from Green City Center / Sector-V. Metro Railway reported Beleghata–IT Centre trial runs (Oct 2026) but station is NOT claimed operational. No exact OSM metro node; coordinates kept null (no fuzzy match).",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "near_green_sector_v_interchange",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-nabadiganta",
+      "name": "Nabadiganta",
+      "name_bn": "নবদিগন্ত",
+      "station_code": "KNBG",
+      "aliases": [
+        "Technopolis"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": 22.5801682,
+      "lon": 88.439589,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "way",
+        "id": 1548568213,
+        "name": "Nabadiganta",
+        "url": "https://www.openstreetmap.org/way/1548568213"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-nazrul-tirtha",
+      "name": "Nazrul Tirtha",
+      "name_bn": "নজরুল তীর্থ",
+      "station_code": "KNLT",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": 22.5816724,
+      "lon": 88.4532338,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "way",
+        "id": 1548568214,
+        "name": "Nazrul Tirtha",
+        "url": "https://www.openstreetmap.org/way/1548568214"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-swapnabhor",
+      "name": "Swapnabhor",
+      "name_bn": "স্বপ্নভোর",
+      "station_code": "KSPB",
+      "aliases": [
+        "Axis Mall",
+        "Swapno Bhor"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-biswa-bangla-convention-centre",
+      "name": "Biswa Bangla Convention Centre",
+      "name_bn": "বিশ্ব বাংলা কনভেনশন সেন্টার",
+      "station_code": "KBCC",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": 22.5824748,
+      "lon": 88.4731169,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "way",
+        "id": 1548570334,
+        "name": "Biswa Bangla Convention Centre",
+        "url": "https://www.openstreetmap.org/way/1548570334"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-shiksha-tirtha",
+      "name": "Shiksha Tirtha",
+      "name_bn": "শিক্ষা তীর্থ",
+      "station_code": "KSST",
+      "aliases": [
+        "Siksha Tirtha",
+        "Fintech Hub"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": 22.5905577,
+      "lon": 88.4747223,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "way",
+        "id": 1548570335,
+        "name": "Siksha Tirtha",
+        "url": "https://www.openstreetmap.org/way/1548570335"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-mother-s-wax-museum",
+      "name": "Mother's Wax Museum",
+      "name_bn": "মাদার্স ওয়াক্স মিউজিয়াম",
+      "station_code": "KMWM",
+      "aliases": [
+        "Mothers Wax Museum"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": 22.6022329,
+      "lon": 88.4706039,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "way",
+        "id": 1548570336,
+        "name": "Mother's Wax Museum",
+        "url": "https://www.openstreetmap.org/way/1548570336"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-eco-park",
+      "name": "Eco Park",
+      "name_bn": "ইকো পার্ক",
+      "station_code": "KECP",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": 22.6111583,
+      "lon": 88.467157,
+      "coordinate_source": "openstreetmap",
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "way",
+        "id": 1548570337,
+        "name": "Eco Park",
+        "url": "https://www.openstreetmap.org/way/1548570337"
+      },
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        },
+        {
+          "id": "openstreetmap-overpass",
+          "title": "OpenStreetMap via Overpass API",
+          "url": "https://overpass-api.de/api/interpreter",
+          "retrieved": "2026-11-06",
+          "query_bbox": [
+            22.4,
+            88.2,
+            22.75,
+            88.55
+          ],
+          "note": "Nodes/ways with station=subway or subway=yes; entrances excluded from primary match."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-mangaldeep",
+      "name": "Mangaldeep",
+      "name_bn": "মঙ্গলদীপ",
+      "station_code": "KMDP",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": null,
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-city-centre-2",
+      "name": "City Centre-2",
+      "name_bn": "সিটি সেন্টার ২",
+      "station_code": "KCCT",
+      "aliases": [
+        "City Centre 2",
+        "City Center-2",
+        "City Centre-II"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Audit 2026-11-06: Orange New Town UC station. Must not reuse Green Line City Center OSM coordinates. No distinct OSM metro node found; lat/lon kept null.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "do_not_match_green_city_centre",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-chinar-park",
+      "name": "Chinar Park",
+      "name_bn": "চিনার পার্ক",
+      "station_code": "KCNP",
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Audit 2026-11-06: Orange Line UC station on New Town–VIP Road approach. Name/status confirmed against Orange corridor lists; no OSM metro node; coords null.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-vip-road",
+      "name": "VIP Road",
+      "name_bn": "ভি আই পি রোড",
+      "station_code": "KVIR",
+      "aliases": [
+        "Haldirams Signal",
+        "Haldiram"
+      ],
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "primary_status": "under_construction",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Audit 2026-11-06: Orange UC station near Haldiram/VIP Road; distinct from operational VIP Bazar. Planned interchange with Green Teghoria (separate station record). No OSM metro node; coordinates kept null.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "wikipedia-orange-line-kolkata-metro",
+          "title": "Orange Line (Kolkata Metro)",
+          "url": "https://en.wikipedia.org/wiki/Orange_Line_(Kolkata_Metro)",
+          "retrieved": "2026-11-06"
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "name_ambiguous",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "planned_green_teghoria_interchange"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-krishnapur",
+      "name": "Krishnapur",
+      "name_bn": "কৃষ্ণপুর",
+      "station_code": null,
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Audit 2026-11-06: Green Sector-V→Teghoria approved extension; land notices reported; coords null.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "status_approved_or_proposed"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-kestopur",
+      "name": "Kestopur",
+      "name_bn": "কেষ্টপুর",
+      "station_code": null,
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Audit 2026-11-06: Green Sector-V→Teghoria approved extension; coords null.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "status_approved_or_proposed"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-baguiati",
+      "name": "Baguiati",
+      "name_bn": "বাগুইআটি",
+      "station_code": null,
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Audit 2026-11-06: Green Sector-V→Teghoria approved extension; coords null.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "status_approved_or_proposed"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-raghunathpur",
+      "name": "Raghunathpur",
+      "name_bn": "রঘুনাথপুর",
+      "station_code": null,
+      "aliases": [],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Audit 2026-11-06: Green Sector-V→Teghoria approved extension; coords null.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "status_approved_or_proposed"
+        ],
+        "audit_coords_ok": false
+      }
+    },
+    {
+      "id": "km-teghoria",
+      "name": "Teghoria",
+      "name_bn": "তেঘরিয়া",
+      "station_code": null,
+      "aliases": [
+        "Haldiram",
+        "Haldirams"
+      ],
+      "lines": [
+        {
+          "line": "Green",
+          "status": "proposed"
+        }
+      ],
+      "primary_status": "proposed",
+      "opened": null,
+      "lat": null,
+      "lon": null,
+      "coordinate_source": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "notes": "Audit 2026-11-06: Green approved eastern terminus (Sector-V→Teghoria). Planned interchange with Orange VIP Road (separate record). Land acquisition underway; not under construction for ops purposes; coords null.",
+      "sources": [
+        {
+          "id": "wikipedia-list-of-kolkata-metro-stations",
+          "title": "List of Kolkata Metro stations",
+          "url": "https://en.wikipedia.org/wiki/List_of_Kolkata_Metro_stations",
+          "retrieved": "2026-11-06",
+          "note": "Used for English/Bengali names, station codes, opening dates, and status tables (operational / under construction / planned). Not used as sole authority for operational status."
+        },
+        {
+          "id": "metro-railway-kolkata-portal",
+          "title": "Metro Railway, Kolkata (Indian Railways portal)",
+          "url": "https://mtp.indianrailways.gov.in/",
+          "retrieved": "2026-11-06",
+          "note": "Official operator portal; confirms Blue/Green/Purple/Orange corridor naming and passenger timetable corridors."
+        },
+        {
+          "id": "kmrc-stations",
+          "title": "Kolkata Metro Rail Corporation Ltd. — Stations",
+          "url": "https://www.kmrc.in/stations.php",
+          "retrieved": "2026-11-06",
+          "note": "Green Line (East–West) station-to-station inventory."
+        }
+      ],
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "planned_orange_vip_road_interchange",
+          "status_approved_or_proposed"
+        ],
+        "audit_coords_ok": false
+      }
+    }
+  ]
+}

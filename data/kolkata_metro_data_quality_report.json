@@ -1,0 +1,1030 @@
+{
+  "title": "Kolkata Metro Stage 1 — data quality audit report",
+  "generated_utc": "2026-11-06T18:22:59Z",
+  "dataset_file": "data/kolkata_metro_stations.json",
+  "dataset_version": "0.1.1-stage1-audit",
+  "full_verification_claimed": false,
+  "summary": {
+    "unique_stations": 86,
+    "with_coordinates": 62,
+    "needs_manual_verification": 24,
+    "quality_buckets": {
+      "missing_coordinates": 24,
+      "verified": 62
+    },
+    "interchanges": 5,
+    "conflicting_line_assignments": 0,
+    "conflicting_operational_statuses": 0
+  },
+  "corrections_applied": [
+    {
+      "id": "km-kavi-nazrul",
+      "action": "accepted_osm_rejected_wikipedia_wgs",
+      "detail": "Wikipedia ≈22.778,88.634 (~44 km off) rejected; OSM Kolkata Metro node retained after Blue corridor neighbor check."
+    },
+    {
+      "id": "km-gitanjali",
+      "action": "accepted_osm_rejected_wikipedia_wgs",
+      "detail": "Wikipedia ≈22.783,88.617 (~43 km off) rejected; OSM Kolkata Metro way retained after Blue corridor neighbor check."
+    },
+    {
+      "id": "km-barun-sengupta",
+      "action": "accepted_osm_rejected_wikipedia_wgs",
+      "detail": "Wikipedia lon ≈88.339 (~6 km west) rejected; OSM Kolkata Metro node retained between Ritwik Ghatak and Beleghata."
+    },
+    {
+      "id": "km-barasat",
+      "action": "nulled_osm_railway_collision",
+      "detail": "OSM Barasat subway-tagged way rejected (empty network; railway precinct). Coordinates set null; Yellow proposed status retained."
+    },
+    {
+      "id": "km-city-centre-2",
+      "action": "blocked_green_city_centre_reuse",
+      "detail": "No distinct Orange City Centre-2 OSM node; Green City Centre match forbidden; coords remain null."
+    },
+    {
+      "id": "km-it-centre",
+      "action": "status_confirmed_uc_coords_null",
+      "detail": "Orange UC near Green Sector-V; trials reported but not operational; coords null (no exact OSM metro node)."
+    },
+    {
+      "id": "km-new-barrackpur",
+      "action": "flagged_possible_rename",
+      "detail": "Aliases Bidhanpally / Netaji Nagar added for Yellow realignment uncertainty; coords null."
+    },
+    {
+      "ids": [
+        "km-gour-kishore-ghosh",
+        "km-nalban",
+        "km-it-centre",
+        "km-nabadiganta",
+        "km-nazrul-tirtha",
+        "km-swapnabhor",
+        "km-biswa-bangla-convention-centre",
+        "km-shiksha-tirtha",
+        "km-mother-s-wax-museum",
+        "km-eco-park",
+        "km-mangaldeep",
+        "km-city-centre-2",
+        "km-chinar-park",
+        "km-vip-road"
+      ],
+      "action": "added_orange_station_codes_from_corridor_tables",
+      "detail": "Station codes filled from Orange Line corridor tables where published (e.g. KITC, KCCT, KCNP, KVIR)."
+    }
+  ],
+  "verified_records": [
+    "km-kavi-subhash",
+    "km-shahid-khudiram",
+    "km-kavi-nazrul",
+    "km-gitanjali",
+    "km-masterda-surya-sen",
+    "km-netaji",
+    "km-mahanayak-uttam-kumar",
+    "km-rabindra-sarobar",
+    "km-kalighat",
+    "km-jatin-das-park",
+    "km-netaji-bhavan",
+    "km-rabindra-sadan",
+    "km-maidan",
+    "km-park-street",
+    "km-esplanade",
+    "km-chandni-chowk",
+    "km-central",
+    "km-mahatma-gandhi-road",
+    "km-girish-park",
+    "km-shobhabazar-sutanuti",
+    "km-shyambazar",
+    "km-belgachhia",
+    "km-dum-dum",
+    "km-noapara",
+    "km-baranagar",
+    "km-dakshineswar",
+    "km-salt-lake-sector-v",
+    "km-karunamoyee",
+    "km-central-park",
+    "km-city-center",
+    "km-bengal-chemical",
+    "km-salt-lake-stadium",
+    "km-phoolbagan",
+    "km-sealdah",
+    "km-mahakaran",
+    "km-howrah",
+    "km-howrah-maidan",
+    "km-joka",
+    "km-thakurpukur",
+    "km-behala-sakherbazar",
+    "km-behala-chowrasta",
+    "km-behala-bazar",
+    "km-taratala",
+    "km-majerhat",
+    "km-satyajit-ray",
+    "km-jyotirindra-nandi",
+    "km-kavi-sukanta",
+    "km-hemanta-mukhopadhyay",
+    "km-vip-bazar",
+    "km-ritwik-ghatak",
+    "km-barun-sengupta",
+    "km-beleghata",
+    "km-dum-dum-cantonment",
+    "km-jessore-road",
+    "km-jai-hind",
+    "km-nalban",
+    "km-nabadiganta",
+    "km-nazrul-tirtha",
+    "km-biswa-bangla-convention-centre",
+    "km-shiksha-tirtha",
+    "km-mother-s-wax-museum",
+    "km-eco-park"
+  ],
+  "unverified_records": [],
+  "suspect_coordinates": [],
+  "missing_coordinates": [
+    "km-mominpur",
+    "km-khidirpur",
+    "km-victoria",
+    "km-eden-gardens",
+    "km-iim-calcutta",
+    "km-diamond-park",
+    "km-birati",
+    "km-michael-nagar",
+    "km-new-barrackpur",
+    "km-madhyamgram",
+    "km-hridaypur",
+    "km-barasat",
+    "km-gour-kishore-ghosh",
+    "km-it-centre",
+    "km-swapnabhor",
+    "km-mangaldeep",
+    "km-city-centre-2",
+    "km-chinar-park",
+    "km-vip-road",
+    "km-krishnapur",
+    "km-kestopur",
+    "km-baguiati",
+    "km-raghunathpur",
+    "km-teghoria"
+  ],
+  "conflicting_line_assignments": [],
+  "conflicting_operational_statuses": [],
+  "interchanges": [
+    {
+      "id": "km-kavi-subhash",
+      "name": "Kavi Subhash",
+      "primary_status": "operational",
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        },
+        {
+          "line": "Orange",
+          "status": "operational"
+        }
+      ]
+    },
+    {
+      "id": "km-park-street",
+      "name": "Park Street",
+      "primary_status": "partially_operational",
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        },
+        {
+          "line": "Purple",
+          "status": "under_construction",
+          "notes": "Purple Line northern extension; not an independent new station identity"
+        }
+      ]
+    },
+    {
+      "id": "km-esplanade",
+      "name": "Esplanade",
+      "primary_status": "partially_operational",
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        },
+        {
+          "line": "Green",
+          "status": "operational"
+        },
+        {
+          "line": "Purple",
+          "status": "under_construction",
+          "notes": "Purple Line northern extension interchange"
+        }
+      ]
+    },
+    {
+      "id": "km-noapara",
+      "name": "Noapara",
+      "primary_status": "operational",
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        },
+        {
+          "line": "Yellow",
+          "status": "operational"
+        }
+      ]
+    },
+    {
+      "id": "km-jai-hind",
+      "name": "Jai Hind",
+      "primary_status": "partially_operational",
+      "lines": [
+        {
+          "line": "Yellow",
+          "status": "operational"
+        },
+        {
+          "line": "Orange",
+          "status": "under_construction",
+          "notes": "Orange Line airport extension not yet operational"
+        }
+      ]
+    }
+  ],
+  "special_attention_audit": [
+    {
+      "id": "km-kavi-nazrul",
+      "name": "Kavi Nazrul",
+      "primary_status": "operational",
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "lat": 22.4642505,
+      "lon": 88.3804604,
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 5421533465,
+        "name": "Kavi Nazrul",
+        "url": "https://www.openstreetmap.org/node/5421533465"
+      },
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [
+          "coords_corridor_audited",
+          "wikipedia_list_coordinates_rejected"
+        ],
+        "audit_coords_ok": true
+      },
+      "notes": "Audit 2026-11-06: Wikipedia list WGS (≈22.778°N, 88.634°E) is ~44 km off corridor; rejected. OSM node 5421533465 (network=Kolkata Metro) sits between Shahid Khudiram and Gitanjali on Blue Line (~1.2 km neighbor spacing) and is retained.",
+      "quality_bucket": "verified"
+    },
+    {
+      "id": "km-gitanjali",
+      "name": "Gitanjali",
+      "primary_status": "operational",
+      "lines": [
+        {
+          "line": "Blue",
+          "status": "operational"
+        }
+      ],
+      "lat": 22.4694673,
+      "lon": 88.3700116,
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "way",
+        "id": 535333554,
+        "name": "Gitanjali",
+        "url": "https://www.openstreetmap.org/way/535333554"
+      },
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [
+          "coords_corridor_audited",
+          "wikipedia_list_coordinates_rejected"
+        ],
+        "audit_coords_ok": true
+      },
+      "notes": "Audit 2026-11-06: Wikipedia list WGS (≈22.783°N, 88.617°E) is ~43 km off corridor; rejected. OSM way 535333554 (network=Kolkata Metro) sits between Kavi Nazrul and Masterda Surya Sen on Blue Line and is retained.",
+      "quality_bucket": "verified"
+    },
+    {
+      "id": "km-barun-sengupta",
+      "name": "Barun Sengupta",
+      "primary_status": "operational",
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "operational"
+        }
+      ],
+      "lat": 22.5438072,
+      "lon": 88.3992762,
+      "coordinate_confidence": "high",
+      "osm": {
+        "type": "node",
+        "id": 13088485701,
+        "name": "Barun Sengupta",
+        "url": "https://www.openstreetmap.org/node/13088485701"
+      },
+      "verification": {
+        "osm_name_match": "matched",
+        "needs_manual_verification": false,
+        "flags": [
+          "coords_corridor_audited",
+          "wikipedia_list_coordinates_rejected"
+        ],
+        "audit_coords_ok": true
+      },
+      "notes": "Audit 2026-11-06: Wikipedia list longitude ≈88.339°E is ~6 km west of EM Bypass; rejected. OSM node 13088485701 (network=Kolkata Metro) lies between Ritwik Ghatak and Beleghata on Orange Line (~0.9–1.2 km neighbor spacing) and is retained.",
+      "quality_bucket": "verified"
+    },
+    {
+      "id": "km-barasat",
+      "name": "Barasat",
+      "primary_status": "proposed",
+      "lines": [
+        {
+          "line": "Yellow",
+          "status": "proposed"
+        }
+      ],
+      "lat": null,
+      "lon": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "verification": {
+        "osm_name_match": "rejected",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_hit_rejected_railway_not_metro"
+        ],
+        "audit_coords_ok": false
+      },
+      "notes": "Audit 2026-11-06: OSM way 535333476 is named Barasat with station=subway but network is empty and location aligns with Barasat Junction railway precinct — NOT accepted as Yellow Line metro coordinates. Proposed Yellow terminus remains; lat/lon kept null.",
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-it-centre",
+      "name": "IT Centre",
+      "primary_status": "under_construction",
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "lat": null,
+      "lon": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "near_green_sector_v_interchange",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      },
+      "notes": "Audit 2026-11-06: Orange Line UC station near Green Salt Lake Sector-V interchange. Distinct from Green City Center / Sector-V. Metro Railway reported Beleghata–IT Centre trial runs (Oct 2026) but station is NOT claimed operational. No exact OSM metro node; coordinates kept null (no fuzzy match).",
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-city-centre-2",
+      "name": "City Centre-2",
+      "primary_status": "under_construction",
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "lat": null,
+      "lon": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "do_not_match_green_city_centre",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      },
+      "notes": "Audit 2026-11-06: Orange New Town UC station. Must not reuse Green Line City Center OSM coordinates. No distinct OSM metro node found; lat/lon kept null.",
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-chinar-park",
+      "name": "Chinar Park",
+      "primary_status": "under_construction",
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "lat": null,
+      "lon": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched"
+        ],
+        "audit_coords_ok": false
+      },
+      "notes": "Audit 2026-11-06: Orange Line UC station on New Town–VIP Road approach. Name/status confirmed against Orange corridor lists; no OSM metro node; coords null.",
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-vip-road",
+      "name": "VIP Road",
+      "primary_status": "under_construction",
+      "lines": [
+        {
+          "line": "Orange",
+          "status": "under_construction"
+        }
+      ],
+      "lat": null,
+      "lon": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "name_ambiguous",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "planned_green_teghoria_interchange"
+        ],
+        "audit_coords_ok": false
+      },
+      "notes": "Audit 2026-11-06: Orange UC station near Haldiram/VIP Road; distinct from operational VIP Bazar. Planned interchange with Green Teghoria (separate station record). No OSM metro node; coordinates kept null.",
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-krishnapur",
+      "name": "Krishnapur",
+      "primary_status": "proposed",
+      "lines": [
+        {
+          "line": "Green",
+          "status": "proposed"
+        }
+      ],
+      "lat": null,
+      "lon": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "status_approved_or_proposed"
+        ],
+        "audit_coords_ok": false
+      },
+      "notes": "Audit 2026-11-06: Green Sector-V→Teghoria approved extension; land notices reported; coords null.",
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-kestopur",
+      "name": "Kestopur",
+      "primary_status": "proposed",
+      "lines": [
+        {
+          "line": "Green",
+          "status": "proposed"
+        }
+      ],
+      "lat": null,
+      "lon": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "status_approved_or_proposed"
+        ],
+        "audit_coords_ok": false
+      },
+      "notes": "Audit 2026-11-06: Green Sector-V→Teghoria approved extension; coords null.",
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-baguiati",
+      "name": "Baguiati",
+      "primary_status": "proposed",
+      "lines": [
+        {
+          "line": "Green",
+          "status": "proposed"
+        }
+      ],
+      "lat": null,
+      "lon": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "status_approved_or_proposed"
+        ],
+        "audit_coords_ok": false
+      },
+      "notes": "Audit 2026-11-06: Green Sector-V→Teghoria approved extension; coords null.",
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-raghunathpur",
+      "name": "Raghunathpur",
+      "primary_status": "proposed",
+      "lines": [
+        {
+          "line": "Green",
+          "status": "proposed"
+        }
+      ],
+      "lat": null,
+      "lon": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "status_approved_or_proposed"
+        ],
+        "audit_coords_ok": false
+      },
+      "notes": "Audit 2026-11-06: Green Sector-V→Teghoria approved extension; coords null.",
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-teghoria",
+      "name": "Teghoria",
+      "primary_status": "proposed",
+      "lines": [
+        {
+          "line": "Green",
+          "status": "proposed"
+        }
+      ],
+      "lat": null,
+      "lon": null,
+      "coordinate_confidence": "missing",
+      "osm": null,
+      "verification": {
+        "osm_name_match": "unmatched",
+        "needs_manual_verification": true,
+        "flags": [
+          "coords_unverified_pending_osm",
+          "needs_manual_verification",
+          "osm_unmatched",
+          "planned_orange_vip_road_interchange",
+          "status_approved_or_proposed"
+        ],
+        "audit_coords_ok": false
+      },
+      "notes": "Audit 2026-11-06: Green approved eastern terminus (Sector-V→Teghoria). Planned interchange with Orange VIP Road (separate record). Land acquisition underway; not under construction for ops purposes; coords null.",
+      "quality_bucket": "missing_coordinates"
+    }
+  ],
+  "still_requires_manual_verification": [
+    {
+      "id": "km-mominpur",
+      "name": "Mominpur",
+      "primary_status": "under_construction",
+      "lines": [
+        "Purple"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-khidirpur",
+      "name": "Khidirpur",
+      "primary_status": "under_construction",
+      "lines": [
+        "Purple"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-victoria",
+      "name": "Victoria",
+      "primary_status": "under_construction",
+      "lines": [
+        "Purple"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "name_may_collide_with_landmark",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-eden-gardens",
+      "name": "Eden Gardens",
+      "primary_status": "proposed",
+      "lines": [
+        "Purple"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched",
+        "status_approved_or_proposed"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-iim-calcutta",
+      "name": "IIM Calcutta",
+      "primary_status": "proposed",
+      "lines": [
+        "Purple"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched",
+        "tender_floated"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-diamond-park",
+      "name": "Diamond Park",
+      "primary_status": "proposed",
+      "lines": [
+        "Purple"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "land_acquisition",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-birati",
+      "name": "Birati",
+      "primary_status": "under_construction",
+      "lines": [
+        "Yellow"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-michael-nagar",
+      "name": "Michael Nagar",
+      "primary_status": "under_construction",
+      "lines": [
+        "Yellow"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-new-barrackpur",
+      "name": "New Barrackpur",
+      "primary_status": "proposed",
+      "lines": [
+        "Yellow"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched",
+        "yellow_alignment_name_may_change"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-madhyamgram",
+      "name": "Madhyamgram",
+      "primary_status": "proposed",
+      "lines": [
+        "Yellow"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-hridaypur",
+      "name": "Hridaypur",
+      "primary_status": "proposed",
+      "lines": [
+        "Yellow"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-barasat",
+      "name": "Barasat",
+      "primary_status": "proposed",
+      "lines": [
+        "Yellow"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_hit_rejected_railway_not_metro"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-gour-kishore-ghosh",
+      "name": "Gour Kishore Ghosh",
+      "primary_status": "under_construction",
+      "lines": [
+        "Orange"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-it-centre",
+      "name": "IT Centre",
+      "primary_status": "under_construction",
+      "lines": [
+        "Orange"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "near_green_sector_v_interchange",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-swapnabhor",
+      "name": "Swapnabhor",
+      "primary_status": "under_construction",
+      "lines": [
+        "Orange"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-mangaldeep",
+      "name": "Mangaldeep",
+      "primary_status": "under_construction",
+      "lines": [
+        "Orange"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-city-centre-2",
+      "name": "City Centre-2",
+      "primary_status": "under_construction",
+      "lines": [
+        "Orange"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "do_not_match_green_city_centre",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-chinar-park",
+      "name": "Chinar Park",
+      "primary_status": "under_construction",
+      "lines": [
+        "Orange"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-vip-road",
+      "name": "VIP Road",
+      "primary_status": "under_construction",
+      "lines": [
+        "Orange"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "name_ambiguous",
+        "needs_manual_verification",
+        "osm_unmatched",
+        "planned_green_teghoria_interchange"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-krishnapur",
+      "name": "Krishnapur",
+      "primary_status": "proposed",
+      "lines": [
+        "Green"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched",
+        "status_approved_or_proposed"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-kestopur",
+      "name": "Kestopur",
+      "primary_status": "proposed",
+      "lines": [
+        "Green"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched",
+        "status_approved_or_proposed"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-baguiati",
+      "name": "Baguiati",
+      "primary_status": "proposed",
+      "lines": [
+        "Green"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched",
+        "status_approved_or_proposed"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-raghunathpur",
+      "name": "Raghunathpur",
+      "primary_status": "proposed",
+      "lines": [
+        "Green"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched",
+        "status_approved_or_proposed"
+      ],
+      "quality_bucket": "missing_coordinates"
+    },
+    {
+      "id": "km-teghoria",
+      "name": "Teghoria",
+      "primary_status": "proposed",
+      "lines": [
+        "Green"
+      ],
+      "lat": null,
+      "lon": null,
+      "flags": [
+        "coords_unverified_pending_osm",
+        "needs_manual_verification",
+        "osm_unmatched",
+        "planned_orange_vip_road_interchange",
+        "status_approved_or_proposed"
+      ],
+      "quality_bucket": "missing_coordinates"
+    }
+  ]
+}
