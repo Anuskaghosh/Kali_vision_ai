@@ -1,8 +1,6 @@
 
 import streamlit as st
 import streamlit.components.v1 as components
-import pandas as pd
-import numpy as np
 import os
 import json
 import shutil
@@ -14,23 +12,7 @@ from datetime import datetime
 from html import escape as html_escape
 from io import BytesIO
 from pathlib import Path
-from PIL import Image
 from urllib.parse import quote
-import plotly.express as px
-import folium
-from reportlab.lib import colors
-from reportlab.lib.enums import TA_CENTER, TA_LEFT
-from reportlab.lib.pagesizes import A4, landscape
-from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
-from reportlab.lib.units import mm
-from reportlab.platypus import (
-    HRFlowable,
-    Paragraph,
-    SimpleDocTemplate,
-    Spacer,
-    Table,
-    TableStyle,
-)
 
 try:
     import certifi
@@ -124,6 +106,15 @@ st.markdown("""
 
 header[data-testid="stHeader"] {background:transparent;}
 #MainMenu, footer {visibility:hidden;}
+/* The running/stop control is Streamlit's "script still going" icon.
+   It sits in the top bar for the whole run; the page itself is the loading state. */
+div[data-testid="stStatusWidget"],
+div[data-testid="stToolbar"],
+div[data-testid="stDecoration"] {
+    display:none !important;
+    visibility:hidden !important;
+    pointer-events:none !important;
+}
 
 .block-container {
     max-width:1500px;
@@ -2044,6 +2035,21 @@ def image_category(filename):
 
 def build_analytics_pdf(df, counts, weight, total_mb, largest_row):
     """Build a themed PDF dataset report (bytes)."""
+    import pandas as pd
+    from reportlab.lib import colors
+    from reportlab.lib.enums import TA_CENTER
+    from reportlab.lib.pagesizes import A4, landscape
+    from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
+    from reportlab.lib.units import mm
+    from reportlab.platypus import (
+        HRFlowable,
+        Paragraph,
+        SimpleDocTemplate,
+        Spacer,
+        Table,
+        TableStyle,
+    )
+
     gold = colors.HexColor("#C48A39")
     wine = colors.HexColor("#761F35")
     hibiscus = colors.HexColor("#D6336C")
@@ -2258,6 +2264,7 @@ def web_image(src: Path, max_edge: int = 1200, quality: int = 72):
     # after deploy, because git gives the files a new checkout time.
     fresh = dest.exists() and dest.stat().st_size > 0
     if not fresh:
+        from PIL import Image
         with Image.open(src) as im:
             im = im.convert("RGB")
             im.thumbnail((max_edge, max_edge), Image.Resampling.LANCZOS)
@@ -2273,6 +2280,30 @@ def web_image(src: Path, max_edge: int = 1200, quality: int = 72):
     kb = round(dest.stat().st_size / 1024) if dest.exists() else 0
     label = f"{width} × {height} · {kb} KB" if width and height else f"{kb} KB"
     return url, label, width, height
+
+
+def original_image_size(path: Path):
+    """Width and height without reopening the original on every Analytics run."""
+    key = f"{path.name}|{path.stat().st_size}"
+    cache_path = WEB_IMG_DIR / "original-sizes.json"
+    data = {}
+    try:
+        data = json.loads(cache_path.read_text())
+    except Exception:
+        data = {}
+    hit = data.get(key)
+    if isinstance(hit, list) and len(hit) == 2:
+        return int(hit[0]), int(hit[1])
+    from PIL import Image
+    with Image.open(path) as im:
+        width, height = im.size
+    data[key] = [width, height]
+    try:
+        cache_path.parent.mkdir(parents=True, exist_ok=True)
+        cache_path.write_text(json.dumps(data))
+    except Exception:
+        pass
+    return width, height
 
 
 # =====================================================
@@ -3003,6 +3034,7 @@ iframe[data-kali-welcome-frame="1"] {
 
     function enterSite() {
       try { window.parent.localStorage.setItem("kali_welcome_v1", "1"); } catch (e) {}
+      try { window.parent.document.cookie = "kali_welcome_v1=1; path=/; max-age=31536000; SameSite=Lax"; } catch (e) {}
       try {
         var u = new URL(window.parent.location.href);
         u.searchParams.set("kali_welcome", "done");
@@ -3195,6 +3227,11 @@ iframe[data-kali-welcome-frame="1"] {
 
 if "kali_welcome_dismissed" not in st.session_state:
     st.session_state.kali_welcome_dismissed = False
+try:
+    if st.context.cookies.get("kali_welcome_v1") == "1":
+        st.session_state.kali_welcome_dismissed = True
+except Exception:
+    pass
 
 # Continue button on the welcome iframe lands here
 if st.query_params.get("kali_welcome") == "done":
@@ -3284,6 +3321,7 @@ if not st.session_state.kali_welcome_dismissed:
       log("no localStorage flag — welcome will render");
       return;
     }
+    try { doc.cookie = "kali_welcome_v1=1; path=/; max-age=31536000; SameSite=Lax"; } catch (eCookie) {}
     var form = doc.querySelector('[data-testid="stForm"]:has(.kali-welcome-restore)');
     if (!form) {
       log("restore form NOT found — welcome will still render this run");
@@ -3573,8 +3611,39 @@ if page != "Kolkata Metro":
 # (Browsers always show their own permission prompt; we cannot
 # silently read GPS. Once allowed, coords are saved for Metro.)
 # =====================================================
-from modules.metro.metro_ui import apply_geo_payload  # noqa: E402
+def _remember_geo_cookie() -> None:
+    """Keep a saved fix without clicking the hidden form (that reruns the app)."""
+    if (st.session_state.get("metro_origin") or {}).get("lat") is not None:
+        return
+    try:
+        raw = (st.context.cookies.get("kali_geo") or "").strip()
+    except Exception:
+        return
+    parts = raw.split("|")
+    if len(parts) < 2:
+        return
+    try:
+        lat = float(parts[0])
+        lon = float(parts[1])
+    except ValueError:
+        return
+    accuracy = None
+    if len(parts) > 2 and parts[2]:
+        try:
+            accuracy = float(parts[2])
+        except ValueError:
+            accuracy = None
+    st.session_state.metro_origin = {
+        "lat": lat,
+        "lon": lon,
+        "label": "My Current Location",
+        "source": "geolocation",
+        "accuracy_m": accuracy,
+        "kind": "user_gps",
+    }
 
+
+_remember_geo_cookie()
 _has_saved_geo = bool(
     (st.session_state.get("metro_origin") or {}).get("lat") is not None
 )
@@ -3620,6 +3689,7 @@ with st.form("site_geo_bridge", border=False, clear_on_submit=True):
     )
     _site_geo_submitted = st.form_submit_button("Apply site geo")
 if _site_geo_submitted:
+    from modules.metro.metro_ui import apply_geo_payload
     apply_geo_payload(_site_geo_payload or "", arm_near_me=True)
 
 components.html(
@@ -3629,10 +3699,16 @@ components.html(
   var win = window.parent;
   try {{ if (win.top && win.top.document) win = win.top; }} catch (e) {{}}
   var doc = win.document;
-  if (doc.__kaliSiteGeoBoot === 2) return;
-  doc.__kaliSiteGeoBoot = 2;
-
+  var ON_METRO = {json.dumps(page == "Kolkata Metro")};
   var HAS_ORIGIN = {json.dumps(_has_saved_geo)};
+  win.__kaliGeoShouldSubmit = ON_METRO && !HAS_ORIGIN;
+  if (doc.__kaliSiteGeoBoot === 3) {{
+    if (win.__kaliGeoShouldSubmit && !win.__kaliGeoSubmitted && win.__kaliSubmitSavedGeo) {{
+      win.__kaliSubmitSavedGeo();
+    }}
+    return;
+  }}
+  doc.__kaliSiteGeoBoot = 3;
 
   function setNativeInput(input, value) {{
     var proto = win.HTMLInputElement.prototype;
@@ -3664,7 +3740,24 @@ components.html(
         lat: lat, lon: lon, acc: acc || null, ts: Date.now()
       }}));
     }} catch (e) {{}}
+    try {{
+      doc.cookie = "kali_geo=" + lat + "|" + lon + "|" + (acc || "") + "; path=/; max-age=2592000; SameSite=Lax";
+    }} catch (e2) {{}}
   }}
+
+  function submitSaved() {{
+    if (!win.__kaliGeoShouldSubmit || win.__kaliGeoSubmitted) return;
+    var raw = null;
+    try {{ raw = win.localStorage.getItem("kali_user_geo"); }} catch (e) {{ return; }}
+    if (!raw) return;
+    try {{
+      var o = JSON.parse(raw);
+      if (!o || o.lat == null || o.lon == null) return;
+      win.__kaliGeoSubmitted = true;
+      submitGeo("ok|" + o.lat + "|" + o.lon + "|" + (o.acc || ""));
+    }} catch (e2) {{}}
+  }}
+  win.__kaliSubmitSavedGeo = submitSaved;
 
   function requestLocation() {{
     if (win.__kaliGeoRequesting) return;
@@ -3685,7 +3778,8 @@ components.html(
         var lon = pos.coords.longitude;
         var acc = (pos.coords.accuracy != null) ? String(pos.coords.accuracy) : "";
         saveLocal(lat, lon, acc);
-        if (HAS_ORIGIN) return;
+        if (!win.__kaliGeoShouldSubmit || win.__kaliGeoSubmitted) return;
+        win.__kaliGeoSubmitted = true;
         submitGeo("ok|" + lat + "|" + lon + "|" + acc);
       }},
       function () {{
@@ -3700,28 +3794,17 @@ components.html(
 
   // 2) If the browser blocked load-time geo, retry on first interaction
   function interactionRetry() {{
-    if (win.__kaliGeoGot || HAS_ORIGIN) return;
+    if (win.__kaliGeoGot) return;
     requestLocation();
   }}
   ["click", "touchstart", "keydown"].forEach(function (ev) {{
     doc.addEventListener(ev, interactionRetry, {{ once: true, capture: true }});
   }});
 
-  // 3) Restore from localStorage when Streamlit session is empty
-  if (!HAS_ORIGIN) {{
-    try {{
-      var raw = win.localStorage.getItem("kali_user_geo");
-      if (raw) {{
-        var o = JSON.parse(raw);
-        if (o && o.lat != null && o.lon != null) {{
-          win.setTimeout(function () {{
-            if (win.__kaliGeoGot) return;
-            submitGeo("ok|" + o.lat + "|" + o.lon + "|" + (o.acc || ""));
-          }}, 400);
-        }}
-      }}
-    }} catch (e) {{}}
-  }}
+  // Saved coordinates are applied from the cookie on the next full load.
+  // Only Metro, and only when Python does not already have a fix, may
+  // click the form — that click reruns the whole site and holds the stop icon.
+  submitSaved();
 }})();
 </script>
     """,
@@ -5099,6 +5182,7 @@ elif page == "Kolkata Explorer":
             st.markdown('<div class="explorer-label">INTERACTIVE MAP</div>', unsafe_allow_html=True)
 
             # OpenStreetMap tiles — free, no API key. CSS filter darkens to match theme.
+            import folium
             fmap = folium.Map(
                 location=[place["lat"], place["lon"]],
                 zoom_start=13 if not place.get("custom") else 14,
@@ -5178,6 +5262,8 @@ elif page == "Kolkata Metro":
 # =====================================================
 
 elif page == "Analytics":
+    import pandas as pd
+    import plotly.express as px
 
     st.markdown('<div class="section-label">READING THE SACRED DATA</div>', unsafe_allow_html=True)
     st.markdown('<div class="section-title">Cultural Data Analytics</div>', unsafe_allow_html=True)
@@ -5190,8 +5276,7 @@ elif page == "Analytics":
             size_kb = round(p.stat().st_size/1024,2)
             w,h = None,None
             try:
-                with Image.open(p) as im:
-                    w,h = im.size
+                w, h = original_image_size(p)
             except Exception:
                 pass
             rows.append({

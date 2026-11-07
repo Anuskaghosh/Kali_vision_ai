@@ -3,3 +3,9 @@ enableStaticServing = true
 
 [browser]
 gatherUsageStats = false
+
+[client]
+toolbarMode = "minimal"
+
+[ui]
+hideTopBar = true
