@@ -1511,17 +1511,28 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.assistant-label) [data-test
 .road-list li.done::before {color:var(--hibiscus);}
 
 /* ---------- WIDGETS ---------- */
-.stButton>button {
+.stButton>button,
+.stButton>button p,
+.stButton>button span,
+[data-testid="stDownloadButton"] button,
+[data-testid="stDownloadButton"] button p,
+[data-testid="stDownloadButton"] button span,
+[data-testid="stLinkButton"] a,
+[data-testid="stLinkButton"] a p,
+[data-testid="stFormSubmitButton"] button,
+[data-testid="stFormSubmitButton"] button p {
     background:linear-gradient(120deg,#F0CD85,#C48A39);
-    color:#180B0C;
+    color:#180B0C !important;
     border:none;
     border-radius:30px;
     font-weight:600;
     transition:.3s;
 }
-.stButton>button:hover {
+.stButton>button:hover,
+[data-testid="stDownloadButton"] button:hover,
+[data-testid="stLinkButton"] a:hover {
     background:#FFE0A0;
-    color:#180B0C;
+    color:#180B0C !important;
     transform:translateY(-2px);
     box-shadow:0 8px 24px rgba(229,188,112,.42);
 }
@@ -3503,14 +3514,18 @@ window.__kaliMetroArm = function (show) {
       node.style.setProperty("visibility", "hidden", "important");
     });
   }
-  function cover() {
+  function ensureStyle() {
     var style = d.getElementById("kali-metro-enter-style");
     if (!style) {
       style = d.createElement("style");
       style.id = "kali-metro-enter-style";
-      style.textContent = "body.kali-metro-entering [data-testid='stMain'] canvas,body.kali-metro-entering .js-plotly-plot,body.kali-metro-entering [data-testid='stPlotlyChart'],body.kali-metro-entering .gallery-grid,body.kali-metro-entering .experience,body.kali-metro-entering .hero-shell,body.kali-metro-entering .gcard{visibility:hidden !important;}";
       d.head.appendChild(style);
     }
+    style.textContent = "body.kali-metro-entering [data-testid='stMain'] canvas,body.kali-metro-entering .js-plotly-plot,body.kali-metro-entering [data-testid='stPlotlyChart'],body.kali-metro-entering .gallery-grid,body.kali-metro-entering .experience,body.kali-metro-entering .hero-shell,body.kali-metro-entering .gcard{visibility:hidden !important;}body.kali-metro-leaving .metro-dock-panel,body.kali-metro-leaving [data-metro-dock],body.kali-metro-leaving .metro-sheet-list,body.kali-metro-leaving .metro-sheet-row,body.kali-metro-leaving .metro-sheet-foot,body.kali-metro-leaving .metro-sheet-empty,body.kali-metro-leaving #metro-find-route,body.kali-metro-leaving [data-testid='stForm']:has(.metro-pick-bridge),body.kali-metro-leaving [data-testid='stForm']:has(.metro-route-bridge),body.kali-metro-leaving [data-testid='stForm']:has(.metro-page-geo-bridge),body.kali-metro-leaving [data-testid='stForm']:has(.site-geo-bridge),body.kali-metro-leaving [data-testid='stColumn']:has(.metro-near-me-btn),body.kali-metro-leaving [data-testid='stColumn']:has(.metro-sheet-search){display:none !important;visibility:hidden !important;}";
+  }
+  function cover() {
+    ensureStyle();
+    d.body.classList.remove("kali-metro-leaving");
     d.body.classList.add("kali-metro-entering");
     var el = d.getElementById("kali-metro-enter-cover");
     if (!el) {
@@ -3537,6 +3552,8 @@ window.__kaliMetroArm = function (show) {
   }
   function hideMetro() {
     uncover();
+    ensureStyle();
+    d.body.classList.add("kali-metro-leaving");
     d.querySelectorAll("iframe[data-metro-map-frame]").forEach(function (frame) {
       frame.style.setProperty("opacity", "0", "important");
       frame.style.setProperty("visibility", "hidden", "important");
@@ -3590,8 +3607,8 @@ components.html(
 <script>
 (function () {{
   var doc = window.parent.document;
-  if (doc.__kaliMetroCoverHook === 5) return;
-  doc.__kaliMetroCoverHook = 5;
+  if (doc.__kaliMetroCoverHook === 6) return;
+  doc.__kaliMetroCoverHook = 6;
   var script = doc.createElement("script");
   script.textContent = {json.dumps(_METRO_COVER_JS)};
   doc.documentElement.appendChild(script);
@@ -3953,6 +3970,11 @@ else:
         }
         el.style.removeProperty("overflow");
       });
+      var metroLeft = !!doc.querySelector(
+        ".metro-sheet-row, .metro-sheet-list, .metro-dock-panel, [data-metro-dock], .metro-near-me-btn, .metro-sheet-search, .metro-dock-anchor, #metro-find-route, iframe[data-metro-map-frame]"
+      );
+      if (metroLeft) doc.body.classList.add("kali-metro-leaving");
+      else doc.body.classList.remove("kali-metro-leaving");
       doc.querySelectorAll(
         ".metro-dock-panel, [data-metro-dock], [data-testid='stVerticalBlock'], [data-testid='stElementContainer'], [data-testid='stLayoutWrapper']"
       ).forEach(function (el) {
