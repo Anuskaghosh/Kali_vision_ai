@@ -3286,7 +3286,6 @@ if _welcome_restore_go and str(_welcome_restore_val or "").strip() == "1":
 _nav_for_welcome = st.query_params.get("nav")
 _metro_bridge_hit = _metro_deep_link_active()
 _nav_skip_welcome = _nav_for_welcome in {
-    "Home",
     "AI Assistant",
     "Gallery",
     "Kolkata Explorer",

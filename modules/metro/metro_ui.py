@@ -3693,6 +3693,9 @@ def render_metro_page() -> None:
             st.rerun()
         _consume_route_form()
         _consume_station_pick_form(service)
+        # Clear station search BEFORE its text_input widget is created.
+        if st.session_state.pop("metro_clear_station_q_pending", False):
+            st.session_state["metro_station_q"] = ""
         dest = st.session_state.get("metro_destination")
         org = st.session_state.get("metro_origin")
         rte = st.session_state.get("metro_route")
@@ -3721,7 +3724,8 @@ def render_metro_page() -> None:
                 st.session_state.metro_near_me_pending_focus = True
                 st.session_state.metro_soft_land = False
                 st.session_state.metro_preserve_map = False
-                st.session_state.metro_station_q = ""
+                st.session_state.metro_clear_station_q_pending = True
+                # st.session_state.metro_station_q = ""
             st.session_state.metro_request_geo = True
             st.session_state.metro_origin_error = None
             st.rerun()
