@@ -6,6 +6,7 @@ import numpy as np
 import os
 import json
 import shutil
+import subprocess
 import ssl
 import urllib.error
 import urllib.request
@@ -777,6 +778,8 @@ h1,h2,h3,p {color:var(--cream);}
 }
 .gcard {
     break-inside:avoid;
+    content-visibility:auto;
+    contain-intrinsic-size:auto 420px;
     display:block;
     position:relative;
     margin:0 0 18px;
@@ -790,7 +793,9 @@ h1,h2,h3,p {color:var(--cream);}
 }
 .gcard img {
     width:100%;
+    min-height:220px;
     display:block;
+    background:#14090f;
     transition:transform .6s ease;
 }
 .gcard:hover {
@@ -2252,11 +2257,9 @@ def web_image(src: Path, max_edge: int = 1200, quality: int = 72):
     WEB_IMG_DIR.mkdir(parents=True, exist_ok=True)
     dest = WEB_IMG_DIR / f"{src.stem}-{max_edge}.jpg"
     meta_path = dest.with_suffix(".meta")
-    fresh = (
-        dest.exists()
-        and dest.stat().st_size > 0
-        and dest.stat().st_mtime >= src.stat().st_mtime
-    )
+    # Trust a copy already on disk. A mtime check re-encodes every photo
+    # after deploy, because git gives the files a new checkout time.
+    fresh = dest.exists() and dest.stat().st_size > 0
     if not fresh:
         with Image.open(src) as im:
             im = im.convert("RGB")
@@ -3596,7 +3599,7 @@ components.html(
       function () {{
         win.__kaliGeoRequesting = false;
       }},
-      {{ enableHighAccuracy: true, timeout: 20000, maximumAge: 300000 }}
+      {{ enableHighAccuracy: false, timeout: 8000, maximumAge: 300000 }}
     );
   }}
 
@@ -3758,7 +3761,30 @@ def diya_divider():
 
 MUSIC_DIR = ASSET_DIR / "music"
 STATIC_MUSIC_DIR = BASE_DIR / "static" / "music"
+LITE_MUSIC_DIR = STATIC_MUSIC_DIR / "lite"
 AUDIO_EXTENSIONS = {".mp3", ".wav", ".ogg", ".m4a"}
+
+def lite_music_url(src: Path) -> str:
+    """Small background copy. The file in assets/music stays the original."""
+    LITE_MUSIC_DIR.mkdir(parents=True, exist_ok=True)
+    dest = LITE_MUSIC_DIR / f"{src.stem}.m4a"
+    fresh = dest.exists() and dest.stat().st_size > 0
+    if not fresh:
+        try:
+            subprocess.run(
+                [
+                    "afconvert", "-f", "m4af", "-d", "aac",
+                    "-c", "1", "-b", "64000",
+                    str(src), str(dest),
+                ],
+                check=True,
+                capture_output=True,
+            )
+        except Exception:
+            return "/app/static/music/" + quote(src.name)
+    if dest.exists() and dest.stat().st_size > 0:
+        return "/app/static/music/lite/" + quote(dest.name)
+    return "/app/static/music/" + quote(src.name)
 DEFAULT_MUSIC_VOLUME = 0.05
 
 def get_music_tracks():
@@ -3815,7 +3841,7 @@ elif music_tracks:
     playlist = [
         {
             "id": p.name,
-            "src": "/app/static/music/" + quote(p.name),
+            "src": lite_music_url(p),
             "title": music_display_title(p),
         }
         for p in music_tracks
@@ -3833,7 +3859,7 @@ elif music_tracks:
           const PLAYLIST = {playlist_json};
           const PLAYLIST_KEY = {playlist_key!r};
           const DEFAULT_VOL = {vol_pct};
-          const PLAYER_VERSION = "v6-stream-src";
+          const PLAYER_VERSION = "v7-lite-aac";
 
           if (win.__kaliMusicBooting) return;
           let player = doc.getElementById("kali-music-player");
@@ -4011,7 +4037,11 @@ elif music_tracks:
                       }}
                     }}
                   }} else if (!player._kaliAutostarted) {{
-                    await player._kaliTryAutostart();
+                    const startLater = () => {{
+                      if (!player._kaliAutostarted) player._kaliTryAutostart();
+                    }};
+                    if (win.requestIdleCallback) win.requestIdleCallback(startLater, {{ timeout: 4000 }});
+                    else win.setTimeout(startLater, 2500);
                   }} else {{
                     setUi(audio.paused ? "Stopped" : "Playing");
                   }}
@@ -4208,7 +4238,7 @@ if page == "Kolkata Metro":
     )
 elif wallpaper_files:
     wallpaper_urls = [
-        web_image(p, max_edge=1600, quality=68)[0] for p in wallpaper_files
+        web_image(p, max_edge=960, quality=58)[0] for p in wallpaper_files
     ]
     wallpaper_json = json.dumps(wallpaper_urls, ensure_ascii=False)
     components.html(
@@ -4219,7 +4249,7 @@ elif wallpaper_files:
   const win = window.parent;
   const SLIDES = {wallpaper_json};
   const INTERVAL_MS = 5000;
-  const VERSION = "v2-web-jpeg";
+  const VERSION = "v3-lazy-wallpaper";
 
   if (!SLIDES.length) return;
 
@@ -4297,9 +4327,16 @@ elif wallpaper_files:
   SLIDES.forEach(function (src, i) {{
     const slide = doc.createElement("div");
     slide.className = "kali-wp-slide" + (i === 0 ? " is-active" : "");
-    slide.style.backgroundImage = 'url("' + src + '")';
+    slide.dataset.src = src;
+    if (i === 0) slide.style.backgroundImage = 'url("' + src + '")';
     track.appendChild(slide);
   }});
+
+  function ensureSlide(slide) {{
+    if (slide && slide.dataset.src && !slide.style.backgroundImage) {{
+      slide.style.backgroundImage = 'url("' + slide.dataset.src + '")';
+    }}
+  }}
 
   let idx = 0;
   function shuffle() {{
@@ -4307,7 +4344,13 @@ elif wallpaper_files:
     if (slides.length < 2) return;
     slides[idx].classList.remove("is-active");
     idx = (idx + 1) % slides.length;
+    ensureSlide(slides[idx]);
     slides[idx].classList.add("is-active");
+  }}
+  if (win.requestIdleCallback) {{
+    win.requestIdleCallback(function () {{
+      ensureSlide(track.querySelectorAll(".kali-wp-slide")[1]);
+    }}, {{ timeout: 4000 }});
   }}
 
   win.__kaliWallpaperTimer = win.setInterval(shuffle, INTERVAL_MS);
@@ -4393,7 +4436,7 @@ if page == "Home":
 
     def _static_url(path):
         if path.exists() and path.stat().st_size > 0:
-            return web_image(path, max_edge=1400, quality=70)[0]
+            return web_image(path, max_edge=720, quality=56)[0]
         return ""
 
     kali_url = _static_url(exp_kali)
@@ -4527,7 +4570,7 @@ elif page == "Gallery":
             cards.append(f"""
             <figure class="gcard" style="animation-delay:{min(i*0.05,0.6)}s">
                 <a href="{src}" target="_blank" rel="noopener">
-                    <img src="{src}" alt="{title}" loading="lazy" decoding="async">
+                    <img alt="{title}" loading="lazy" decoding="async">
                 </a>
                 <figcaption class="gcard-overlay">
                     <div class="gcard-name">{title}</div>
@@ -4538,6 +4581,41 @@ elif page == "Gallery":
         st.markdown(
             f'<div class="gallery-grid">{"".join(cards)}</div>',
             unsafe_allow_html=True
+        )
+        components.html(
+            """
+<script>
+(function () {
+  var doc = window.parent.document;
+  var win = window.parent;
+  function scroller() {
+    return doc.querySelector('[data-testid="stMain"]') || null;
+  }
+  function loadNear() {
+    var root = scroller();
+    var box = root ? root.getBoundingClientRect() : { top: 0, bottom: win.innerHeight };
+    doc.querySelectorAll(".gcard img").forEach(function (img) {
+      if (img.getAttribute("src")) return;
+      var link = img.closest("a");
+      if (!link) return;
+      var r = img.getBoundingClientRect();
+      if (r.bottom > box.top - 200 && r.top < box.bottom + 600) {
+        img.src = link.getAttribute("href");
+      }
+    });
+  }
+  if (!doc.__kaliGalleryScroll) {
+    doc.__kaliGalleryScroll = true;
+    var root = scroller();
+    (root || win).addEventListener("scroll", loadNear, { passive: true });
+  }
+  loadNear();
+  [80, 300, 800].forEach(function (ms) { win.setTimeout(loadNear, ms); });
+})();
+</script>
+            """,
+            height=0,
+            width=0,
         )
 
 
@@ -5226,7 +5304,7 @@ elif page == "About":
         if not about_img.exists():
             about_img = ASSET_DIR / "maa_kali_hero.png"
         if about_img.exists() and about_img.stat().st_size > 0:
-            about_url, _about_meta = web_image(about_img, max_edge=1200, quality=72)
+            about_url, _about_meta = web_image(about_img, max_edge=720, quality=56)
             st.markdown(
                 f'<img src="{about_url}" alt="Maa Kali" style="width:100%;height:auto;display:block;border-radius:12px;">',
                 unsafe_allow_html=True,

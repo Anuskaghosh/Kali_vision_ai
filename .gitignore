@@ -25,6 +25,3 @@ env/
 
 # Logs
 *.log
-
-# Generated display copies (rebuilt on first page load)
-static/assets/web/
