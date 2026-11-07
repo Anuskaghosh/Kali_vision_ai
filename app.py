@@ -3710,35 +3710,75 @@ else:
         """
 <script>
 (function () {
-  try {
-    var doc = window.parent.document;
-    var ids = ["stApp", "stAppViewContainer", "stMain", "stMainBlockContainer"];
-    ids.forEach(function (id) {
-      var el = doc.querySelector('[data-testid="' + id + '"]') || doc.querySelector("." + id);
-      if (!el || !el.style) return;
-      el.style.removeProperty("background");
-      el.style.removeProperty("background-image");
-      el.style.removeProperty("background-color");
-    });
-    if (doc.documentElement && doc.documentElement.style) {
-      doc.documentElement.style.removeProperty("background");
-      doc.documentElement.style.removeProperty("background-image");
-      doc.documentElement.style.removeProperty("background-color");
-    }
-    if (doc.body && doc.body.style) {
-      doc.body.style.removeProperty("background");
-      doc.body.style.removeProperty("background-image");
-      doc.body.style.removeProperty("background-color");
-    }
-    doc.querySelectorAll(".metro-dock-panel").forEach(function (el) {
-      el.classList.remove("metro-dock-panel");
-      [
-        "position", "left", "right", "top", "bottom", "transform", "width",
-        "min-height", "max-height", "height", "overflow-y", "z-index",
-        "pointer-events", "background", "backdrop-filter", "-webkit-backdrop-filter"
-      ].forEach(function (prop) { el.style.removeProperty(prop); });
-    });
-  } catch (e) {}
+  var win = window.parent;
+  var doc = win.document;
+  var PROPS = [
+    "position", "left", "right", "top", "bottom", "transform", "inset",
+    "width", "max-width", "min-width", "min-height", "max-height", "height",
+    "overflow", "overflow-x", "overflow-y", "z-index", "pointer-events",
+    "background", "background-image", "background-color",
+    "backdrop-filter", "-webkit-backdrop-filter", "flex", "border",
+    "box-shadow", "border-radius", "padding", "margin", "display",
+    "visibility", "opacity"
+  ];
+  function clearProps(el) {
+    if (!el || !el.style) return;
+    PROPS.forEach(function (prop) { el.style.removeProperty(prop); });
+  }
+  function isDock(el) {
+    if (!el || !el.style) return false;
+    if (el.classList && el.classList.contains("metro-dock-panel")) return true;
+    if (el.getAttribute && el.getAttribute("data-metro-dock") === "1") return true;
+    var bg = ((el.style.background || "") + (el.style.backgroundColor || "")).toLowerCase();
+    var w = (el.style.maxWidth || "") + (el.style.width || "");
+    if (bg.indexOf("21151d") >= 0 || bg.indexOf("33, 21, 29") >= 0) return true;
+    if (w.indexOf("400px") >= 0 || w.indexOf("100vw - 4") >= 0 || w.indexOf("100vw - 2") >= 0) return true;
+    return false;
+  }
+  function scrub() {
+    try {
+      ["stApp", "stAppViewContainer", "stMain", "stMainBlockContainer"].forEach(function (id) {
+        var el = doc.querySelector('[data-testid="' + id + '"]') || doc.querySelector("." + id);
+        if (!el || !el.style) return;
+        el.style.removeProperty("background");
+        el.style.removeProperty("background-image");
+        el.style.removeProperty("background-color");
+      });
+      [doc.documentElement, doc.body].forEach(function (el) {
+        if (!el || !el.style) return;
+        el.style.removeProperty("background");
+        el.style.removeProperty("background-image");
+        el.style.removeProperty("background-color");
+        el.style.removeProperty("overflow");
+      });
+      doc.querySelectorAll(
+        ".metro-dock-panel, [data-metro-dock], [data-testid='stVerticalBlock'], [data-testid='stElementContainer'], [data-testid='stLayoutWrapper']"
+      ).forEach(function (el) {
+        if (!isDock(el)) return;
+        if (el.classList) el.classList.remove("metro-dock-panel");
+        if (el.removeAttribute) el.removeAttribute("data-metro-dock");
+        clearProps(el);
+      });
+      doc.querySelectorAll("iframe[data-metro-map-frame]").forEach(function (frame) {
+        frame.removeAttribute("data-metro-map-frame");
+        frame.style.cssText = "";
+        var parent = frame.parentElement;
+        if (parent && parent.style && (parent.style.pointerEvents === "none" || (parent.style.background || "").indexOf("dcd6cf") >= 0)) {
+          clearProps(parent);
+        }
+      });
+      var chip = doc.getElementById("metro-find-route");
+      if (chip) chip.remove();
+      doc.querySelectorAll(".music-player, #kali-music-player").forEach(function (el) {
+        el.style.removeProperty("display");
+        el.style.removeProperty("visibility");
+        el.style.removeProperty("pointer-events");
+      });
+      win.dispatchEvent(new Event("resize"));
+    } catch (e) {}
+  }
+  scrub();
+  [80, 350, 1000].forEach(function (ms) { win.setTimeout(scrub, ms); });
 })();
 </script>
         """,

@@ -1315,6 +1315,7 @@ body:has(.metro-dock-anchor) #kali-music-player {
   function pinDock() {
     try {
       var doc = window.parent.document;
+      if (!doc.querySelector(".metro-page-active")) return;
       var anchor = doc.querySelector(".metro-dock-anchor");
       if (!anchor) return;
       var node = anchor;
@@ -1331,6 +1332,7 @@ body:has(.metro-dock-anchor) #kali-music-player {
           if (el !== target) el.classList.remove("metro-dock-panel");
         });
         target.classList.add("metro-dock-panel");
+        target.setAttribute("data-metro-dock", "1");
         var vw = window.parent.innerWidth || 1200;
         var isNarrow = vw <= 720;
         var bottom = isNarrow ? 10 : 16;
@@ -3304,6 +3306,7 @@ def _render_dock(
   function pin() {
     try {
       var doc = window.parent.document;
+      if (!doc.querySelector(".metro-page-active")) return;
       var anchor = doc.querySelector(".metro-dock-anchor");
       if (!anchor) return;
       var node = anchor, target = null;
@@ -3318,6 +3321,7 @@ def _render_dock(
         if (el !== target) el.classList.remove("metro-dock-panel");
       });
       target.classList.add("metro-dock-panel");
+      target.setAttribute("data-metro-dock", "1");
       var vw = window.parent.innerWidth || 1200;
       var vh = window.parent.innerHeight || 800;
       var isNarrow = vw <= 720;
