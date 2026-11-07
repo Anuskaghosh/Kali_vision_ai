@@ -778,8 +778,6 @@ h1,h2,h3,p {color:var(--cream);}
 }
 .gcard {
     break-inside:avoid;
-    content-visibility:auto;
-    contain-intrinsic-size:auto 420px;
     display:block;
     position:relative;
     margin:0 0 18px;
@@ -789,11 +787,10 @@ h1,h2,h3,p {color:var(--cream);}
     background:rgba(20,9,15,.6);
     box-shadow:0 6px 22px rgba(0,0,0,.45);
     transition:transform .35s ease,border-color .35s ease,box-shadow .35s ease;
-    animation:fadeUp .8s ease both;
 }
 .gcard img {
     width:100%;
-    min-height:220px;
+    height:auto;
     display:block;
     background:#14090f;
     transition:transform .6s ease;
@@ -2275,7 +2272,7 @@ def web_image(src: Path, max_edge: int = 1200, quality: int = 72):
     url = "/app/static/assets/web/" + quote(dest.name)
     kb = round(dest.stat().st_size / 1024) if dest.exists() else 0
     label = f"{width} × {height} · {kb} KB" if width and height else f"{kb} KB"
-    return url, label
+    return url, label, width, height
 
 
 # =====================================================
@@ -4710,59 +4707,25 @@ elif page == "Gallery":
         st.info("No images found. Add JPG, PNG or WEBP files to your assets folder.")
     else:
         cards = []
-        for i,p in enumerate(filtered):
-            src, meta = web_image(p, max_edge=640, quality=52)
-            title = image_title(p)
-            cat = image_category(p.name)
+        for p in filtered:
+            src, meta, width, height = web_image(p, max_edge=640, quality=52)
+            title = html_escape(image_title(p))
+            cat = html_escape(image_category(p.name).upper())
+            dims = f' width="{width}" height="{height}"' if width and height else ""
             cards.append(f"""
-            <figure class="gcard" style="animation-delay:{min(i*0.05,0.6)}s">
+            <figure class="gcard">
                 <a href="{src}" target="_blank" rel="noopener">
-                    <img alt="{title}" loading="lazy" decoding="async">
+                    <img src="{src}" alt="{title}" decoding="async"{dims}>
                 </a>
                 <figcaption class="gcard-overlay">
                     <div class="gcard-name">{title}</div>
-                    <div class="gcard-meta"><span class="gcard-cat">{cat.upper()}</span>{meta}</div>
+                    <div class="gcard-meta"><span class="gcard-cat">{cat}</span>{html_escape(meta)}</div>
                 </figcaption>
             </figure>""")
 
         st.markdown(
             f'<div class="gallery-grid">{"".join(cards)}</div>',
             unsafe_allow_html=True
-        )
-        components.html(
-            """
-<script>
-(function () {
-  var doc = window.parent.document;
-  var win = window.parent;
-  function scroller() {
-    return doc.querySelector('[data-testid="stMain"]') || null;
-  }
-  function loadNear() {
-    var root = scroller();
-    var box = root ? root.getBoundingClientRect() : { top: 0, bottom: win.innerHeight };
-    doc.querySelectorAll(".gcard img").forEach(function (img) {
-      if (img.getAttribute("src")) return;
-      var link = img.closest("a");
-      if (!link) return;
-      var r = img.getBoundingClientRect();
-      if (r.bottom > box.top - 200 && r.top < box.bottom + 600) {
-        img.src = link.getAttribute("href");
-      }
-    });
-  }
-  if (!doc.__kaliGalleryScroll) {
-    doc.__kaliGalleryScroll = true;
-    var root = scroller();
-    (root || win).addEventListener("scroll", loadNear, { passive: true });
-  }
-  loadNear();
-  [80, 300, 800].forEach(function (ms) { win.setTimeout(loadNear, ms); });
-})();
-</script>
-            """,
-            height=0,
-            width=0,
         )
 
 
@@ -5451,7 +5414,7 @@ elif page == "About":
         if not about_img.exists():
             about_img = ASSET_DIR / "maa_kali_hero.png"
         if about_img.exists() and about_img.stat().st_size > 0:
-            about_url, _about_meta = web_image(about_img, max_edge=720, quality=56)
+            about_url = web_image(about_img, max_edge=720, quality=56)[0]
             st.markdown(
                 f'<img src="{about_url}" alt="Maa Kali" style="width:100%;height:auto;display:block;border-radius:12px;">',
                 unsafe_allow_html=True,
