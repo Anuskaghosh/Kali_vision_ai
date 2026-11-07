@@ -2238,6 +2238,7 @@ def build_analytics_pdf(df, counts, weight, total_mb, largest_row):
     return buf.getvalue()
 
 STATIC_IMG_DIR = BASE_DIR / "static" / "assets"
+WEB_IMG_DIR = STATIC_IMG_DIR / "web"
 
 def sync_static_assets(files, dest_dir):
     dest_dir.mkdir(parents=True, exist_ok=True)
@@ -2245,6 +2246,33 @@ def sync_static_assets(files, dest_dir):
         d = dest_dir / p.name
         if not d.exists() or d.stat().st_size != p.stat().st_size:
             shutil.copy2(p, d)
+
+def web_image(src: Path, max_edge: int = 1200, quality: int = 72):
+    """Small JPEG used on screen. The file in assets/ stays the original."""
+    WEB_IMG_DIR.mkdir(parents=True, exist_ok=True)
+    dest = WEB_IMG_DIR / f"{src.stem}.jpg"
+    meta_path = dest.with_suffix(".meta")
+    fresh = (
+        dest.exists()
+        and dest.stat().st_size > 0
+        and dest.stat().st_mtime >= src.stat().st_mtime
+    )
+    if not fresh:
+        with Image.open(src) as im:
+            im = im.convert("RGB")
+            im.thumbnail((max_edge, max_edge), Image.Resampling.LANCZOS)
+            width, height = im.size
+            im.save(dest, "JPEG", quality=quality, optimize=True, progressive=True)
+        meta_path.write_text(f"{width} {height}")
+    width = height = ""
+    try:
+        width, height = meta_path.read_text().split()
+    except Exception:
+        pass
+    url = "/app/static/assets/web/" + quote(dest.name)
+    kb = round(dest.stat().st_size / 1024) if dest.exists() else 0
+    label = f"{width} × {height} · {kb} KB" if width and height else f"{kb} KB"
+    return url, label
 
 
 # =====================================================
@@ -2305,6 +2333,7 @@ iframe[data-kali-welcome-frame="1"] {
   inset:0 !important;
   width:100vw !important;
   height:100vh !important;
+  height:100dvh !important;
   z-index:2147483000 !important;
   border:0 !important;
 }
@@ -2446,6 +2475,7 @@ iframe[data-kali-welcome-frame="1"] {
     z-index: 3;
     width: min(680px, 94vw);
     max-height: calc(100vh - 28px);
+    max-height: calc(100dvh - 28px);
     display: flex;
     flex-direction: column;
     overflow: visible;
@@ -2649,9 +2679,30 @@ iframe[data-kali-welcome-frame="1"] {
     letter-spacing: .18em;
     color: #7A4E1E;
   }
-  @media (max-width: 520px) {
+  @media (max-width: 700px) {
     .d7, .d8, .d9, .d10 { display: none; }
-    .scroll-body { padding: 24px 18px 22px; }
+    .wrap { padding: 8px 10px 12px; }
+    .scroll {
+      width: min(420px, 88vw);
+      max-height: min(74dvh, 620px);
+    }
+    .scroll-roll { height: 18px; }
+    .scroll-body { padding: 14px 16px 12px; }
+    .ornament { margin-bottom: 6px; font-size: 11px; }
+    .title { font-size: 20px; letter-spacing: .03em; line-height: 1.2; }
+    .brand { font-size: 15px; margin: 4px 0 6px; }
+    .divider { margin: 8px auto 10px; }
+    .body { font-size: 13.5px; line-height: 1.42; margin: 0 0 7px; }
+    .signoff { font-size: 13px; margin-top: 6px; }
+    .go {
+      position: sticky;
+      bottom: 0;
+      z-index: 2;
+      min-height: 44px;
+      margin-top: 10px;
+      padding: 10px 18px;
+    }
+    .hibiscus { width: 36px; height: 36px; }
   }
 </style>
 </head>
@@ -2732,8 +2783,9 @@ iframe[data-kali-welcome-frame="1"] {
     var wave = 0;
     var leaving = false;
     var settleGarland = function () {};
-    var SIZE = 64;
-    var GAP = 56;
+    var narrow = window.innerWidth <= 700;
+    var SIZE = narrow ? 36 : 64;
+    var GAP = narrow ? 32 : 56;
     function paint(node, x, y, rot, opacity) {
       node.style.opacity = String(opacity);
       node.style.transform = "translate(" + x.toFixed(2) + "px," + y.toFixed(2) + "px) rotate(" + rot.toFixed(2) + "deg)";
@@ -2946,7 +2998,7 @@ iframe[data-kali-welcome-frame="1"] {
     if (idol) {
       var origin = "";
       try { origin = window.parent.location.origin || ""; } catch (e) {}
-      idol.src = origin + "/app/static/assets/kali_garland_idol.png?v=2";
+      idol.src = origin + "/app/static/assets/kali_garland_idol.webp?v=3";
     }
 
     function enterSite() {
@@ -3147,7 +3199,6 @@ if "kali_welcome_dismissed" not in st.session_state:
 # Continue button on the welcome iframe lands here
 if st.query_params.get("kali_welcome") == "done":
     st.session_state.kali_welcome_dismissed = True
-    print("[kali-welcome] dismissed via ?kali_welcome=done")
     try:
         del st.query_params["kali_welcome"]
     except Exception:
@@ -3185,8 +3236,6 @@ with st.form("kali_welcome_restore", border=False, clear_on_submit=True):
     _welcome_restore_go = st.form_submit_button("restore welcome")
 if _welcome_restore_go and str(_welcome_restore_val or "").strip() == "1":
     st.session_state.kali_welcome_dismissed = True
-    print("[kali-welcome] dismissed via localStorage restore form")
-
 _nav_for_welcome = st.query_params.get("nav")
 _metro_bridge_hit = _metro_deep_link_active()
 _nav_skip_welcome = _nav_for_welcome in {
@@ -3203,10 +3252,6 @@ _nav_skip_welcome = _nav_for_welcome in {
 # otherwise consuming metro_* query params on the next rerun re-opens the scroll.
 if (_metro_bridge_hit or _nav_skip_welcome) and not st.session_state.kali_welcome_dismissed:
     st.session_state.kali_welcome_dismissed = True
-    print(
-        "[kali-welcome] auto-dismissed via bridge/nav "
-        f"metro={_metro_bridge_hit} nav={_nav_for_welcome!r}"
-    )
 
 if not st.session_state.kali_welcome_dismissed:
     components.html(
@@ -3273,18 +3318,7 @@ _skip_welcome = (
     or _metro_bridge_hit
     or _nav_skip_welcome
 )
-print(
-    "[kali-welcome] gate",
-    {
-        "dismissed": bool(st.session_state.kali_welcome_dismissed),
-        "metro_bridge": bool(_metro_bridge_hit),
-        "nav": _nav_for_welcome,
-        "skip": bool(_skip_welcome),
-        "qp": dict(st.query_params),
-    },
-)
 if not _skip_welcome:
-    print("[kali-welcome] RENDERING scroll (gate open)")
     components.html(
         """
 <script>
@@ -3374,7 +3408,6 @@ if (
     or st.query_params.get("metro_near_me")
 ):
     st.session_state.navigation = "Kolkata Metro"
-    print("[kali-welcome] forced navigation=Kolkata Metro from metro bridge qp")
 
 # Brand + alpana for every page except Metro (map-first fullscreen)
 _nav_preview = st.session_state.get("navigation", "Home")
@@ -3800,7 +3833,7 @@ elif music_tracks:
           const PLAYLIST = {playlist_json};
           const PLAYLIST_KEY = {playlist_key!r};
           const DEFAULT_VOL = {vol_pct};
-          const PLAYER_VERSION = "v5-playlist-oshyama";
+          const PLAYER_VERSION = "v6-stream-src";
 
           if (win.__kaliMusicBooting) return;
           let player = doc.getElementById("kali-music-player");
@@ -3861,7 +3894,7 @@ elif music_tracks:
                   </div>
                 </div>
                 <div class="mp-list-panel" id="mp-list-panel" role="listbox" aria-label="Songs"></div>
-                <audio id="mp-audio" preload="auto" playsinline></audio>
+                <audio id="mp-audio" preload="none" playsinline></audio>
               `;
               doc.body.appendChild(player);
 
@@ -3938,16 +3971,6 @@ elif music_tracks:
                 renderList();
               }};
 
-              const fetchBlobUrl = async (src, signal) => {{
-                if (player._kaliCache[src]) return player._kaliCache[src];
-                const res = await fetch(src, {{ signal, cache: "force-cache" }});
-                if (!res.ok) throw new Error("fetch failed");
-                const buf = await res.arrayBuffer();
-                const blobUrl = URL.createObjectURL(new Blob([buf], {{ type: "audio/mpeg" }}));
-                player._kaliCache[src] = blobUrl;
-                return blobUrl;
-              }};
-
               const loadIndex = async (index, {{ autoplay = false, isAdvance = false }} = {{}}) => {{
                 const list = player._kaliPlaylist;
                 if (!list.length) return;
@@ -3955,11 +3978,6 @@ elif music_tracks:
                 const track = list[idx];
                 const gen = (player._kaliLoadGen || 0) + 1;
                 player._kaliLoadGen = gen;
-                if (player._kaliAbort) {{
-                  try {{ player._kaliAbort.abort(); }} catch (_) {{}}
-                }}
-                const ctrl = new AbortController();
-                player._kaliAbort = ctrl;
                 player._kaliReloading = true;
                 player._kaliReady = false;
                 player._kaliIndex = idx;
@@ -3967,25 +3985,10 @@ elif music_tracks:
                 player._kaliSetUi("Loading");
 
                 try {{
-                  const blobUrl = await fetchBlobUrl(track.src, ctrl.signal);
-                  if (player._kaliLoadGen !== gen) return;
+                  audio.preload = "none";
+                  audio.src = track.src;
                   player._kaliSrc = track.src;
-                  audio.src = blobUrl;
-                  audio.load();
                   player._kaliApplyVolume(player._kaliVolPct || DEFAULT_VOL);
-
-                  await new Promise((resolve) => {{
-                    const done = () => {{
-                      audio.removeEventListener("canplay", done);
-                      audio.removeEventListener("error", done);
-                      resolve();
-                    }};
-                    audio.addEventListener("canplay", done, {{ once: true }});
-                    audio.addEventListener("error", done, {{ once: true }});
-                    setTimeout(done, 4000);
-                  }});
-                  if (player._kaliLoadGen !== gen) return;
-
                   player._kaliReady = true;
                   player._kaliReloading = false;
 
@@ -4204,9 +4207,8 @@ if page == "Kolkata Metro":
         width=0,
     )
 elif wallpaper_files:
-    sync_static_assets(wallpaper_files, STATIC_IMG_DIR)
     wallpaper_urls = [
-        "/app/static/assets/" + quote(p.name) for p in wallpaper_files
+        web_image(p, max_edge=1600, quality=68)[0] for p in wallpaper_files
     ]
     wallpaper_json = json.dumps(wallpaper_urls, ensure_ascii=False)
     components.html(
@@ -4217,7 +4219,7 @@ elif wallpaper_files:
   const win = window.parent;
   const SLIDES = {wallpaper_json};
   const INTERVAL_MS = 5000;
-  const VERSION = "v1-kali-wallpaper-shuffle";
+  const VERSION = "v2-web-jpeg";
 
   if (!SLIDES.length) return;
 
@@ -4389,15 +4391,9 @@ if page == "Home":
         if not path.exists() or path.stat().st_size == 0:
             card_bgs[key] = fallbacks[key]
 
-    sync_files = [exp_kali] + list(card_bgs.values())
-    sync_static_assets(
-        [p for p in sync_files if p.exists() and p.stat().st_size > 0],
-        STATIC_IMG_DIR,
-    )
-
     def _static_url(path):
         if path.exists() and path.stat().st_size > 0:
-            return "/app/static/assets/" + quote(path.name)
+            return web_image(path, max_edge=1400, quality=70)[0]
         return ""
 
     kali_url = _static_url(exp_kali)
@@ -4523,17 +4519,11 @@ elif page == "Gallery":
     if not filtered:
         st.info("No images found. Add JPG, PNG or WEBP files to your assets folder.")
     else:
-        sync_static_assets(filtered, STATIC_IMG_DIR)
         cards = []
         for i,p in enumerate(filtered):
-            src = "/app/static/assets/" + quote(p.name)
+            src, meta = web_image(p, max_edge=1100, quality=70)
             title = image_title(p)
             cat = image_category(p.name)
-            try:
-                with Image.open(p) as im:
-                    meta = f"{im.width} × {im.height} · {round(p.stat().st_size/1024)} KB"
-            except Exception:
-                meta = f"{round(p.stat().st_size/1024)} KB"
             cards.append(f"""
             <figure class="gcard" style="animation-delay:{min(i*0.05,0.6)}s">
                 <a href="{src}" target="_blank" rel="noopener">
@@ -5236,7 +5226,11 @@ elif page == "About":
         if not about_img.exists():
             about_img = ASSET_DIR / "maa_kali_hero.png"
         if about_img.exists() and about_img.stat().st_size > 0:
-            st.image(str(about_img),use_container_width=True)
+            about_url, _about_meta = web_image(about_img, max_edge=1200, quality=72)
+            st.markdown(
+                f'<img src="{about_url}" alt="Maa Kali" style="width:100%;height:auto;display:block;border-radius:12px;">',
+                unsafe_allow_html=True,
+            )
         st.markdown('</div>',unsafe_allow_html=True)
 
     diya_divider()
