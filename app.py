@@ -2336,6 +2336,9 @@ def _render_bengali_welcome() -> None:
 
     Rendered as a pinned components iframe so Streamlit layout cannot clip it.
     """
+    _idol = ASSET_DIR / "kali_garland_idol.webp"
+    if _idol.exists():
+        sync_static_assets([_idol], STATIC_IMG_DIR)
     st.markdown(
         """
 <style>
