@@ -6,4 +6,5 @@ plotly
 folium
 streamlit-folium
 certifi
-reportlabstatic-ffmpeg
+reportlab
+static-ffmpeg
