@@ -26,5 +26,11 @@ env/
 # Logs
 *.log
 
-# Generated static assets (rebuilt at runtime)
-static/
+# Generated static assets (rebuilt at runtime) — except committed caches
+static/*
+!static/assets/
+static/assets/*
+!static/assets/web/
+!static/music/
+static/music/*
+!static/music/lite/
