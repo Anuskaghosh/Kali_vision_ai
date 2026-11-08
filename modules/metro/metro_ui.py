@@ -6,6 +6,7 @@ marker/explorer/result destination selection, OSRM route overlay.
 
 from __future__ import annotations
 
+import hashlib
 import html
 import json
 import re
@@ -2824,7 +2825,34 @@ def _lighten_map_html(html_doc: str) -> str:
     return html_doc
 
 
-def _render_map_fullscreen(fmap: folium.Map) -> None:
+def _metro_map_signature(verified, line_filter, gps_nearest, destination, origin, route) -> str:
+    """Digest of everything that feeds the Folium document. Identical inputs
+    produce byte-identical HTML, so Streamlit keeps the live iframe mounted —
+    same outcome as today, minus the rebuild."""
+    nonce = int(st.session_state.get("metro_map_nonce") or 0)
+    payload = json.dumps(
+        {
+            "nonce": nonce,
+            "line": line_filter,
+            "verified": verified,
+            "nearest": gps_nearest,
+            "destination": destination,
+            "origin": origin,
+            "route": route,
+        },
+        sort_keys=True,
+        default=str,
+    )
+    return hashlib.sha256(payload.encode("utf-8")).hexdigest()
+
+
+def _render_map_fullscreen(fmap: folium.Map = None, *, html_doc: Optional[str] = None) -> None:
+    if html_doc is None:
+        html_doc = _build_map_html_doc(fmap)
+    components.html(html_doc, height=1, scrolling=False)
+
+
+def _build_map_html_doc(fmap: folium.Map) -> str:
     html_doc = _lighten_map_html(fmap.get_root().render())
     # Full-bleed map under the floating pill navbar (navbar z-index stays above).
     # Pin the map iframe only. Do NOT write transparent backgrounds onto the
@@ -2916,8 +2944,7 @@ def _render_map_fullscreen(fmap: folium.Map) -> None:
     # Nonce in HTML so Streamlit remounts when journey state changes (keep height stable — avoids jitter)
     nonce = int(st.session_state.get("metro_map_nonce") or 0)
     html_doc = f"<!-- metro-map-nonce:{nonce} -->\n" + html_doc
-    st.session_state.metro_map_html_cache = html_doc
-    components.html(html_doc, height=1, scrolling=False)
+    return html_doc
 
 
 def _line_chips_html(lines: Sequence[Any]) -> str:
@@ -3674,16 +3701,29 @@ def render_metro_page() -> None:
     )
     _publish_metro_cam_target(destination)
     st.session_state.metro_preserve_map = False
-    fmap = _build_folium_map(
-        verified,
-        line_filter=line_filter,
-        geocode=None,
-        nearest=gps_nearest or None,
-        destination=destination,
-        origin=origin,
-        route=route,
+    _map_sig = _metro_map_signature(
+        verified, line_filter, gps_nearest or None, destination, origin, route
     )
-    _render_map_fullscreen(fmap)
+    _map_cache = st.session_state.get("metro_map_html_cache")
+    if (
+        isinstance(_map_cache, dict)
+        and _map_cache.get("sig") == _map_sig
+        and _map_cache.get("html")
+    ):
+        _render_map_fullscreen(html_doc=_map_cache["html"])
+    else:
+        fmap = _build_folium_map(
+            verified,
+            line_filter=line_filter,
+            geocode=None,
+            nearest=gps_nearest or None,
+            destination=destination,
+            origin=origin,
+            route=route,
+        )
+        _map_html = _build_map_html_doc(fmap)
+        st.session_state.metro_map_html_cache = {"sig": _map_sig, "html": _map_html}
+        components.html(_map_html, height=1, scrolling=False)
 
     @st.fragment
     def _metro_sheet_fragment() -> None:

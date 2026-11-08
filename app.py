@@ -3043,8 +3043,27 @@ iframe[data-kali-welcome-frame="1"] {
     }
 
     function enterSite() {
-      try { window.parent.localStorage.setItem("kali_welcome_v1", "1"); } catch (e) {}
-      try { window.parent.document.cookie = "kali_welcome_v1=1; path=/; max-age=31536000; SameSite=Lax"; } catch (e) {}
+      // No localStorage/cookie writes — the scroll greets every visitor.
+      // components.html iframes are sandboxed WITHOUT allow-top-navigation —
+      // location.assign/reload below is blocked in Chrome. The hidden
+      // kali-welcome-restore form only needs allow-forms (present), so dismiss
+      // through it the same way the refresh-time restore probe does.
+      try {
+        var pdoc = window.parent.document;
+        var form = pdoc.querySelector('[data-testid="stForm"]:has(.kali-welcome-restore)');
+        var input = form && form.querySelector("input");
+        var sbtn = form && form.querySelector("button");
+        if (input && sbtn) {
+          var proto = window.parent.HTMLInputElement.prototype;
+          var desc = Object.getOwnPropertyDescriptor(proto, "value");
+          if (desc && desc.set) desc.set.call(input, "1");
+          else input.value = "1";
+          input.dispatchEvent(new Event("input", { bubbles: true }));
+          input.dispatchEvent(new Event("change", { bubbles: true }));
+          sbtn.click();
+          return;
+        }
+      } catch (eForm) {}
       try {
         var u = new URL(window.parent.location.href);
         u.searchParams.set("kali_welcome", "done");
@@ -3237,11 +3256,7 @@ iframe[data-kali-welcome-frame="1"] {
 
 if "kali_welcome_dismissed" not in st.session_state:
     st.session_state.kali_welcome_dismissed = False
-try:
-    if st.context.cookies.get("kali_welcome_v1") == "1":
-        st.session_state.kali_welcome_dismissed = True
-except Exception:
-    pass
+# Welcome scroll shows on EVERY fresh visit — no cookie/localStorage restore.
 
 # Continue button on the welcome iframe lands here
 if st.query_params.get("kali_welcome") == "done":
@@ -3298,67 +3313,6 @@ _nav_skip_welcome = _nav_for_welcome in {
 # otherwise consuming metro_* query params on the next rerun re-opens the scroll.
 if (_metro_bridge_hit or _nav_skip_welcome) and not st.session_state.kali_welcome_dismissed:
     st.session_state.kali_welcome_dismissed = True
-
-if not st.session_state.kali_welcome_dismissed:
-    components.html(
-        """
-<script>
-(function () {
-  var LOG = "[kali-welcome]";
-  function log() {
-    try {
-      var args = Array.prototype.slice.call(arguments);
-      args.unshift(LOG);
-      console.log.apply(console, args);
-    } catch (e) {}
-  }
-  try {
-    var win = window.parent;
-    try { if (win.top && win.top.document) win = win.top; } catch (e0) {}
-    var doc = win.document;
-    var ls = null;
-    try { ls = win.localStorage.getItem("kali_welcome_v1"); } catch (e) {
-      log("localStorage read failed", String(e));
-    }
-    log("restore probe", {
-      href: String(win.location.href || ""),
-      search: String(win.location.search || ""),
-      localStorage: ls,
-      sessionHint: "python dismissed=false on this run"
-    });
-    if (ls !== "1") {
-      log("no localStorage flag — welcome will render");
-      return;
-    }
-    try { doc.cookie = "kali_welcome_v1=1; path=/; max-age=31536000; SameSite=Lax"; } catch (eCookie) {}
-    var form = doc.querySelector('[data-testid="stForm"]:has(.kali-welcome-restore)');
-    if (!form) {
-      log("restore form NOT found — welcome will still render this run");
-      return;
-    }
-    var input = form.querySelector("input");
-    var btn = form.querySelector("button");
-    if (!input || !btn) {
-      log("restore form missing input/button", !!input, !!btn);
-      return;
-    }
-    var proto = win.HTMLInputElement.prototype;
-    var desc = Object.getOwnPropertyDescriptor(proto, "value");
-    if (desc && desc.set) desc.set.call(input, "1");
-    else input.value = "1";
-    input.dispatchEvent(new Event("input", { bubbles: true }));
-    input.dispatchEvent(new Event("change", { bubbles: true }));
-    log("clicking restore form submit");
-    btn.click();
-  } catch (e) {
-    log("restore failed", String(e));
-  }
-})();
-</script>
-        """,
-        height=0,
-        width=0,
-    )
 
 _skip_welcome = (
     st.session_state.kali_welcome_dismissed
@@ -3519,7 +3473,7 @@ window.__kaliMetroArm = function (show) {
       style.id = "kali-metro-enter-style";
       d.head.appendChild(style);
     }
-    style.textContent = "body.kali-metro-entering [data-testid='stMain'] canvas,body.kali-metro-entering .js-plotly-plot,body.kali-metro-entering [data-testid='stPlotlyChart'],body.kali-metro-entering .gallery-grid,body.kali-metro-entering .experience,body.kali-metro-entering .hero-shell,body.kali-metro-entering .gcard{visibility:hidden !important;}body.kali-metro-leaving .metro-dock-panel,body.kali-metro-leaving [data-metro-dock],body.kali-metro-leaving .metro-sheet-list,body.kali-metro-leaving .metro-sheet-row,body.kali-metro-leaving .metro-sheet-foot,body.kali-metro-leaving .metro-sheet-empty,body.kali-metro-leaving #metro-find-route,body.kali-metro-leaving [data-testid='stForm']:has(.metro-pick-bridge),body.kali-metro-leaving [data-testid='stForm']:has(.metro-route-bridge),body.kali-metro-leaving [data-testid='stForm']:has(.metro-page-geo-bridge),body.kali-metro-leaving [data-testid='stForm']:has(.site-geo-bridge),body.kali-metro-leaving [data-testid='stColumn']:has(.metro-near-me-btn),body.kali-metro-leaving [data-testid='stColumn']:has(.metro-sheet-search){display:none !important;visibility:hidden !important;}";
+    style.textContent = "body.kali-metro-entering [data-testid='stMain'] canvas,body.kali-metro-entering .js-plotly-plot,body.kali-metro-entering [data-testid='stPlotlyChart'],body.kali-metro-entering .gallery-grid,body.kali-metro-entering .experience,body.kali-metro-entering .hero-shell,body.kali-metro-entering .gcard{visibility:hidden !important;}body.kali-metro-leaving .metro-dock-panel,body.kali-metro-leaving [data-metro-dock],body.kali-metro-leaving .metro-sheet-list,body.kali-metro-leaving .metro-sheet-row,body.kali-metro-leaving .metro-sheet-foot,body.kali-metro-leaving .metro-sheet-empty,body.kali-metro-leaving #metro-find-route,body.kali-metro-leaving [data-testid='stForm']:has(.metro-pick-bridge),body.kali-metro-leaving [data-testid='stForm']:has(.metro-route-bridge),body.kali-metro-leaving [data-testid='stForm']:has(.metro-page-geo-bridge),body.kali-metro-leaving [data-testid='stForm']:has(.site-geo-bridge),body.kali-metro-leaving [data-testid='stColumn']:has(.metro-near-me-btn),body.kali-metro-leaving [data-testid='stColumn']:has(.metro-sheet-search){display:none !important;visibility:hidden !important;}@keyframes kaliMetroPulse{0%,100%{opacity:.45;transform:scale(.9)}50%{opacity:1;transform:scale(1.08)}}";
   }
   function cover() {
     ensureStyle();
@@ -3533,6 +3487,11 @@ window.__kaliMetroArm = function (show) {
       d.body.appendChild(el);
     }
     el.style.cssText = "position:fixed;inset:0;background:#dcd6cf;z-index:999990;pointer-events:none;transform:translateZ(0);";
+    el.innerHTML = "<div style='position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Cormorant Garamond,serif;color:#5A3A22'>"
+      + "<div style='font-size:30px;letter-spacing:6px;animation:kaliMetroPulse 1.4s ease-in-out infinite'>✦</div>"
+      + "<div style='font-size:16px;letter-spacing:4px;margin-top:12px;font-weight:600'>KOLKATA METRO</div>"
+      + "<div style='font-size:10px;letter-spacing:2.4px;margin-top:8px;opacity:.65'>UNFURLING THE MAP…</div>"
+      + "</div>";
     hideCharts();
   }
   function uncover() {
@@ -3611,6 +3570,18 @@ components.html(
   script.textContent = {json.dumps(_METRO_COVER_JS)};
   doc.documentElement.appendChild(script);
   script.remove();
+  [
+    "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.js",
+    "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/leaflet.css",
+    "https://cdn.jsdelivr.net/npm/leaflet@1.9.4/dist/images/marker-icon.png"
+  ].forEach(function (h) {{
+    var l = doc.createElement("link");
+    l.rel = "prefetch"; l.href = h; doc.head.appendChild(l);
+  }});
+  var dns = doc.createElement("link");
+  dns.rel = "dns-prefetch";
+  dns.href = "https://tile.openstreetmap.org";
+  doc.head.appendChild(dns);
 }})();
 </script>
     """,
@@ -4027,24 +3998,54 @@ STATIC_MUSIC_DIR = BASE_DIR / "static" / "music"
 LITE_MUSIC_DIR = STATIC_MUSIC_DIR / "lite"
 AUDIO_EXTENSIONS = {".mp3", ".wav", ".ogg", ".m4a"}
 
+def _ffmpeg_exe():
+    exe = shutil.which("ffmpeg")
+    if exe:
+        return exe
+    try:
+        import static_ffmpeg
+        static_ffmpeg.add_paths()
+        exe = shutil.which("ffmpeg")
+        if exe:
+            return exe
+    except Exception:
+        pass
+    return None
+
+
+def _transcode_lite_audio(src: Path, dest: Path) -> None:
+    try:
+        subprocess.run(
+            [
+                "afconvert", "-f", "m4af", "-d", "aac",
+                "-c", "1", "-b", "64000",
+                str(src), str(dest),
+            ],
+            check=True,
+            capture_output=True,
+        )
+        return
+    except Exception:
+        pass
+    exe = _ffmpeg_exe()
+    if not exe:
+        return
+    try:
+        subprocess.run(
+            [exe, "-y", "-i", str(src), "-c:a", "aac", "-b:a", "64k", str(dest)],
+            check=True,
+            capture_output=True,
+        )
+    except Exception:
+        pass
+
+
 def lite_music_url(src: Path) -> str:
     """Small background copy. The file in assets/music stays the original."""
     LITE_MUSIC_DIR.mkdir(parents=True, exist_ok=True)
     dest = LITE_MUSIC_DIR / f"{src.stem}.m4a"
-    fresh = dest.exists() and dest.stat().st_size > 0
-    if not fresh:
-        try:
-            subprocess.run(
-                [
-                    "afconvert", "-f", "m4af", "-d", "aac",
-                    "-c", "1", "-b", "64000",
-                    str(src), str(dest),
-                ],
-                check=True,
-                capture_output=True,
-            )
-        except Exception:
-            return "/app/static/music/" + quote(src.name)
+    if not (dest.exists() and dest.stat().st_size > 0):
+        _transcode_lite_audio(src, dest)
     if dest.exists() and dest.stat().st_size > 0:
         return "/app/static/music/lite/" + quote(dest.name)
     return "/app/static/music/" + quote(src.name)
@@ -4677,7 +4678,9 @@ if page == "Home":
 
     diya_divider()
 
-    exp_kali = ASSET_DIR / "maa_kali_hero.png"
+    exp_kali = ASSET_DIR / "maa_kali_hero.webp"
+    if not exp_kali.exists():
+        exp_kali = ASSET_DIR / "maa_kali_hero.png"
     card_bgs = {
         "01": ASSET_DIR / "Dakshineswar Temple Aglow by Night.png",
         "02": ASSET_DIR / "kalighat_temple_kolkata.jpg",
@@ -5355,41 +5358,42 @@ elif page == "Analytics":
         diya_divider()
         st.markdown('<div class="section-label">COMPOSITION</div>',unsafe_allow_html=True)
 
-        left,right = st.columns(2,gap="large")
+        with st.expander("📊 Reveal charts — tap to render the visualisations", expanded=False):
+            left,right = st.columns(2,gap="large")
 
-        with left:
-            fig = px.pie(
-                counts,names="Category",values="Images",hole=0.62,
-                title="Collection by Category",
+            with left:
+                fig = px.pie(
+                    counts,names="Category",values="Images",hole=0.62,
+                    title="Collection by Category",
+                    color_discrete_sequence=PALETTE
+                )
+                fig.update_traces(textfont_color="#F8ECDD",marker=dict(line=dict(color="#0B0608",width=2)))
+                st.plotly_chart(theme_fig(fig),use_container_width=True)
+
+            with right:
+                orient = df["Orientation"].value_counts().reset_index()
+                orient.columns = ["Orientation","Images"]
+                fig2 = px.pie(
+                    orient,names="Orientation",values="Images",hole=0.62,
+                    title="Portrait vs Landscape",
+                    color_discrete_sequence=["#D6336C","#E5BC70","#761F35","#A58A79"]
+                )
+                fig2.update_traces(textfont_color="#F8ECDD",marker=dict(line=dict(color="#0B0608",width=2)))
+                st.plotly_chart(theme_fig(fig2),use_container_width=True)
+
+            diya_divider()
+            st.markdown('<div class="section-label">WEIGHT OF THE COLLECTION</div>',unsafe_allow_html=True)
+
+            weight = df.groupby("Category",as_index=False)["Size KB"].sum()
+            weight["Size MB"] = (weight["Size KB"]/1024).round(2)
+            fig3 = px.bar(
+                weight,x="Category",y="Size MB",color="Category",
+                title="Dataset Weight by Collection",
                 color_discrete_sequence=PALETTE
             )
-            fig.update_traces(textfont_color="#F8ECDD",marker=dict(line=dict(color="#0B0608",width=2)))
-            st.plotly_chart(theme_fig(fig),use_container_width=True)
-
-        with right:
-            orient = df["Orientation"].value_counts().reset_index()
-            orient.columns = ["Orientation","Images"]
-            fig2 = px.pie(
-                orient,names="Orientation",values="Images",hole=0.62,
-                title="Portrait vs Landscape",
-                color_discrete_sequence=["#D6336C","#E5BC70","#761F35","#A58A79"]
-            )
-            fig2.update_traces(textfont_color="#F8ECDD",marker=dict(line=dict(color="#0B0608",width=2)))
-            st.plotly_chart(theme_fig(fig2),use_container_width=True)
-
-        diya_divider()
-        st.markdown('<div class="section-label">WEIGHT OF THE COLLECTION</div>',unsafe_allow_html=True)
-
-        weight = df.groupby("Category",as_index=False)["Size KB"].sum()
-        weight["Size MB"] = (weight["Size KB"]/1024).round(2)
-        fig3 = px.bar(
-            weight,x="Category",y="Size MB",color="Category",
-            title="Dataset Weight by Collection",
-            color_discrete_sequence=PALETTE
-        )
-        fig3.update_traces(marker_line_width=0,opacity=.92)
-        fig3.update_layout(showlegend=False)
-        st.plotly_chart(theme_fig(fig3),use_container_width=True)
+            fig3.update_traces(marker_line_width=0,opacity=.92)
+            fig3.update_layout(showlegend=False)
+            st.plotly_chart(theme_fig(fig3),use_container_width=True)
 
         diya_divider()
         st.markdown('<div class="section-label">DIVINE INSIGHTS</div>',unsafe_allow_html=True)
@@ -5525,6 +5529,8 @@ elif page == "About":
     with right:
         st.markdown('<div class="hero-frame" style="animation-delay:.25s">',unsafe_allow_html=True)
         about_img = ASSET_DIR / "kali_murti_south_kolkata_01.jpg"
+        if not about_img.exists():
+            about_img = ASSET_DIR / "maa_kali_hero.webp"
         if not about_img.exists():
             about_img = ASSET_DIR / "maa_kali_hero.png"
         if about_img.exists() and about_img.stat().st_size > 0:
