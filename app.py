@@ -1566,6 +1566,9 @@ div[data-testid="stVerticalBlockBorderWrapper"]:has(.assistant-label) [data-test
     pointer-events:auto;
     isolation:isolate;
     touch-action:manipulation;
+    transition:width .45s ease,height .45s ease,padding .45s ease,
+               border-radius .45s ease,background .45s ease,
+               border-color .45s ease,box-shadow .45s ease;
 }
 .music-player button,
 .music-player input {
@@ -1770,9 +1773,65 @@ body:has([data-testid="stChatInput"]) .music-player {
     font-family:'Cormorant Garamond',serif;
     font-size:14px;
 }
+/* ---------- MINI (idle-collapsed gold badge) ---------- */
+.mp-mini-badge {
+    display:none;
+    position:absolute;
+    inset:0;
+    align-items:center;
+    justify-content:center;
+}
+.music-player.mp-mini {
+    left:auto;
+    width:58px;
+    height:58px;
+    padding:0;
+    border-radius:50%;
+    border-color:rgba(255,230,160,.6);
+    background:radial-gradient(circle at 34% 30%,#FFE9A8 0%,#E5BC70 48%,#A87B33 100%);
+    box-shadow:0 10px 30px rgba(0,0,0,.6),0 0 26px rgba(229,188,112,.5);
+    cursor:pointer;
+}
+.music-player.mp-mini .mp-top,
+.music-player.mp-mini .mp-controls,
+.music-player.mp-mini .mp-list-panel {display:none;}
+.music-player.mp-mini .mp-mini-badge {display:flex;}
+.mp-mini-note {
+    color:#120A04;
+    font-size:24px;
+    font-family:Georgia,'Times New Roman',serif;
+    line-height:1;
+    animation:mp-mini-pulse 1.8s ease-in-out infinite;
+}
+.mp-beat {
+    position:absolute;
+    inset:-3px;
+    border:2px solid rgba(229,188,112,.85);
+    border-radius:50%;
+    opacity:0;
+    animation:mp-beat 2.4s ease-out infinite;
+    pointer-events:none;
+}
+.mp-beat.b2 {animation-delay:.8s;}
+.mp-beat.b3 {animation-delay:1.6s;}
+.music-player.mp-mini:not(.is-playing) .mp-beat {
+    animation:none;
+    opacity:0;
+}
+@keyframes mp-beat {
+    0%   {transform:scale(1);opacity:.75;}
+    70%  {opacity:.16;}
+    100% {transform:scale(2.6);opacity:0;}
+}
+@keyframes mp-mini-pulse {
+    0%,100% {transform:scale(1);}
+    50%     {transform:scale(1.12);}
+}
 @media (max-width:520px) {
     .music-player {bottom:12px;right:12px;left:12px;width:auto;}
+    .music-player.mp-mini {left:auto;width:58px;}
     body:has([data-testid="stChatInput"]) .music-player {bottom:96px;left:12px;right:12px;width:auto;}
+    body:has([data-testid="stChatInput"]) .music-player.mp-mini {left:auto;width:58px;}
     .mp-track {font-size:15px;}
 }
 
@@ -2723,6 +2782,127 @@ iframe[data-kali-welcome-frame="1"] {
     letter-spacing: .18em;
     color: #7A4E1E;
   }
+
+  /* Puja: coconut + incense sticks with smoke (idol reveal scene) */
+  .puja {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    width: 180px;
+    height: 310px;
+    transform: translateX(-50%);
+    z-index: 5;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 1.8s ease 1.4s;
+  }
+  .wrap.is-leaving .puja { opacity: 1; }
+  .coconut {
+    position: absolute;
+    left: 50%;
+    bottom: 4px;
+    width: 112px;
+    height: 96px;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 47% 47% / 58% 58% 42% 42%;
+    background:
+      radial-gradient(ellipse at 34% 22%, rgba(255,220,160,.45), transparent 48%),
+      radial-gradient(ellipse at 50% 104%, rgba(12,5,2,.55), transparent 60%),
+      repeating-linear-gradient(72deg, rgba(0,0,0,.12) 0 3px, transparent 3px 8px),
+      linear-gradient(160deg, #8A5A28 0%, #5C3A16 46%, #33200C 100%);
+    box-shadow:
+      inset -10px -12px 20px rgba(0,0,0,.5),
+      inset 8px 10px 16px rgba(255,205,140,.22),
+      0 16px 30px rgba(0,0,0,.55);
+  }
+  .coconut::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: 50%;
+    width: 48px;
+    height: 18px;
+    transform: translateX(-50%);
+    border-radius: 50% 50% 30% 30%;
+    background:
+      repeating-linear-gradient(78deg, rgba(0,0,0,.28) 0 2px, transparent 2px 4px),
+      linear-gradient(180deg, #6B4826, #3A250F);
+  }
+  .coconut .tilak {
+    position: absolute;
+    top: 32%;
+    left: 50%;
+    width: 10px;
+    height: 14px;
+    transform: translateX(-50%) rotate(-4deg);
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 30%, #E8452F, #A81E12 72%, transparent 100%);
+    opacity: .9;
+    filter: blur(.4px);
+  }
+  .stick {
+    position: absolute;
+    bottom: 84px;
+    left: 50%;
+    width: 5px;
+    height: 118px;
+    margin-left: -2.5px;
+    border-radius: 3px;
+    transform-origin: 50% 100%;
+    background: linear-gradient(180deg,
+      #14100C 0%, #14100C 14%,
+      #6B4626 26%, #7C5530 70%, #553718 100%);
+    box-shadow: 0 0 0 .5px rgba(0,0,0,.35);
+  }
+  .stick.s1 { transform: rotate(-16deg); height: 108px; }
+  .stick.s2 { transform: rotate(3deg); height: 130px; }
+  .stick.s3 { transform: rotate(17deg); height: 112px; }
+  .ember {
+    position: absolute;
+    top: -5px;
+    left: 50%;
+    width: 8px;
+    height: 9px;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(circle at 50% 35%,
+      #FFF6C8 0%, #FFA53E 42%, #D63E0E 78%, transparent 100%);
+    animation: emberPulse 1.7s ease-in-out infinite;
+  }
+  .s2 .ember { animation-delay: .55s; }
+  .s3 .ember { animation-delay: 1.1s; }
+  .smoke {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    width: 0;
+    height: 0;
+  }
+  .smoke span {
+    position: absolute;
+    left: -7px;
+    bottom: 0;
+    width: 14px;
+    height: 30px;
+    border-radius: 50%;
+    background: rgba(226,221,236,.58);
+    filter: blur(4px);
+    opacity: 0;
+    transform-origin: 50% 100%;
+    animation: smokeRise 4.2s ease-in-out infinite;
+  }
+  .smoke span:nth-child(2) { animation-delay: 1.4s; width: 16px; height: 34px; }
+  .smoke span:nth-child(3) { animation-delay: 2.8s; width: 11px; height: 24px; }
+  @keyframes emberPulse {
+    0%, 100% { opacity: .8; filter: drop-shadow(0 0 4px rgba(255,140,50,.75)); }
+    50% { opacity: 1; filter: drop-shadow(0 0 10px rgba(255,180,80,1)); }
+  }
+  @keyframes smokeRise {
+    0%   { opacity: 0; transform: translate(0, 0) scale(.55) rotate(0deg); }
+    14%  { opacity: .8; }
+    55%  { opacity: .5; transform: translate(-8px, -95px) scale(1.5) rotate(10deg); }
+    100% { opacity: 0; transform: translate(10px, -190px) scale(2.3) rotate(-9deg); }
+  }
   @media (max-width: 700px) {
     .d7, .d8, .d9, .d10 { display: none; }
     .wrap { padding: 8px 10px 12px; }
@@ -2747,6 +2927,7 @@ iframe[data-kali-welcome-frame="1"] {
       padding: 10px 18px;
     }
     .hibiscus { width: 36px; height: 36px; }
+    .puja { transform: translateX(-50%) scale(.72); transform-origin: 50% 100%; }
   }
 </style>
 </head>
@@ -2796,6 +2977,12 @@ iframe[data-kali-welcome-frame="1"] {
     </div>
     <div class="idol-slot" id="kali-idol-slot">
       <img class="idol" id="kali-idol" alt="মা কালি" />
+    </div>
+    <div class="puja" aria-hidden="true">
+      <div class="stick s1"><span class="ember"></span><span class="smoke"><span></span><span></span><span></span></span></div>
+      <div class="stick s2"><span class="ember"></span><span class="smoke"><span></span><span></span><span></span></span></div>
+      <div class="stick s3"><span class="ember"></span><span class="smoke"><span></span><span></span><span></span></span></div>
+      <div class="coconut"><i class="tilak"></i></div>
     </div>
   </div>
   <script>
@@ -4116,347 +4303,463 @@ elif music_tracks:
     playlist_json = json.dumps(playlist, ensure_ascii=False)
     playlist_key = "|".join(item["id"] for item in playlist)
     vol_pct = int(DEFAULT_MUSIC_VOLUME * 100)
-    # Inject into the parent page so controls / playlist survive Streamlit reruns.
-    components.html(
-        f"""
-        <script>
-        (async function () {{
-          const doc = window.parent.document;
-          const win = window.parent;
-          const PLAYLIST = {playlist_json};
-          const PLAYLIST_KEY = {playlist_key!r};
-          const DEFAULT_VOL = {vol_pct};
-          const PLAYER_VERSION = "v7-lite-aac";
+    # The player DOM lives in the parent page so it survives Streamlit reruns —
+    # but listeners bound from a components.html iframe die when Streamlit
+    # destroys that iframe. So the bootstrap itself must run in the PARENT
+    # realm, injected as a <script> element: only then are listeners immortal.
+    _boot_js = """
+(function () {
+  const doc = document, win = window;
+  const DBG  = (...a) => { try { console.log("[kali-music]", ...a); } catch (_) {} };
+  const DBGW = (...a) => { try { console.warn("[kali-music]", ...a); } catch (_) {} };
 
-          if (win.__kaliMusicBooting) return;
-          let player = doc.getElementById("kali-music-player");
-          if (
-            player &&
-            player.dataset.version === PLAYER_VERSION &&
-            player._kaliPlaylistKey === PLAYLIST_KEY &&
-            player._kaliReady
-          ) {{
-            return;
-          }}
+  win.__kaliMusicEnsure = async function (P) {
+    if (win.__kaliMusicBooting && Date.now() - win.__kaliMusicBooting < 15000) return;
+    let player = doc.getElementById("kali-music-player");
+    if (player) {
+      player.style.removeProperty("display");
+      player.style.removeProperty("visibility");
+      player.style.removeProperty("pointer-events");
+    }
+    if (
+      player &&
+      player.dataset.version === P.version &&
+      player._kaliPlaylistKey === P.playlistKey &&
+      player._kaliReady
+    ) {
+      return;
+    }
 
-          win.__kaliMusicBooting = true;
+    win.__kaliMusicBooting = Date.now();
+    const PLAYLIST = P.playlist;
+    const PLAYLIST_KEY = P.playlistKey;
+    const DEFAULT_VOL = P.defaultVol;
+    const PLAYER_VERSION = P.version;
 
-          try {{
-            if (player && (player.dataset.version !== PLAYER_VERSION || player._kaliPlaylistKey !== PLAYLIST_KEY)) {{
-              try {{ if (player._kaliAudio) player._kaliAudio.pause(); }} catch (_) {{}}
-              if (player._kaliBlobUrl) URL.revokeObjectURL(player._kaliBlobUrl);
-              if (player._kaliAbort) {{ try {{ player._kaliAbort.abort(); }} catch (_) {{}} }}
-              player.remove();
-              player = null;
-            }}
+    try {
+      if (player && (player.dataset.version !== PLAYER_VERSION || player._kaliPlaylistKey !== PLAYLIST_KEY)) {
+        try { if (player._kaliAudio) player._kaliAudio.pause(); } catch (_) {}
+        if (player._kaliBlobUrl) URL.revokeObjectURL(player._kaliBlobUrl);
+        if (player._kaliAbort) { try { player._kaliAbort.abort(); } catch (_) {} }
+        player.remove();
+        player = null;
+      }
 
-            if (!player) {{
-              player = doc.createElement("div");
-              player.id = "kali-music-player";
-              player.className = "music-player";
-              player.dataset.version = PLAYER_VERSION;
-              player._kaliPlaylistKey = PLAYLIST_KEY;
-              player._kaliPlaylist = PLAYLIST;
-              player._kaliIndex = 0;
-              player.innerHTML = `
-                <div class="mp-top">
-                  <span class="mp-diya" id="mp-diya">✦</span>
-                  <div class="mp-meta">
-                    <div class="mp-label">SHYAMA SANGEET · PLAYLIST</div>
-                    <button type="button" class="mp-track-btn" id="mp-track-btn"
-                            title="Show song list" aria-expanded="false">
-                      <div class="mp-track" id="mp-track"></div>
-                    </button>
-        </div>
-                  <span class="mp-status" id="mp-status">Loading</span>
-    </div>
-                <div class="mp-controls">
-                  <button type="button" class="mp-btn" id="mp-prev"
-                          aria-label="Previous song" title="Previous">⏮</button>
-                  <button type="button" class="mp-btn primary" id="mp-play"
-                          aria-label="Play or pause" title="Play / Pause">▶</button>
-                  <button type="button" class="mp-btn" id="mp-next"
-                          aria-label="Next song" title="Next">⏭</button>
-                  <button type="button" class="mp-btn" id="mp-list"
-                          aria-label="Song list" title="Song list">☰</button>
-                  <div class="mp-vol">
-                    <span class="mp-vol-icon" id="mp-vol-icon" aria-hidden="true">Vol</span>
-                    <input type="range" id="mp-volume" min="0" max="100" step="1"
-                           aria-label="Volume" title="Volume">
-                    <span class="mp-vol-pct" id="mp-vol-pct"></span>
-                  </div>
-                </div>
-                <div class="mp-list-panel" id="mp-list-panel" role="listbox" aria-label="Songs"></div>
-                <audio id="mp-audio" preload="none" playsinline></audio>
-              `;
-              doc.body.appendChild(player);
+      if (!player) {"""
+    _boot_js += """
+        player = doc.createElement("div");
+        player.id = "kali-music-player";
+        player.className = "music-player";
+        player.dataset.version = PLAYER_VERSION;
+        player._kaliPlaylistKey = PLAYLIST_KEY;
+        player._kaliPlaylist = PLAYLIST;
+        player._kaliIndex = 0;
+        player.innerHTML = `
+          <div class="mp-top">
+            <span class="mp-diya" id="mp-diya">✦</span>
+            <div class="mp-meta">
+              <div class="mp-label">SHYAMA SANGEET · PLAYLIST</div>
+              <button type="button" class="mp-track-btn" id="mp-track-btn"
+                      title="Show song list" aria-expanded="false">
+                <div class="mp-track" id="mp-track"></div>
+              </button>
+            </div>
+            <span class="mp-status" id="mp-status">Loading</span>
+          </div>
+          <div class="mp-controls">
+            <button type="button" class="mp-btn" id="mp-prev"
+                    aria-label="Previous song" title="Previous">⏮</button>
+            <button type="button" class="mp-btn primary" id="mp-play"
+                    aria-label="Play or pause" title="Play / Pause">▶</button>
+            <button type="button" class="mp-btn" id="mp-next"
+                    aria-label="Next song" title="Next">⏭</button>
+            <button type="button" class="mp-btn" id="mp-list"
+                    aria-label="Song list" title="Song list">☰</button>
+            <div class="mp-vol">
+              <span class="mp-vol-icon" id="mp-vol-icon" aria-hidden="true">Vol</span>
+              <input type="range" id="mp-volume" min="0" max="100" step="1"
+                     aria-label="Volume" title="Volume">
+              <span class="mp-vol-pct" id="mp-vol-pct"></span>
+            </div>
+          </div>
+          <div class="mp-list-panel" id="mp-list-panel" role="listbox" aria-label="Songs"></div>
+          <div class="mp-mini-badge" id="mp-mini-badge" aria-hidden="true">
+            <span class="mp-beat"></span>
+            <span class="mp-beat b2"></span>
+            <span class="mp-beat b3"></span>
+            <span class="mp-mini-note">&#9835;</span>
+          </div>
+          <audio id="mp-audio" preload="none" playsinline></audio>
+        `;
+        doc.body.appendChild(player);
 
-              const audio = player.querySelector("#mp-audio");
-              const playBtn = player.querySelector("#mp-play");
-              const prevBtn = player.querySelector("#mp-prev");
-              const nextBtn = player.querySelector("#mp-next");
-              const listBtn = player.querySelector("#mp-list");
-              const trackBtn = player.querySelector("#mp-track-btn");
-              const listPanel = player.querySelector("#mp-list-panel");
-              const statusEl = player.querySelector("#mp-status");
-              const diyaEl = player.querySelector("#mp-diya");
-              const trackEl = player.querySelector("#mp-track");
-              const volInput = player.querySelector("#mp-volume");
-              const volPctEl = player.querySelector("#mp-vol-pct");
-              const volIcon = player.querySelector("#mp-vol-icon");
+        const audio = player.querySelector("#mp-audio");
+        const playBtn = player.querySelector("#mp-play");
+        const prevBtn = player.querySelector("#mp-prev");
+        const nextBtn = player.querySelector("#mp-next");
+        const listBtn = player.querySelector("#mp-list");
+        const trackBtn = player.querySelector("#mp-track-btn");
+        const listPanel = player.querySelector("#mp-list-panel");
+        const statusEl = player.querySelector("#mp-status");
+        const diyaEl = player.querySelector("#mp-diya");
+        const trackEl = player.querySelector("#mp-track");
+        const volInput = player.querySelector("#mp-volume");
+        const volPctEl = player.querySelector("#mp-vol-pct");
+        const volIcon = player.querySelector("#mp-vol-icon");
 
-              player._kaliVolPct = DEFAULT_VOL;
-              player._kaliBusy = false;
-              player._kaliCache = Object.create(null);
+        player._kaliVolPct = DEFAULT_VOL;
+        player._kaliBusy = false;
+        player._kaliCache = Object.create(null);
 
-              const applyVolume = (pct) => {{
-                const n = Math.max(0, Math.min(100, Number(pct)));
-                if (!Number.isFinite(n)) return;
-                player._kaliVolPct = n;
-                if (String(volInput.value) !== String(n)) volInput.value = String(n);
-                audio.volume = n / 100;
-                audio.muted = n === 0;
-                volPctEl.textContent = Math.round(n) + "%";
-                volIcon.textContent = n === 0 ? "Mute" : "Vol";
-              }};
+        const audioState = () => ({
+          paused: audio.paused, src: audio.currentSrc || audio.src,
+          readyState: audio.readyState, networkState: audio.networkState,
+          errCode: audio.error ? audio.error.code : 0,
+          t: Math.round(audio.currentTime || 0), muted: audio.muted,
+          vol: Math.round((audio.volume || 0) * 100),
+        });
+        const flagState = () => ({
+          ready: player._kaliReady, reloading: player._kaliReloading,
+          busy: player._kaliBusy, autostarted: player._kaliAutostarted,
+          userStopped: player._kaliUserStopped, idx: player._kaliIndex,
+        });
 
-              const setUi = (state) => {{
-                if (player._kaliReloading && (state === "Paused" || state === "Stopped")) return;
-                statusEl.textContent = state;
-                statusEl.classList.remove("playing", "paused");
-                diyaEl.classList.remove("is-playing");
-                if (state === "Playing") {{
-                  statusEl.classList.add("playing");
-                  diyaEl.classList.add("is-playing");
-                  playBtn.textContent = "❚❚";
-                  playBtn.title = "Pause";
-                }} else if (state === "Paused") {{
-                  statusEl.classList.add("paused");
-                  playBtn.textContent = "▶";
-                  playBtn.title = "Play";
-                }} else {{
-                  playBtn.textContent = "▶";
-                  playBtn.title = "Play";
-                }}
-              }};
+        const applyVolume = (pct) => {
+          const n = Math.max(0, Math.min(100, Number(pct)));
+          if (!Number.isFinite(n)) return;
+          player._kaliVolPct = n;
+          if (String(volInput.value) !== String(n)) volInput.value = String(n);
+          audio.volume = n / 100;
+          audio.muted = n === 0;
+          volPctEl.textContent = Math.round(n) + "%";
+          volIcon.textContent = n === 0 ? "Mute" : "Vol";
+        };
 
-              const renderList = () => {{
-                const idx = player._kaliIndex || 0;
-                listPanel.innerHTML = player._kaliPlaylist.map((t, i) => `
-                  <button type="button" class="mp-list-item${{i === idx ? " is-active" : ""}}"
-                          data-index="${{i}}" role="option" aria-selected="${{i === idx}}">
-                    <span class="mp-list-idx">${{String(i + 1).padStart(2, "0")}}</span>
-                    <span class="mp-list-title">${{t.title.replace(/</g, "&lt;")}}</span>
-                  </button>
-                `).join("");
-              }};
+        const setUi = (state) => {
+          if (player._kaliReloading && (state === "Paused" || state === "Stopped")) return;
+          statusEl.textContent = state;
+          statusEl.classList.remove("playing", "paused");
+          diyaEl.classList.remove("is-playing");
+          player.classList.toggle("is-playing", state === "Playing");
+          if (state === "Playing") {
+            statusEl.classList.add("playing");
+            diyaEl.classList.add("is-playing");
+            playBtn.textContent = "❚❚";
+            playBtn.title = "Pause";
+          } else if (state === "Paused") {
+            statusEl.classList.add("paused");
+            playBtn.textContent = "▶";
+            playBtn.title = "Play";
+          } else {
+            playBtn.textContent = "▶";
+            playBtn.title = "Play";
+          }
+        };
 
-              const setListOpen = (open) => {{
-                player.classList.toggle("mp-list-open", !!open);
-                trackBtn.setAttribute("aria-expanded", open ? "true" : "false");
-                if (open) renderList();
-              }};
+        const renderList = () => {
+          const idx = player._kaliIndex || 0;
+          listPanel.innerHTML = player._kaliPlaylist.map((t, i) => `
+            <button type="button" class="mp-list-item${i === idx ? " is-active" : ""}"
+                    data-index="${i}" role="option" aria-selected="${i === idx}">
+              <span class="mp-list-idx">${String(i + 1).padStart(2, "0")}</span>
+              <span class="mp-list-title">${t.title.replace(/</g, "&lt;")}</span>
+            </button>
+          `).join("");
+        };
 
-              const showTrackMeta = () => {{
-                const t = player._kaliPlaylist[player._kaliIndex] || {{}};
-                trackEl.textContent = t.title || "Untitled";
-                trackEl.title = (t.title || "") + " — click for list";
-                renderList();
-              }};
+        const setListOpen = (open) => {
+          player.classList.toggle("mp-list-open", !!open);
+          trackBtn.setAttribute("aria-expanded", open ? "true" : "false");
+          if (open) renderList();
+        };
 
-              const loadIndex = async (index, {{ autoplay = false, isAdvance = false }} = {{}}) => {{
-                const list = player._kaliPlaylist;
-                if (!list.length) return;
-                const idx = ((index % list.length) + list.length) % list.length;
-                const track = list[idx];
-                const gen = (player._kaliLoadGen || 0) + 1;
-                player._kaliLoadGen = gen;
-                player._kaliReloading = true;
-                player._kaliReady = false;
-                player._kaliIndex = idx;
-                showTrackMeta();
-                player._kaliSetUi("Loading");
+        const showTrackMeta = () => {
+          const t = player._kaliPlaylist[player._kaliIndex] || {};
+          trackEl.textContent = t.title || "Untitled";
+          trackEl.title = (t.title || "") + " — click for list";
+          renderList();
+        };
 
-                try {{
-                  audio.preload = "none";
-                  audio.src = track.src;
-                  player._kaliSrc = track.src;
-                  player._kaliApplyVolume(player._kaliVolPct || DEFAULT_VOL);
-                  player._kaliReady = true;
-                  player._kaliReloading = false;
+        const loadIndex = async (index, { autoplay = false, isAdvance = false } = {}) => {
+          const list = player._kaliPlaylist;
+          if (!list.length) return;
+          const idx = ((index % list.length) + list.length) % list.length;
+          const track = list[idx];
+          const gen = (player._kaliLoadGen || 0) + 1;
+          player._kaliLoadGen = gen;
+          player._kaliReloading = true;
+          player._kaliReady = false;
+          player._kaliIndex = idx;
+          showTrackMeta();
+          player._kaliSetUi("Loading");
+          DBG("loadIndex", { idx, autoplay, isAdvance, gen, src: track.src });
 
-                  if (autoplay || isAdvance) {{
-                    player._kaliUserStopped = false;
-                    try {{
-                      await audio.play();
-                      player._kaliAutostarted = true;
-                      setUi("Playing");
-                    }} catch (_) {{
-                      try {{
-                        audio.muted = true;
-                        await audio.play();
-                        applyVolume(player._kaliVolPct);
-                        player._kaliAutostarted = true;
-                        setUi("Playing");
-                      }} catch (__) {{
-                        setUi("Stopped");
-                        statusEl.textContent = "Tap ▶";
-                      }}
-                    }}
-                  }} else if (!player._kaliAutostarted) {{
-                    const startLater = () => {{
-                      if (!player._kaliAutostarted) player._kaliTryAutostart();
-                    }};
-                    if (win.requestIdleCallback) win.requestIdleCallback(startLater, {{ timeout: 4000 }});
-                    else win.setTimeout(startLater, 2500);
-                  }} else {{
-                    setUi(audio.paused ? "Stopped" : "Playing");
-                  }}
-                }} catch (err) {{
-                  if (err && err.name === "AbortError") return;
-                  if (player._kaliLoadGen !== gen) return;
-                  player._kaliReloading = false;
-                  player._kaliReady = false;
-                  setUi("Stopped");
-                  statusEl.textContent = "Unavailable";
-                }}
-              }};
+          try {
+            audio.preload = "none";
+            audio.src = track.src;
+            player._kaliSrc = track.src;
+            player._kaliApplyVolume(player._kaliVolPct || DEFAULT_VOL);
+            player._kaliReady = true;
+            player._kaliReloading = false;
 
-              const tryAutostart = async () => {{
-                if (player._kaliAutostarted || player._kaliUserStopped || !player._kaliReady) return;
+            if (autoplay || isAdvance) {
+              player._kaliUserStopped = false;
+              try {
+                await audio.play();
                 player._kaliAutostarted = true;
-                applyVolume(player._kaliVolPct);
-                try {{
-                  await audio.play();
-                  setUi("Playing");
-                  return;
-                }} catch (_) {{}}
-                try {{
+                setUi("Playing");
+              } catch (_) {
+                try {
                   audio.muted = true;
                   await audio.play();
                   applyVolume(player._kaliVolPct);
+                  player._kaliAutostarted = true;
                   setUi("Playing");
-                }} catch (_) {{
+                } catch (__) {
                   setUi("Stopped");
                   statusEl.textContent = "Tap ▶";
-                }}
-              }};
+                }
+              }
+            } else if (!player._kaliAutostarted) {
+              const startLater = () => {
+                if (!player._kaliAutostarted && !player._kaliUserStopped) player._kaliTryAutostart();
+              };
+              if (win.requestIdleCallback) win.requestIdleCallback(startLater, { timeout: 4000 });
+              else win.setTimeout(startLater, 2500);
+            } else {
+              setUi(audio.paused ? "Stopped" : "Playing");
+            }
+          } catch (err) {
+            if (err && err.name === "AbortError") {
+              DBGW("play() aborted", { gen, currentGen: player._kaliLoadGen });
+              if (player._kaliLoadGen === gen) {
+                player._kaliReloading = false;
+                player._kaliReady = true;
+                setUi("Paused");
+              }
+              return;
+            }
+            DBGW("loadIndex failed", err && err.name, err && err.message);
+            if (player._kaliLoadGen !== gen) return;
+            player._kaliReloading = false;
+            player._kaliReady = false;
+            setUi("Stopped");
+            statusEl.textContent = "Unavailable";
+          }
+        };
 
-              const playNext = async () => {{
-                if (player._kaliUserStopped) return;
-                await loadIndex((player._kaliIndex || 0) + 1, {{ isAdvance: true }});
-              }};
+        const tryAutostart = async () => {
+          if (player._kaliAutostarted || player._kaliUserStopped || !player._kaliReady) return;
+          player._kaliAutostarted = true;
+          applyVolume(player._kaliVolPct);
+          try {
+            await audio.play();
+            setUi("Playing");
+            return;
+          } catch (_) {}
+          try {
+            audio.muted = true;
+            await audio.play();
+            applyVolume(player._kaliVolPct);
+            setUi("Playing");
+          } catch (_) {
+            setUi("Stopped");
+            statusEl.textContent = "Tap ▶";
+          }
+        };
 
-              playBtn.addEventListener("click", async (e) => {{
-                e.preventDefault();
-                e.stopPropagation();
-                if (player._kaliBusy || player._kaliReloading || !player._kaliReady) return;
-                player._kaliBusy = true;
-                playBtn.disabled = true;
-                try {{
-                  if (audio.paused) {{
-                    player._kaliUserStopped = false;
-                    applyVolume(player._kaliVolPct);
-                    await audio.play();
-                    setUi("Playing");
-                  }} else {{
-                    audio.pause();
-                    setUi("Paused");
-                  }}
-                }} catch (_) {{
-                  setUi("Stopped");
-                  statusEl.textContent = "Blocked";
-                }} finally {{
-                  player._kaliBusy = false;
-                  playBtn.disabled = false;
-                }}
-              }});
+        const playNext = async () => {
+          if (player._kaliUserStopped) return;
+          await loadIndex((player._kaliIndex || 0) + 1, { isAdvance: true });
+        };
 
-              prevBtn.addEventListener("click", async (e) => {{
-                e.preventDefault();
-                e.stopPropagation();
-                if (player._kaliBusy || player._kaliReloading) return;
-                const restartCurrent = (audio.currentTime || 0) > 3;
-                if (restartCurrent) {{
-                  try {{ audio.currentTime = 0; }} catch (_) {{}}
-                  return;
-                }}
-                await loadIndex((player._kaliIndex || 0) - 1, {{
-                  autoplay: !audio.paused || !!player._kaliAutostarted,
-                }});
-              }});
+        playBtn.addEventListener("click", async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          DBG("play click", flagState(), audioState());
+          if (player._kaliBusy) { DBGW("click ignored — busy"); return; }
+          if (player._kaliReloading || !player._kaliReady) {
+            DBGW("player not ready — recovering via loadIndex", flagState());
+            if (player._kaliLoadIndex) {
+              player._kaliUserStopped = false;
+              await player._kaliLoadIndex(player._kaliIndex || 0, { autoplay: true });
+            }
+            return;
+          }
+          player._kaliBusy = true;
+          playBtn.disabled = true;
+          try {
+            if (audio.paused) {
+              player._kaliUserStopped = false;
+              player._kaliAutostarted = true;
+              applyVolume(player._kaliVolPct);
+              await audio.play();
+              DBG("audio.play() resolved", audioState());
+              setUi("Playing");
+            } else {
+              audio.pause();
+              player._kaliUserStopped = true;
+              setUi("Paused");
+            }
+          } catch (err) {
+            DBGW("audio.play() failed", err && err.name, err && err.message, audioState());
+            setUi("Stopped");
+            statusEl.textContent = "Blocked";
+          } finally {
+            player._kaliBusy = false;
+            playBtn.disabled = false;
+          }
+        });
 
-              nextBtn.addEventListener("click", async (e) => {{
-                e.preventDefault();
-                e.stopPropagation();
-                if (player._kaliBusy || player._kaliReloading) return;
-                await loadIndex((player._kaliIndex || 0) + 1, {{
-                  autoplay: !audio.paused || !!player._kaliAutostarted,
-                }});
-              }});
+        prevBtn.addEventListener("click", async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (player._kaliBusy || player._kaliReloading) return;
+          const restartCurrent = (audio.currentTime || 0) > 3;
+          if (restartCurrent) {
+            try { audio.currentTime = 0; } catch (_) {}
+            return;
+          }
+          await loadIndex((player._kaliIndex || 0) - 1, {
+            autoplay: !audio.paused || !!player._kaliAutostarted,
+          });
+        });
 
-              const toggleList = (e) => {{
-                e.preventDefault();
-                e.stopPropagation();
-                setListOpen(!player.classList.contains("mp-list-open"));
-              }};
-              listBtn.addEventListener("click", toggleList);
-              trackBtn.addEventListener("click", toggleList);
+        nextBtn.addEventListener("click", async (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          if (player._kaliBusy || player._kaliReloading) return;
+          await loadIndex((player._kaliIndex || 0) + 1, {
+            autoplay: !audio.paused || !!player._kaliAutostarted,
+          });
+        });
 
-              listPanel.addEventListener("click", async (e) => {{
-                const btn = e.target.closest("[data-index]");
-                if (!btn) return;
-                e.preventDefault();
-                e.stopPropagation();
-                const i = Number(btn.getAttribute("data-index"));
-                if (!Number.isFinite(i)) return;
-                setListOpen(false);
-                await loadIndex(i, {{ autoplay: true }});
-              }});
+        const toggleList = (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setListOpen(!player.classList.contains("mp-list-open"));
+        };
+        listBtn.addEventListener("click", toggleList);
+        trackBtn.addEventListener("click", toggleList);
 
-              const onVol = (e) => {{
-                e.stopPropagation();
-                applyVolume(volInput.value);
-              }};
-              volInput.addEventListener("input", onVol);
-              volInput.addEventListener("change", onVol);
-              volInput.addEventListener("pointerdown", (e) => e.stopPropagation());
-              volInput.addEventListener("pointermove", (e) => {{
-                if (e.buttons) applyVolume(volInput.value);
-              }});
+        listPanel.addEventListener("click", async (e) => {
+          const btn = e.target.closest("[data-index]");
+          if (!btn) return;
+          e.preventDefault();
+          e.stopPropagation();
+          const i = Number(btn.getAttribute("data-index"));
+          if (!Number.isFinite(i)) return;
+          setListOpen(false);
+          await loadIndex(i, { autoplay: true });
+        });
 
-              audio.addEventListener("play", () => setUi("Playing"));
-              audio.addEventListener("pause", () => {{
-                if (player._kaliReloading || player._kaliBusy) return;
-                if (audio.ended) return;
-                if (audio.currentTime === 0) setUi("Stopped");
-                else setUi("Paused");
-              }});
-              audio.addEventListener("ended", () => {{
-                // Advance through playlist; wrap to first after last.
-                playNext();
-              }});
+        const onVol = (e) => {
+          e.stopPropagation();
+          applyVolume(volInput.value);
+        };
+        volInput.addEventListener("input", onVol);
+        volInput.addEventListener("change", onVol);
+        volInput.addEventListener("pointerdown", (e) => e.stopPropagation());
+        volInput.addEventListener("pointermove", (e) => {
+          if (e.buttons) applyVolume(volInput.value);
+        });
 
-              volInput.value = String(DEFAULT_VOL);
-              applyVolume(DEFAULT_VOL);
-              setUi("Loading");
-              renderList();
+        audio.addEventListener("play", () => { DBG("audio play event", audioState()); setUi("Playing"); });
+        audio.addEventListener("pause", () => {
+          DBG("audio pause event", audioState());
+          if (player._kaliReloading || player._kaliBusy) return;
+          if (audio.ended) return;
+          if (audio.currentTime === 0) setUi("Stopped");
+          else setUi("Paused");
+        });
+        audio.addEventListener("ended", () => {
+          DBG("audio ended — advancing", audioState());
+          playNext();
+        });
+        audio.addEventListener("error", () => {
+          DBGW("audio error", audioState());
+          player._kaliReloading = false;
+          player._kaliReady = false;
+          setUi("Stopped");
+          statusEl.textContent = "Unavailable";
+        });
 
-              player._kaliAudio = audio;
-              player._kaliTrack = trackEl;
-              player._kaliSetUi = setUi;
-              player._kaliTryAutostart = tryAutostart;
-              player._kaliApplyVolume = applyVolume;
-              player._kaliLoadIndex = loadIndex;
-            }}
+        const IDLE_MS = 5000;
+        let idleT = 0;
+        const collapseMini = () => {
+          if (player.classList.contains("mp-mini")) return;
+          if (player.matches(":hover")) { armIdle(); return; }
+          setListOpen(false);
+          player.classList.add("mp-mini");
+          player._kaliSetUi && player._kaliSetUi(audio.paused ? "Paused" : "Playing");
+          DBG("idle → mini badge");
+        };
+        const armIdle = () => {
+          win.clearTimeout(idleT);
+          idleT = win.setTimeout(collapseMini, IDLE_MS);
+        };
+        const expandMini = (ev) => {
+          if (player.classList.contains("mp-mini")) {
+            player.classList.remove("mp-mini");
+            DBG("expand from mini", ev && ev.type);
+          }
+          armIdle();
+        };
+        ["pointerenter", "pointermove", "pointerdown", "click",
+         "touchstart", "focusin", "keydown", "wheel"].forEach((ev) =>
+          player.addEventListener(ev, expandMini, { passive: true }));
+        player.addEventListener("pointerleave", armIdle);
+        armIdle();
 
-            await player._kaliLoadIndex(player._kaliIndex || 0, {{ autoplay: false }});
-          }} finally {{
-            win.__kaliMusicBooting = false;
-          }}
-        }})();
-        </script>
-        """,
+        volInput.value = String(DEFAULT_VOL);
+        applyVolume(DEFAULT_VOL);
+        setUi("Loading");
+        renderList();
+
+        player._kaliAudio = audio;
+        player._kaliTrack = trackEl;
+        player._kaliSetUi = setUi;
+        player._kaliTryAutostart = tryAutostart;
+        player._kaliApplyVolume = applyVolume;
+        player._kaliLoadIndex = loadIndex;
+      }
+
+      if (player._kaliLoadIndex) {
+        await player._kaliLoadIndex(player._kaliIndex || 0, { autoplay: false });
+      } else {
+        player.remove();
+      }
+    } finally {
+      win.__kaliMusicBooting = 0;
+    }
+  };
+
+  win.__kaliMusicDebug = function () {
+    const p = doc.getElementById("kali-music-player");
+    const a = p && p._kaliAudio;
+    return {
+      bootLock: win.__kaliMusicBooting,
+      exists: !!p, version: p && p.dataset.version,
+      ready: p && p._kaliReady, reloading: p && p._kaliReloading,
+      busy: p && p._kaliBusy, autostarted: p && p._kaliAutostarted,
+      userStopped: p && p._kaliUserStopped, idx: p && p._kaliIndex,
+      paused: a && a.paused, src: a && (a.currentSrc || a.src),
+      playDisabled: !!(p && p.querySelector("#mp-play") && p.querySelector("#mp-play").disabled),
+    };
+  };
+})();
+"""
+    _player_version = "v11-beats-playing"
+    components.html(
+        "<script>(function(){"
+        "var w=window.parent,d=w.document;"
+        f"var P={{version:{_player_version!r},playlist:{playlist_json},"
+        f"playlistKey:{playlist_key!r},defaultVol:{vol_pct}}};"
+        "if(!w.__kaliMusicEnsure){var s=d.createElement('script');"
+        f"s.textContent={json.dumps(_boot_js)};d.head.appendChild(s);}}"
+        "try{if(w.__kaliMusicEnsure)w.__kaliMusicEnsure(P)}"
+        "catch(e){console.warn('[kali-music] ensure failed',e)}"
+        "})();</script>",
         height=0,
         width=0,
     )
